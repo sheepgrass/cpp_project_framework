@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name and version
-project(cpp_project_framework VERSION 1.0)
+project(cpp_project_framework VERSION 1.0 DESCRIPTION "C++ Project Framework is a framework for creating C++ project.")
 
 # inject C++ Project Framework information
 include(cpp_project_framework.cmake)
