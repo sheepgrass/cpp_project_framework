@@ -141,20 +141,32 @@ make build'''
         }
       }
     }
-    stage('Post Test') {
+    stage('Wrap Up') {
       parallel {
-        stage('Coverage - Unix') {
+        stage('Coverage') {
           agent { label env.BUILD_AGENT }
-          when { expression { isUnix() } }
           steps {
             unstash 'test'
-            sh 'make coverage'
+            script {
+              if (isUnix()) {
+                sh 'make coverage'
+              } else {
+                bat 'make coverage'
+              }
+            }
           }
           post {
             success {
               script {
-                env.PROJECT_NAME = sh(script: 'make --no-print-directory project_name', returnStdout: true).trim()
-                env.COVERAGE_REPORT_DIR = sh(script: "ls -td1 ${env.BUILD_TYPE}/${env.PROJECT_NAME}/coverage/CoverageReport-*/ | head -n1", returnStdout: true).trim()
+                if (isUnix()) {
+                  env.PROJECT_NAME = sh(script: 'make --no-print-directory project_name', returnStdout: true).trim()
+                  env.COVERAGE_REPORT_DIR = sh(script: "ls -td1 ${env.BUILD_TYPE}/${env.PROJECT_NAME}/coverage/CoverageReport-*/ | head -n1", returnStdout: true).trim()
+                  env.COVERAGE_REPORT_FILE = 'CoverageReport.html'
+                } else {
+                  env.PROJECT_NAME = bat(script: 'make project_name', returnStdout: true).trim()
+                  env.COVERAGE_REPORT_DIR = bat(script: "dir /b /s /ad /o-n ${env.BUILD_TYPE}\\${env.PROJECT_NAME}\\coverage\\CoverageReport-*", returnStdout: true).split('\n').getAt(0).trim()
+                  env.COVERAGE_REPORT_FILE = 'index.html'
+                }
               }
               archiveArtifacts artifacts: "${env.BUILD_TYPE}/**/coverage/", fingerprint: true
               publishHTML target: [
@@ -162,87 +174,50 @@ make build'''
                   alwaysLinkToLastBuild: false,
                   keepAll: true,
                   reportDir: env.COVERAGE_REPORT_DIR,
-                  reportFiles: 'CoverageReport.html',
+                  reportFiles: env.COVERAGE_REPORT_FILE,
                   reportName: 'Coverage Report'
               ]
             }
           }
         }
-        stage('Coverage - Windows') {
+        stage('Pack') {
           agent { label env.BUILD_AGENT }
-          when { expression { !isUnix() } }
-          steps {
-            unstash 'test'
-            bat 'make coverage'
-          }
-          post {
-            success {
-              archiveArtifacts artifacts: "${env.BUILD_TYPE}/**/coverage/", fingerprint: true
-            }
-          }
-        }
-        stage('Pack - Unix') {
-          agent { label env.BUILD_AGENT }
-          when { expression { isUnix() } }
           steps {
             unstash 'build'
-            sh 'make package'
+            script {
+              if (isUnix()) {
+                sh 'make package'
+              } else {
+                withEnv(['PACK_FORMAT=ZIP']) {
+                  bat 'make package'
+                }
+              }
+            }
           }
           post {
             success {
               script {
-                env.PACKAGE_FILE_NAME = sh(script: 'make --no-print-directory package_file_name', returnStdout: true).trim()
+                if (isUnix()) {
+                  env.PACKAGE_FILE_NAME = sh(script: 'make --no-print-directory package_file_name', returnStdout: true).trim()
+                } else {
+                  env.PACKAGE_FILE_NAME = bat(script: '@make package_file_name', returnStdout: true).trim()
+                }
               }
               archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
             }
           }
         }
-        stage('Pack - Windows') {
+        stage('Doxygen') {
           agent { label env.BUILD_AGENT }
-          when { expression { !isUnix() } }
-          environment {
-	    PACK_FORMAT = 'ZIP'
-	  }
           steps {
             unstash 'build'
-            bat 'make package'
-          }
-          post {
-            success {
-              script {
-                env.PACKAGE_FILE_NAME = bat(script: '@make package_file_name', returnStdout: true).trim()
+            script {
+              if (isUnix()) {
+                sh 'make --no-print-directory doxygen'
+              } else {
+                bat 'make doxygen'
               }
-              archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
             }
-          }
-        }
-        stage('Doxygen - Unix') {
-          agent { label env.BUILD_AGENT }
-          when { expression { isUnix() } }
-          steps {
-            unstash 'build'
-            sh 'make --no-print-directory doxygen'
-          }
-          post {
-            success {
-              archiveArtifacts artifacts: "doxygen/", fingerprint: true
-              publishHTML target: [
-                  allowMissing: false,
-                  alwaysLinkToLastBuild: false,
-                  keepAll: true,
-                  reportDir: 'doxygen/html/',
-                  reportFiles: 'index.html',
-                  reportName: 'Doxygen'
-              ]
-            }
-          }
-        }
-        stage('Doxygen - Windows') {
-          agent { label env.BUILD_AGENT }
-          when { expression { !isUnix() } }
-          steps {
-            unstash 'build'
-            bat 'make doxygen'
           }
           post {
             success {
