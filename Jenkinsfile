@@ -47,15 +47,13 @@ make build'''
         stage('Unix') {
           when { expression { isUnix() } }
           steps {
-            sh """`make --no-print-directory venv_activate`
-cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+            sh "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
           }
         }
         stage('Windows') {
           when { expression { !isUnix() } }
           steps {
-            bat """make venv_activate
-cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+            bat "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
           }
         }
       }
@@ -77,17 +75,12 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
         stage('Unix') {
           when { expression { isUnix() } }
           steps {
-            sh '''`make --no-print-directory venv_activate`
-make package'''
+            sh 'make package'
           }
           post {
             success {
               script {
-                env.PACKAGE_FILE_NAME = sh (
-                  script: '''`make --no-print-directory venv_activate`
-make --no-print-directory package_file_name''',
-                  returnStdout: true
-                ).trim()
+                env.PACKAGE_FILE_NAME = sh(script: 'make --no-print-directory package_file_name', returnStdout: true).trim()
               }
             }
           }
@@ -95,17 +88,12 @@ make --no-print-directory package_file_name''',
         stage('Windows') {
           when { expression { !isUnix() } }
           steps {
-            bat '''make venv_activate
-make package'''
+            bat 'make package'
           }
           post {
             success {
               script {
-                env.PACKAGE_FILE_NAME = bat (
-                  script: '''make venv_activate
-make package_file_name''',
-                  returnStdout: true
-                ).trim()
+                env.PACKAGE_FILE_NAME = bat(script: 'make package_file_name', returnStdout: true).trim()
               }
             }
           }

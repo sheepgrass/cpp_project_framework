@@ -1469,8 +1469,7 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        sh """`make --no-print-directory venv_activate`
-cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+        sh "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
       }
       post {
         always {
@@ -1507,8 +1506,7 @@ pipeline {
         GTEST_OUTPUT = 'xml:../gtest/'
       }
       steps {
-        sh """`make --no-print-directory venv_activate`
-cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+        sh "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
       }
       post {
         always {
@@ -1554,8 +1552,7 @@ pipeline {
         stage('Unix') {
           when { expression { isUnix() } }
           steps {
-            sh """`make --no-print-directory venv_activate`
-cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+            sh "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
           }
         }
         stage('Windows') {
