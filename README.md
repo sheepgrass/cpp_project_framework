@@ -1624,12 +1624,6 @@ HTML Publisher:
 Declarative Pipeline: Publishing HTML Reports:
 <https://www.jenkins.io/blog/2017/02/10/declarative-html-publisher/>
 
-Configuring Content Security Policy:
-<https://www.jenkins.io/doc/book/security/configuring-content-security-policy/>
-
-Jenkins - HTML Publisher Plugin - No CSS is displayed when report is viewed in Jenkins Server:
-<https://stackoverflow.com/questions/35783964/jenkins-html-publisher-plugin-no-css-is-displayed-when-report-is-viewed-in-j>
-
 ```groovy
 post {
   success {
@@ -1644,5 +1638,19 @@ post {
     ]
   }
 }
+```
+
+## Start Jenkins Web Application with No Content Security Policy (CSP)
+
+Configuring Content Security Policy:
+<https://www.jenkins.io/doc/book/security/configuring-content-security-policy/>
+
+Jenkins - HTML Publisher Plugin - No CSS is displayed when report is viewed in Jenkins Server:
+<https://stackoverflow.com/questions/35783964/jenkins-html-publisher-plugin-no-css-is-displayed-when-report-is-viewed-in-j>
+
+Run Jenkins with no CSP header value to allow JavaScript and CSS (for HTML Publisher Plugin):
+
+```bash
+java -Dhudson.model.DirectoryBrowserSupport.CSP= -jar $(JENKINS_HOME)/jenkins.war --httpPort=8080
 ```
 

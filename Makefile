@@ -6,7 +6,7 @@ ifndef BUILD_TYPE
     doxygen_delete \
     conan_start_local conan_add_local \
     gcc_list_include_paths gcc_list_lib_paths \
-    jenkins_download jenkins_start \
+    jenkins_download jenkins_start jenkins_start_no_csp \
     echo
   ifeq ($(filter $(MAKECMDGOALS),$(NO_BUILD_TYPE_TARGETS)),)
     $(error BUILD_TYPE not set, MAKEFLAGS="$(MAKEFLAGS)", MAKECMDGOALS="$(MAKECMDGOALS)", NO_BUILD_TYPE_TARGETS="$(NO_BUILD_TYPE_TARGETS)")
@@ -210,6 +210,9 @@ jenkins_download:
 
 jenkins_start:
 	java -jar $(JENKINS_HOME)/jenkins.war --httpPort=8080
+
+jenkins_start_no_csp:
+	java -Dhudson.model.DirectoryBrowserSupport.CSP= -jar $(JENKINS_HOME)/jenkins.war --httpPort=8080
 
 echo:
 	@echo -e BUILD_TYPE=$(BUILD_TYPE)\\nVIRTUAL_ENV=$(VIRTUAL_ENV)

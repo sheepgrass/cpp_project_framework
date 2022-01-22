@@ -11,7 +11,7 @@ IF "%BUILD_TYPE%"=="" (
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! pip_install_conan conan_list
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! doxygen_delete
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! conan_start_local conan_add_local
-    SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! jenkins_download jenkins_start
+    SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! jenkins_download jenkins_start jenkins_start_no_csp
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! echo
     FOR %%G IN (!NO_BUILD_TYPE_TARGETS!) DO (
         IF "%TARGET%"=="%%G" GOTO MAKE_START
@@ -274,6 +274,10 @@ conan remove %PROJECT_NAME%* -r local
 
 :jenkins_start
 java -jar %JENKINS_HOME%/jenkins.war --httpPort=8080
+@EXIT /B 0
+
+:jenkins_start_no_csp
+java -Dhudson.model.DirectoryBrowserSupport.CSP= -jar %JENKINS_HOME%/jenkins.war --httpPort=8080
 @EXIT /B 0
 
 :echo
