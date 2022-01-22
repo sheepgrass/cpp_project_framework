@@ -1522,3 +1522,17 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
 }
 ```
 
+## Cross Platform Pipeline Support in Jenkins
+
+Conditionals in a Declarative Pipeline Jenkinsfile:
+<https://michakutz.medium.com/conditionals-in-a-declarative-pipeline-jenkinsfile-d1a4a44e93bb>
+
+Scripted Pipeline - Flow Control:
+<https://www.jenkins.io/doc/book/pipeline/syntax/#flow-control>
+
+How to determine the current operating system in a Jenkins pipeline:
+<https://stackoverflow.com/questions/44105814/how-to-determine-the-current-operating-system-in-a-jenkins-pipeline>
+
+isUnix: Checks if running on a Unix-like node:
+<https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/#isunix-checks-if-running-on-a-unix-like-node>
+
