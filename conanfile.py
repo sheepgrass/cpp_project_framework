@@ -3,7 +3,6 @@ from conans import ConanFile, CMake
 
 class CppProjectFrameworkConan(ConanFile):
     name = "cpp_project_framework"
-    version = "1.0"
     license = "GNU Affero General Public License v3.0"
     author = "Curtis Lo"
     homepage = "https://github.com/sheepgrass/cpp_project_framework"

@@ -147,7 +147,7 @@ conan_package_test:
 
 conan_package:
 	source .venv/bin/activate && \
-	conan create .
+	conan create . `make -s project_version`@
 
 conan_remove_cache:
 	source .venv/bin/activate && \

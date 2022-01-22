@@ -360,6 +360,54 @@ conan new {CMAKE_PROJECT_NAME}/{CMAKE_PROJECT_VERSION} -t
 conan create . demo/testing
 ```
 
+## Download Existing Package Recipe
+
+<https://docs.conan.io/en/latest/reference/commands/misc/download.html>
+
+```bash
+conan download g3log/1.3.3@ -re
+```
+
+## Copy Existing Recipe and Package to Another User Channel
+
+<https://docs.conan.io/en/latest/reference/commands/misc/copy.html>
+
+```bash
+conan copy g3log/1.3.3@ sheepgrass/modified
+```
+
+## Conan Center Index Recipes
+
+<https://github.com/conan-io/conan-center-index/tree/master/recipes>
+
+## Modify Existing Package Recipe
+
+<https://docs.conan.io/en/latest/howtos/collaborate_packages.html>
+
+<https://dmerej.info/blog/post/chuck-norris-part-4-python-ctypes/>
+
+<https://stackoverflow.com/questions/63670642/cant-create-boost-conan-package-from-conan-center-index-conanfile-didnt-spec>
+
+```bash
+# Linux
+mkdir g3log && cd g3log
+conan download g3log/1.3.3@ -re
+cp -rv ~/.conan/data/g3log/1.3.3/_/_/export/* .
+cp -rv ~/.conan/data/g3log/1.3.3/_/_/export_source/* .
+conan create . 1.3.3@sheepgrass/modified
+conan upload g3log/1.3.3@sheepgrass/modified --all -r=local
+```
+
+```cmd
+# Windows
+mkdir g3log && cd g3log
+conan download g3log/1.3.3@ -re
+xcopy %USERPROFILE%\.conan\data\g3log\1.3.3\_\_\export\* . /E
+xcopy %USERPROFILE%\.conan\data\g3log\1.3.3\_\_\export_source\* . /E
+conan create . 1.3.3@sheepgrass/modified
+conan upload g3log/1.3.3@sheepgrass/modified --all -r=local
+```
+
 ## Get List of Conan Repository Servers (Remotes) in Use
 
 <https://docs.conan.io/en/latest/uploading_packages/uploading_to_remotes.html>

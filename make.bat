@@ -195,7 +195,8 @@ conan create . demo/testing
 
 :conan_package
 @CALL :venv_activate
-conan create .
+@CALL :project_version
+conan create . %PROJECT_VERSION%@
 @EXIT /B 0
 
 :conan_remove_cache
