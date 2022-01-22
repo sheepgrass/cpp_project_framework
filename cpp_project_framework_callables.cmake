@@ -289,7 +289,8 @@ macro(cpf_add_unit_test_gcov_target)
             COMMAND ${CMAKE_MAKE_PROGRAM} test
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             )
-        set(GCOVR_CMD "${VENV_ACTIVATE_CMD} && pip install -U gcovr && gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR} --html-details gcov_report.html")
+        set(GCOVR_CMD "gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR}")
+        set(GCOVR_CMD "${VENV_ACTIVATE_CMD} && pip install -U gcovr && ${GCOVR_CMD} -o gcov_report.txt && ${GCOVR_CMD} --html-details gcov_report.html")
         message("GCOVR_CMD=${GCOVR_CMD}")
         if(WIN32)
             add_custom_command(TARGET ${GCOV_TARGET} COMMAND CMD /c "${GCOVR_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET} VERBATIM)
