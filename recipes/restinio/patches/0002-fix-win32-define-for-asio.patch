@@ -1,0 +1,13 @@
+--- dev/restinio/all.hpp
++++ dev/restinio/all.hpp
+@@ -8,6 +8,10 @@
+ 
+ #pragma once
+ 
++#ifdef _WIN32
++#include "SDKDDKVer.h" // define _WIN32_WINNT or _WIN32_WINDOWS for asio library used in restinio
++#endif
++
+ #include <restinio/version.hpp>
+ 
+ #include <restinio/asio_include.hpp>

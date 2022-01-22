@@ -3,3 +3,4 @@ conandata.yml: 631c877ff3c3d4649773787114307f07
 conanfile.py: 4472dda3fac639ea91ce911a44890794
 export_source/CMakeLists.txt: ef4c41c249980a3e47bbc7880939bc1d
 export_source/patches/0001-fix-msvc-constexpr.patch: 593252fa90d3a0350b5276d0daccf80c
+export_source/patches/0002-fix-win32-define-for-asio.patch: 510feb9d40bb25855f5b127da3d4d9ea

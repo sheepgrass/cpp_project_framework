@@ -2,6 +2,8 @@ patches:
   0.6.13:
   - base_path: source_subfolder
     patch_file: patches/0001-fix-msvc-constexpr.patch
+  - base_path: source_subfolder
+    patch_file: patches/0002-fix-win32-define-for-asio.patch
 sources:
   0.6.13:
     sha256: 72d7ad40c8d34e69cd79f42145b4059e8a7356114fb13864c3c0ad5a5607b44f
