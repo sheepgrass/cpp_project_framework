@@ -173,7 +173,7 @@ make build'''
           post {
             success {
               script {
-                env.PACKAGE_FILE_NAME = bat(script: 'make package_file_name', returnStdout: true).trim()
+                env.PACKAGE_FILE_NAME = bat(script: '@make package_file_name', returnStdout: true).trim()
               }
             }
           }
