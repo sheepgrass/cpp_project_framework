@@ -277,6 +277,44 @@ PointerAlignment: Left
 AccessModifierOffset: -4
 ```
 
+## Setup Remote SSH for Visual Studio Code
+
+<https://code.visualstudio.com/docs/remote/ssh>
+
+Start by selecting `Remote-SSH: Add New SSH Host...` from the Command Palette (`F1`, `Ctrl+Shift+P`) or clicking on the `Add New` icon in the SSH `Remote Explorer` in the Activity Bar.
+
+%USERPROFILE%/.ssh/config
+
+```
+Host curtis@127.0.0.1:10022
+  HostName ubuntu
+  User curtis
+  Port 10022
+  IdentityFile %USERPROFILE%\\.ssh\\id_rsa
+```
+
+### Generate SSH Key Pair
+
+<https://code.visualstudio.com/docs/remote/troubleshooting#_quick-start-using-ssh-keys>
+
+
+On Linux SSH Server Side:
+
+```bash
+# Linux
+cd ~/.ssh
+ssh-keygen -t rsa -b 4096
+cat id_rsa.pub >> authorized_keys
+chmod 644 authorized_keys
+```
+
+`id_rsa.pub` is the **`public`** key generated and `id_rsa` is the **`private`** key generated.
+`authorized_keys` is the file with keys that SSH server accepted for.
+
+On Windows SSH Client Side:
+
+Copy `id_rsa` from `~/.ssh/id_rsa` on Linux SSH server side to `%USERPROFILE%/.ssh/id_rsa` on Windows SSH client side.
+
 ## Setup Git
 
 <https://stackoverflow.com/questions/68775869/support-for-password-authentication-was-removed-please-use-a-personal-access-to>
