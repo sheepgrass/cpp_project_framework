@@ -1447,6 +1447,9 @@ Jenkins - Recording tests and artifacts:
 xUnit plugin - step([$class: 'XUnitPublisher']): Publish xUnit test result report:
 <https://www.jenkins.io/doc/pipeline/steps/xunit/>
 
+Apache Ant - Directory-based Tasks - Patterns:
+<https://ant.apache.org/manual/dirtasks.html#patterns>
+
 ### Gather CTest Results with xUnit Plugin for Jenkins
 
 Producing CTest results in Jenkins (xUnit >= 1.58):
@@ -1468,10 +1471,11 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
   }
   post {
     always {
+      archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml", fingerprint: true
       xunit (
         thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
         tools: [
-          CTest(pattern: "${env.BUILD_TYPE}/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+          CTest(pattern: "${env.BUILD_TYPE}/Testing/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
         ]
       )
     }
@@ -1493,7 +1497,7 @@ pipeline {
   stages {
     stage('Test') {
       environment {
-        GTEST_OUTPUT = 'xml:../Testing/gtest/'
+        GTEST_OUTPUT = 'xml:../gtest/'
       }
       steps {
         sh """`make --no-print-directory venv_activate`
@@ -1503,10 +1507,11 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
   }
   post {
     always {
+      archiveArtifacts artifacts: "${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
       xunit (
         thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
         tools: [
-          GoogleTest(pattern: "${env.BUILD_TYPE}/Testing/gtest/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+          GoogleTest(pattern: "${env.BUILD_TYPE}/gtest/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
         ]
       )
     }
