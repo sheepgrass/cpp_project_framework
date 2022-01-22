@@ -69,6 +69,11 @@ test_package_folder = 'test_package'
 parameters['test_package_directory'] = os.path.join(parameters["project_directory"], test_package_folder)
 create_directories('test_package_directory')
 
+tests_folder = 'tests'
+benchmarks_folder = 'benchmarks'
+parameters['benchmarks_directory'] = os.path.join(parameters["project_directory"], tests_folder, benchmarks_folder, parameters['project_name'])
+create_directories('benchmarks_directory')
+
 parameters['vscode_directory'] = os.path.join(parameters["project_directory"], '.vscode')
 create_directories('vscode_directory')
 
@@ -114,6 +119,14 @@ template_source_files = (
 for template_source_file in template_source_files:
     with open(os.path.join(template_folder, template_folder, template_source_file), 'r') as fin:
         with open(os.path.join(parameters['source_directory'], template_source_file.replace('Template', parameters['project_camel_name'])), 'w') as fout:
+            fout.write(Template(fin.read()).safe_substitute(parameters))
+
+template_benchmark_files = (
+    'Template.benchmark.cpp',
+)
+for template_benchmark_file in template_benchmark_files:
+    with open(os.path.join(template_folder, tests_folder, benchmarks_folder, template_folder, template_benchmark_file), 'r') as fin:
+        with open(os.path.join(parameters['benchmarks_directory'], template_benchmark_file.replace('Template', parameters['project_camel_name'])), 'w') as fout:
             fout.write(Template(fin.read()).safe_substitute(parameters))
 
 vscode_files = (

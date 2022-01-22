@@ -7,3 +7,4 @@ cmake_multi
 cpp_project_framework/1.0
 gtest/1.10.0
 doxygen/1.8.20
+benchmark/1.5.1
