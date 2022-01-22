@@ -573,6 +573,14 @@ cmake -S . -B {CMAKE_BUILD_TYPE} -DCMAKE_BUILD_TYPE={CMAKE_BUILD_TYPE} [-G "Visu
 cmake --build {CMAKE_BUILD_TYPE} [--clean-first -j4 -v]
 ```
 
+## Build Specific Target of CMake Project
+
+<https://cmake.org/cmake/help/v3.14/manual/cmake.1.html#build-a-project>
+
+```bash
+cmake --build {CMAKE_BUILD_TYPE} --target {CMAKE_BUILD_TARGET} [-j4 -v]
+```
+
 ## Open CMake Generated Project
 
 <https://cmake.org/cmake/help/latest/manual/cmake.1.html#open-a-project>
@@ -832,6 +840,12 @@ make cmake_project
 
 # Open Generated Project in Default IDE
 make cmake_open
+
+# List of CMake Build Targets
+make help
+
+# Build Specific CMake Target
+make target CMAKE_BUILD_TARGET=<target>
 
 # Build Project
 make build

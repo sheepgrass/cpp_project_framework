@@ -106,6 +106,10 @@ cmake -S . -B %BUILD_TYPE% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% %CMAKE_PROJECT_ARG%
 cmake --build %BUILD_TYPE% --config %BUILD_TYPE% --target help %CMAKE_BUILD_ARG%
 @EXIT /B 0
 
+:target
+cmake --build %BUILD_TYPE% --config %BUILD_TYPE% --target %CMAKE_BUILD_TARGET% %CMAKE_BUILD_ARG%
+@EXIT /B 0
+
 :build
 cmake --build %BUILD_TYPE% --config %BUILD_TYPE% %CMAKE_BUILD_ARG%
 @EXIT /B 0

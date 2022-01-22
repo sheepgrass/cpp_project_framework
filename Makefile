@@ -45,7 +45,7 @@ endif
 	debug release minsizerel relwithdebinfo \
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
-	cmake_project help build clean clean_and_build cmake_open package run test coverage delete \
+	cmake_project help target build clean clean_and_build cmake_open package run test coverage delete \
 	project_name project_version doxygen_bin_path doxygen_create_config doxygen doxygen_delete benchmark_folder \
 	recipe_create conan_package_test conan_package conan_remove_cache conan_replace_cache \
 	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local conan_replace_local \
@@ -95,6 +95,9 @@ cmake_project:
 
 help:
 	cmake --build $(BUILD_TYPE) --config $(BUILD_TYPE) --target help $(CMAKE_BUILD_ARG)
+
+target:
+	cmake --build $(BUILD_TYPE) --config $(BUILD_TYPE) --target ${CMAKE_BUILD_TARGET} $(CMAKE_BUILD_ARG)
 
 build:
 	cmake --build $(BUILD_TYPE) --config $(BUILD_TYPE) $(CMAKE_BUILD_ARG)
