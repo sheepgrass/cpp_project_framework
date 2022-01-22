@@ -1595,6 +1595,65 @@ pipeline {
 }
 ```
 
+## Run Multiple Configurations in Parallel using Declarative Pipeline Matrix in Jenkins
+
+Welcome to the Matrix:
+<https://www.jenkins.io/blog/2019/11/22/welcome-to-the-matrix/>
+
+Specifying a matrix of one or more dimensions:
+<https://docs.cloudbees.com/docs/admin-resources/latest/pipelines/matrix>
+
+Pipeline Syntax - when:
+<https://www.jenkins.io/doc/book/pipeline/syntax/#when>
+
+```groovy
+pipeline {
+  agent none
+  stages {
+    stage('Pipeline') {
+      matrix {
+        when {
+          allOf {
+            anyOf {
+              expression { env.BUILD_AGENT_FILTER == 'All' }
+              expression { env.BUILD_AGENT_FILTER == env.BUILD_AGENT }
+            }
+            anyOf {
+              expression { env.BUILD_TYPE_FILTER == 'All' }
+              expression { env.BUILD_TYPE_FILTER == env.BUILD_TYPE }
+              allOf {
+                expression { env.BUILD_TYPE_FILTER == 'Debug and Release' }
+                anyOf {
+                  expression { env.BUILD_TYPE == 'Debug' }
+                  expression { env.BUILD_TYPE == 'Release' }
+                }
+              }
+            not {
+              allOf {
+                expression { env.BUILD_TYPE_FILTER == 'All' }
+                expression { env.BUILD_TYPE == '' }
+              }
+            }
+          }
+        }
+        axes {
+          axis {
+            name 'BUILD_AGENT'
+            values '', 'Linux', 'Windows', 'Docker'
+          }
+          axis {
+            name 'BUILD_TYPE'
+            values 'Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'
+          }
+        }
+        stages {
+        }
+      }
+    }
+  }
+}
+```
+
 ## Trigger Jenkins Parameterized Build Using API
 
 Jenkins : Parameterized Build:
