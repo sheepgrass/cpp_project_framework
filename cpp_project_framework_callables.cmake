@@ -99,6 +99,23 @@ function(cpf_get_variable_by_build_type VARIABLE_NAME)
     endif()
 endfunction()
 
+# install c++ project framework files
+macro(cpf_install_cpp_project_framework_files)
+    cpf_get_variable_by_build_type(CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK)
+    set(CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK ${CPF_GET_VARIABLE})
+    message("CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK=${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}")
+    if(CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK)
+        file(INSTALL
+            ${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}/cpp_project_framework_callables.cmake
+            ${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}/make.bat
+            ${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}/Makefile
+            DESTINATION ${CMAKE_SOURCE_DIR}
+            )
+    else()
+        message("CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK not found")
+    endif()
+endmacro()
+
 # set project type
 macro(cpf_set_project_type PROJECT_TYPE_ARG)
     message("PROJECT_TYPE_ARG=${PROJECT_TYPE_ARG}")
