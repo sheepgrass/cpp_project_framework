@@ -17,6 +17,29 @@ C++ Project Framework is a framework for creating C++ project.
     └── tests/  // functional/integration tests
         └── ...
 
+## Prerequisites
+
+    Build System Generator: CMake >= 3.10
+    Build System: GNU Make >= 4.2 (Linux), MSBuild >= 14.0 (Visual Studio 2015) (Windows)
+    Compiler: g++ >= 9.1 (Linux), MSVC >= 14.0 (Visual Studio 2015) (Windows)
+    Version Control System (VCS): Git >= 2.16
+    Package Manager Scripting: Python >= 3.6
+    C++ Standard: >= C++14
+
+## Optional Prerequisites
+
+    Integrated Development Environment (IDE): Visual Studio Code >= 1.49
+    Visual Studio Code Extensions:
+        C/C++ >= 1.0.1
+        C++ Intellisense >= 0.2.2
+        Clang-Format >= 1.9.0
+        CMake >= 0.0.17
+        CMake Tools >= 1.4.2
+        Python >= 2020.8
+        Remote - SSH >= 0.55.0
+        Remote Development >= 0.20.0
+        GitLens >= 10.2.2
+
 ## Recommended C++ Development Environment
 
     https://www.reddit.com/r/cpp/comments/af74l1/recommendations_for_setting_up_a_modern_c_dev/
@@ -31,7 +54,7 @@ C++ Project Framework is a framework for creating C++ project.
     software distribution packaging system: CPack
     C++ libraries:
         general-purpose: C++ Standard Library
-        general-purpose: Boost C+ Libraries
+        general-purpose: Boost C++ Libraries
         string formatting: fmt
         logging: spdlog
         automated testing: Google Test / Google Mock
@@ -40,6 +63,46 @@ C++ Project Framework is a framework for creating C++ project.
     continuous integration (CI): Jenkins, CDash
     version control system (VCS): Git
     code coverage: OpenCppCoverage (Windows), gcov + gcovr (Linux)
+
+## Chosen C++ Development Environment
+
+    https://en.cppreference.com/w/cpp/compiler_support
+
+    # Required (manual install)
+    Build System Generator: CMake >= 3.10
+    Build System: GNU Make >= 4.2 (Linux), MSBuild >= 14.0 (Visual Studio 2015) (Windows)
+    Compiler: g++ >= 9.1 (Linux), MSVC >= 14.0 (Visual Studio 2015) (Windows)
+    Version Control System (VCS): Git >= 2.16
+    Package Manager Scripting: Python >= 3.6 (or Anaconda3 on Windows)
+    C++ Standard: >= C++14
+
+    # Required (distributed with manual installed tools)
+    Testing Tool: CTest (CMake)
+    Software Distribution Packaging System: CPack (CMake)
+    Python Package Installer: pip >= 9.0 (Python)
+
+    # Required (auto installed by C++ Project Framework)
+    Package Manager: Conan (pip)
+    Code Coverage Report: gcovr (pip), OpenCppCoverage (Windows)
+
+    # C++ Libraries
+    General Purpose: C++ Standard Library (compiler included)
+    General Purpose: Boost (boost)
+    Unit Test Framework: Google Test (gtest)
+    Logging: Boost Log (boost::log)
+    Embedded Local Key-Value Store: RocksDB (rocksdb)
+    Embedded Local SQL Database:  SQLite (sqlite)
+
+    # Optional
+    Integrated Development Environment (IDE): Visual Studio Code >= 1.49
+    Source Code Documentation Generator: Doxygen
+    Graphical User Interface: Qt
+    Continous Integration (CI): Jenkins
+    Performance Profiler: perf (Linux), gprof (Linux), orbit (Linux, Windows)
+
+## Visual Studio Code CMake Tools Settings
+
+    "cmake.buildDirectory": "${workspaceFolder}/${buildType}"
 
 ## Create Python Virtual Environment under Current Project
 
