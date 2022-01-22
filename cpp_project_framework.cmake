@@ -7,6 +7,7 @@ cpf_detect_build_type()
 cpf_detect_virtual_environment()
 cpf_install_conan_dependencies()
 cpf_inject_conan_info()
+cpf_install_cpp_project_framework_files()
 
 # enable testing support
 enable_testing()
