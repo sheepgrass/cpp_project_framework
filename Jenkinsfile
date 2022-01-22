@@ -162,7 +162,21 @@ make build'''
             }
             post {
               always {
-                archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml, ${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
+                script {
+                  if (isUnix()) {
+                    sh "mv ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
+                  } else {
+                    bat "rename ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
+                  }
+                }
+                archiveArtifacts artifacts: "${env.BUILD_AGENT}_${env.BUILD_TYPE}/Testing/**/*.xml, ${env.BUILD_AGENT}_${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
+                script {
+                  if (isUnix()) {
+                    sh "mv ${env.BUILD_AGENT}_${env.BUILD_TYPE} ${env.BUILD_TYPE}"
+                  } else {
+                    bat "rename ${env.BUILD_AGENT}_${env.BUILD_TYPE} ${env.BUILD_TYPE}"
+                  }
+                }
                 xunit (
                   thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
                   tools: [
@@ -197,11 +211,20 @@ make build'''
                 script {
                   if (isUnix()) {
                     env.PACKAGE_FILE_NAME = sh(script: 'make --no-print-directory package_file_name', returnStdout: true).trim()
+                    sh "mv ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
                   } else {
                     env.PACKAGE_FILE_NAME = bat(script: '@make package_file_name', returnStdout: true).trim()
+                    bat "rename ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
                   }
                 }
-                archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
+                archiveArtifacts artifacts: "${env.BUILD_AGENT}_${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
+                script {
+                  if (isUnix()) {
+                    sh "mv ${env.BUILD_AGENT}_${env.BUILD_TYPE} ${env.BUILD_TYPE}"
+                  } else {
+                    bat "rename ${env.BUILD_AGENT}_${env.BUILD_TYPE} ${env.BUILD_TYPE}"
+                  }
+                }
               }
             }
           }
@@ -229,13 +252,22 @@ make build'''
                     env.PROJECT_NAME = sh(script: 'make --no-print-directory project_name', returnStdout: true).trim()
                     env.COVERAGE_REPORT_DIR = sh(script: "ls -td1 ${env.BUILD_TYPE}/${env.PROJECT_NAME}/coverage/CoverageReport-*/ | head -n1", returnStdout: true).trim()
                     env.COVERAGE_REPORT_FILE = 'CoverageReport.html'
+                    sh "mv ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
                   } else {
                     env.PROJECT_NAME = bat(script: 'make project_name', returnStdout: true).trim()
                     env.COVERAGE_REPORT_DIR = bat(script: "dir /b /s /ad /o-n ${env.BUILD_TYPE}\\${env.PROJECT_NAME}\\coverage\\CoverageReport-*", returnStdout: true).split('\n').getAt(0).trim()
                     env.COVERAGE_REPORT_FILE = 'index.html'
+                    bat "rename ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
                   }
                 }
-                archiveArtifacts artifacts: "${env.BUILD_TYPE}/**/coverage/", fingerprint: true
+                archiveArtifacts artifacts: "${env.BUILD_AGENT}_${env.BUILD_TYPE}/**/coverage/", fingerprint: true
+                script {
+                  if (isUnix()) {
+                    sh "mv ${env.BUILD_AGENT}_${env.BUILD_TYPE} ${env.BUILD_TYPE}"
+                  } else {
+                    bat "rename ${env.BUILD_AGENT}_${env.BUILD_TYPE} ${env.BUILD_TYPE}"
+                  }
+                }
                 publishHTML target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
@@ -266,7 +298,21 @@ make build'''
             }
             post {
               success {
-                archiveArtifacts artifacts: "doxygen/", fingerprint: true
+                script {
+                  if (isUnix()) {
+                    sh "mv doxygen ${env.BUILD_AGENT}_${env.BUILD_TYPE}_doxygen"
+                  } else {
+                    bat "rename doxygen ${env.BUILD_AGENT}_${env.BUILD_TYPE}_doxygen"
+                  }
+                }
+                archiveArtifacts artifacts: "${env.BUILD_AGENT}_${env.BUILD_TYPE}_doxygen/", fingerprint: true
+                script {
+                  if (isUnix()) {
+                    sh "mv ${env.BUILD_AGENT}_${env.BUILD_TYPE}_doxygen doxygen"
+                  } else {
+                    bat "rename ${env.BUILD_AGENT}_${env.BUILD_TYPE}_doxygen doxygen"
+                  }
+                }
                 publishHTML target: [
                     allowMissing: false,
                     alwaysLinkToLastBuild: false,
