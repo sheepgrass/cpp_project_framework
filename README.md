@@ -871,6 +871,25 @@ constexpr uint8_t month_null_value = UINT8_MAX;      ///< null value for month
 constexpr uint8_t day_null_value = UINT8_MAX;        ///< null value for day
 ```
 
+#### C++ Integer Literal
+
+Integer literal
+<https://en.cppreference.com/w/cpp/language/integer_literal>
+
+Fundamental types
+<https://en.cppreference.com/w/cpp/language/types>
+
+```text
+Signed 8-bit integer (int8_t or char): 0 (no suffix)
+Unsigned 8-bit integer (uint8_t or unsigned char): 0U (suffix with U)
+Signed 16-bit integer (int16_t or short): 0 (no suffix)
+Unsigned 16-bit integer (uint16_t or unsigned short): 0U (suffix with U)
+Signed 32-bit integer (int32_t or long): 0L (suffix with L)
+Unsigned 32-bit integer (uint32_t or unsigned long): 0UL (suffix with UL)
+Signed 64-bit integer (int64_t or long long): 0LL (suffix with LL)
+Unsigned 64-bit integer (uint64_t or unsigned long long): 0ULL (suffix with ULL)
+```
+
 #### C++ Include Header Ordering
 
 Google C++ Style Guide: Names and Order of Includes
