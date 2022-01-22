@@ -55,6 +55,12 @@ endif()
 # add gcov compiler flags
 cpf_add_gcov_compiler_flags()
 
+# suppress specific msvc compiler warnings
+cpf_suppress_msvc_compiler_warnings("")
+
+# suppress specific msvc linker warnings
+cpf_suppress_msvc_linker_warnings("4099")
+
 # add binary target
 cpf_add_binary_target()
 
