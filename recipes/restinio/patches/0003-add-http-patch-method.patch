@@ -1,0 +1,33 @@
+--- dev/restinio/router/express.hpp
++++ dev/restinio/router/express.hpp
+@@ -802,6 +802,30 @@
+ 				options,
+ 				std::move( handler ) );
+ 		}
++
++		void
++		http_patch(
++			string_view_t route_path,
++			actual_request_handler_t handler )
++		{
++			add_handler(
++				http_method_patch(),
++				route_path,
++				std::move( handler ) );
++		}
++
++		void
++		http_patch(
++			string_view_t route_path,
++			const path2regex::options_t & options,
++			actual_request_handler_t handler )
++		{
++			add_handler(
++				http_method_patch(),
++				route_path,
++				options,
++				std::move( handler ) );
++		}
+ 		//! \}
+ 
+ 		//! Set handler for requests that don't match any route.
