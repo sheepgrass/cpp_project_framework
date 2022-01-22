@@ -4,9 +4,10 @@
  * @brief   This file contains unit test cases for this project
  */
 
-#include "gtest.h"
 #include "cpp_project_framework.h"
+
 #include "filesystem.h"
+#include "gtest.h"
 
 
 /// Unit test anonymous namespace

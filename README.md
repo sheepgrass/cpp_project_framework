@@ -740,7 +740,7 @@ doxygen
 ### Brief description after member: C++ style
 
 ```c++
-std::map<std::string /* name */, ObjectPtr> objects;    ///< objects to be managed
+std::map<std::string /* name */, ObjectPtr> objects; ///< objects to be managed
 ```
 
 ### Paremeter inline documentation: Javadoc style
@@ -754,7 +754,7 @@ virtual ObjectPtr Get(const std::string& name /**< [in] name of the object */)
 Brief description sentence for variables must start with lowercase word
 
 ```c++
-std::map<std::string /* name */, ObjectPtr> objects;    ///< objects to be managed
+std::map<std::string /* name */, ObjectPtr> objects; ///< objects to be managed
 ```
 
 ```c++
@@ -850,6 +850,72 @@ Benchmark Function names must follow the nameing convention of function names wi
 #### C++ Indentation
 
 Use 4 spaces at a time for indentation. Do not use tabs in code. You should set your editor to emit spaces when you hit the tab key.
+
+#### C++ Comments
+
+Offset by exactly 1 space from the comment mark (e.g. //, /// or /*).
+
+```c++
+/// Structure representing a UTC date
+struct UtcDate
+```
+
+#### C++ Alignment of Comments
+
+Offset by exactly 1 space from the end of longest line to be aligned.
+
+```c++
+constexpr uint32_t utc_date_null_value = UINT32_MAX; ///< null value for UtcDate
+constexpr uint16_t year_null_value = UINT16_MAX;     ///< null value for year
+constexpr uint8_t month_null_value = UINT8_MAX;      ///< null value for month
+constexpr uint8_t day_null_value = UINT8_MAX;        ///< null value for day
+```
+
+#### C++ Include Header Ordering
+
+Google C++ Style Guide: Names and Order of Includes
+<https://google.github.io/styleguide/cppguide.html#Names_and_Order_of_Includes>
+
+Include header ordering should follow above "Google C++ Style Guide: Names and Order of Includes".
+
+Include headers in the following order: Related header, C system headers, C++ standard library headers, other libraries' headers, your project's headers.
+All of a project's header files should be listed as descendants of the project's source directory without use of UNIX directory aliases . (the current directory) or .. (the parent directory).
+Separate each non-empty group with one blank line.
+Within each section the includes should be ordered alphabetically.
+
+C system headers (e.g. \<stdlib.h>) and C++ standard library headers (e.g. \<cstdlib>) must be enclosed by angle brackets
+Other headers (e.g. "boost/asio.hpp") must be enclosed by double quotes
+
+In dir/foo.cc or dir/foo_test.cc, whose main purpose is to implement or test the stuff in dir2/foo2.h, order your includes as follows:
+
+```text
+dir2/foo2.h.
+A blank line
+C system headers (more precisely: headers in angle brackets with the .h extension), e.g., <unistd.h>, <stdlib.h>.
+A blank line
+C++ standard library headers (without file extension), e.g., <algorithm>, <cstddef>.
+A blank line
+Other libraries' .h files.
+A blank line
+Your project's .h files.
+```
+
+For example, the includes in google-awesome-project/src/foo/internal/fooserver.cc might look like this:
+
+```c++
+#include "foo/server/fooserver.h"
+
+#include <sys/types.h>
+#include <unistd.h>
+
+#include <string>
+#include <vector>
+
+#include "base/basictypes.h"
+#include "base/commandlineflags.h"
+
+#include "foo/server/bar.h"
+```
 
 ## Support Microbenchmark Performance Test
 
