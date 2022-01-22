@@ -101,6 +101,87 @@ C++ Project Framework is a framework for creating C++ project.
     Debugger: gdb (Linux), WinDbg (Windows), Visual Studio Debugger (Windows)
     Performance Profiler: perf (Linux), gprof (Linux), orbit (Linux, Windows)
 
+## Similar Projects Creating C++ Project Framework
+
+Boiler plate for C++ projects
+
+<https://github.com/bsamseth/cpp-project>
+
+    This is a boiler plate for C++ projects. What you get:
+
+    Sources, headers and mains separated in distinct folders
+    Use of modern CMake for much easier compiling
+    Setup for tests using doctest
+    Continuous testing with Travis-CI and Appveyor, with support for C++17.
+    Code coverage reports, including automatic upload to Coveralls.io and/or Codecov.io
+    Code documentation with Doxygen
+
+cpp-project-template
+
+<https://github.com/Bo-Yuan-Huang/cpp-starter>
+
+    This is a starting template for C++ projects that supports:
+
+    Hierarchical sources and headers
+    Access to Google Tests
+    Use of CMake for much easier compiling
+    Code documentation with Doxygen
+    Continuous testing with Travis-CI
+    Code coverage with Coveralls.io
+    Static analysis with Coverity Sacn
+
+C++ Project Template
+
+<https://github.com/TimothyHelton/cpp_project_template>
+
+    When setting out on a new project in C++ there are a few configuration steps which need to be completed prior to actually getting down to writing code. This repository is going to be a C++ project template that already has the following components:
+
+    Directory Structure
+    Make Build (CMake)
+    Unit Test Framework (Google Test)
+    API Documentation (Doxygen)
+
+moderncpp-project-template
+
+<https://github.com/madduci/moderncpp-project-template>
+
+    This repository aims to represent a template for Modern C++ projects, including static analysis checks, autoformatting, a BDD/TDD capable test-suite and packaging
+
+    Requirements
+    a modern C++17 compiler (gcc-8, clang-6.0, MSVC 2017 or above)
+    cmake 3.10+
+    conan 1.4+
+    conan_package_tools (optional)
+    cppcheck (optional)
+    clang-format (optional)
+    clang-check (optional)
+
+## Useful Resources for C++
+
+cppreference.com
+
+<http://www.cppreference.com/>
+
+    Our goal is to provide programmers with a complete online reference for the C and C++ languages and standard libraries, i.e. a more convenient version of the C and C++ standards.
+
+cplusplus.com
+
+<https://www.cplusplus.com/>
+
+C++ Papyrus - C++ Annotations about Modern C++
+
+<https://github.com/caiorss/C-Cpp-Notes>
+
+    This repository contains annotations and examples about moodern C++, system programming and building systems for C and C++.
+
+Awesome C++
+
+<https://github.com/fffaraz/awesome-cpp>
+
+<https://awesome-cpp.readthedocs.io/en/latest/README.html>
+
+    A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny things. Inspired by awesome-... stuff.
+
 ## Visual Studio Code CMake Tools Settings
 
     "cmake.buildDirectory": "${workspaceFolder}/${buildType}"
