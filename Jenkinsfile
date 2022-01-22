@@ -72,5 +72,10 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
         }
       }
     }
+    stage('Deploy') {
+      steps {
+        input 'Deploy?'
+      }
+    }
   }
 }
