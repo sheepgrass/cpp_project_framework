@@ -103,7 +103,7 @@ conan_package:
 
 conan_remove:
 	source .venv/bin/activate && \
-	conan remove `make -s project_name`*
+	conan remove "`make -s project_name`*"
 
 conan_start_local:
 	source .venv/bin/activate && \
