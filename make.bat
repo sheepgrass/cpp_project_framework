@@ -133,6 +133,8 @@ conan remote add local http://localhost:9300/
 
 :conan_upload_local
 @CALL :venv_activate
+@CALL :project_name
+@CALL :project_version
 conan upload %PROJECT_NAME%/%PROJECT_VERSION%@demo/testing --all -r=local
 @EXIT /B 0
 

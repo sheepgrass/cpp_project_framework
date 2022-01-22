@@ -92,7 +92,7 @@ project_version:
 recipe_create:
 	source .venv/bin/activate && \
 	mkdir -p package && cd package && \
-	conan new `cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_NAME:STATIC=" | cut -d'=' -f2`/`cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_VERSION:STATIC=" | cut -d'=' -f2` -t
+	conan new `make -s project_name`/`make -s project_version` -t
 
 conan_package:
 	source .venv/bin/activate && \
@@ -108,7 +108,7 @@ conan_add_local:
 
 conan_upload_local:
 	source .venv/bin/activate && \
-	conan upload `cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_NAME:STATIC=" | cut -d'=' -f2`/`cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_VERSION:STATIC=" | cut -d'=' -f2`@demo/testing --all -r=local
+	conan upload `make -s project_name`/`make -s project_version`@demo/testing --all -r=local
 
 echo:
 	@echo $(BUILD_TYPE)
