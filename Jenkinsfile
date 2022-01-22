@@ -152,7 +152,19 @@ make build'''
           }
           post {
             success {
+              script {
+                env.PROJECT_NAME = sh(script: 'make --no-print-directory project_name', returnStdout: true).trim()
+                env.COVERAGE_REPORT_DIR = sh(script: "ls -td1 ${env.BUILD_TYPE}/${env.PROJECT_NAME}/coverage/CoverageReport-*/ | head -n1", returnStdout: true).trim()
+              }
               archiveArtifacts artifacts: "${env.BUILD_TYPE}/**/coverage/", fingerprint: true
+              publishHTML target: [
+                  allowMissing: false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll: true,
+                  reportDir: env.COVERAGE_REPORT_DIR,
+                  reportFiles: 'CoverageReport.html',
+                  reportName: 'Coverage Report'
+              ]
             }
           }
         }

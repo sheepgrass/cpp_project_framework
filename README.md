@@ -1595,7 +1595,7 @@ pipeline {
 }
 ```
 
-## Trigger Parameterized Build Using API
+## Trigger Jenkins Parameterized Build Using API
 
 Jenkins : Parameterized Build:
 <https://wiki.jenkins.io/display/JENKINS/Parameterized+Build>
@@ -1615,4 +1615,12 @@ Dashboard > Manage Jenkins > Manager Users > <user_name> > Configure > API Token
 ```bash
 curl --location --request POST 'http://localhost:18080/job/cpp_project_framework/job/master/buildWithParameters?BUILD_AGENT=Any&BUILD_TYPE=Debug&ENABLE_DEPLOY_STAGE=true' --user <user_name>:<api_token>
 ```
+
+## Publish HTML Report (Coverage, Doxygen) in Jenkins
+
+HTML Publisher:
+<https://plugins.jenkins.io/htmlpublisher/>
+
+Declarative Pipeline: Publishing HTML Reports:
+<https://www.jenkins.io/blog/2017/02/10/declarative-html-publisher/>
 
