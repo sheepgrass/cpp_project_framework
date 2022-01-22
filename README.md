@@ -1342,10 +1342,22 @@ bash completion of makefile target:
 How to add bash auto completion in Ubuntu Linux:
 <https://www.cyberciti.biz/faq/add-bash-auto-completion-in-ubuntu-linux/>
 
+Add below line to `~/.bashrc` file to enable auto completion of CMake build targets using `bash-completion` Linux package:
+
+```bash
+complete -W "\`make help | grep -oE '^\.\.\. [a-zA-Z0-9_.-]+' | sed 's/\.\.\. //'\`" cmake
+```
+
 Add below line to `~/.bashrc` file to enable auto completion of Makefile targets using `bash-completion` Linux package:
 
 ```bash
 complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+```
+
+Add below line instead of above one to `~/.bashrc` file to enable auto completion of Makefile targets with CMake build targets using `bash-completion` Linux package:
+
+```bash
+complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\` "\`make help | grep -oE '^\.\.\. [a-zA-Z0-9_.-]+' | sed 's/\.\.\. /CMAKE_BUILD_TARGET-/'\`" make
 ```
 
 Source `~/.bashrc` file after making the change to make it take effect:
