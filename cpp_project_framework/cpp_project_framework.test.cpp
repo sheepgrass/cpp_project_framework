@@ -10,10 +10,10 @@
 namespace
 {
 
-class IDGeneratorTest : public testing::Test
+class CppProjectFrameworkTest : public testing::Test
 {
 protected:
-    IDGeneratorTest()
+    CppProjectFrameworkTest()
     {
 
     }
@@ -28,13 +28,13 @@ protected:
         
     }
 
-    ~IDGeneratorTest() override
+    ~CppProjectFrameworkTest() override
     {
 
     }
 };
 
-TEST_F(IDGeneratorTest, Constructor)
+TEST_F(CppProjectFrameworkTest, DummyTest)
 {
     EXPECT_TRUE(true);
 }
