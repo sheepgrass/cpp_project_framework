@@ -224,7 +224,8 @@ File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directo
         {
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/.conan/data/**"
+                "~/.conan/data/**",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
             ]
         }
     ]
@@ -783,6 +784,18 @@ Class file names must have the same name as the single class name it contains wh
 #### C++ Template Parameter Names
 
 Template parameters should follow the naming style for their category: type template parameters should follow the rules for type names, and non-type template parameters should follow the rules for variable names.
+
+#### C++ Unit Test Test Suite Names
+
+Unit test test suite names must follow the nameing convention of type/class names with "Test" as postfix, i.e. camel case => CamelCaseTest
+
+#### C++ Unit Test Test Case Names
+
+Unit test test case names must follow the nameing convention of function names, i.e. camel case => CamelCase
+
+#### C++ Benchmark Function Names
+
+Benchmark Function names must follow the nameing convention of function names with "Benchmark" as postfix, i.e. camel case => CamelCaseBenchmark
 
 ### C++ Code Formatting Styles
 
