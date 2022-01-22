@@ -362,6 +362,31 @@ cmake_multi
 
 <https://docs.conan.io/en/latest/integrations/build_system/cmake/cmake_multi_generator.html>
 
+## Conan for New GCC ABI
+
+[How to manage the GCC >= 5 ABI](https://docs.conan.io/en/latest/howtos/manage_gcc_abi.html)
+
+When Conan creates the default profile the first time it runs, it adjusts the `compiler.libcxx` setting to `libstdc++` for backwards compatibility. However, if you are using GCC >= 5 your compiler is likely to be using the new CXX11 ABI by default (`libstdc++11`).
+
+If you want Conan to use the new ABI, edit the default profile at `~/.conan/profiles/default` adjusting `compiler.libcxx=libstdc++11` or override this setting in the profile you are using.
+
+```bash
+# Linux
+vim ~/.conan/profiles/default
+```
+
+```ini
+[settings]
+os=Linux
+os_build=Linux
+arch=x86_64
+arch_build=x86_64
+compiler=gcc
+compiler.version=9
+compiler.libcxx=libstdc++11
+build_type=Release
+```
+
 ## CMake Build Types
 
 ```ini
