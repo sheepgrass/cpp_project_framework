@@ -16,7 +16,7 @@ class CppProjectFrameworkConan(ConanFile):
     generators = "cmake"
     exports_sources = "%s/*" % name, "test_package/*.*"
     build_requires = "gtest/1.10.0"
-    exports_resources = ".gitignore", "LICENSE", "conanfile.txt", "CMakeLists.txt", "make.bat", "Makefile", "cpp_project_framework.cmake"
+    exports_resources = ".gitignore", "LICENSE", "conanfile.txt", "CMakeLists.txt", "make.bat", "Makefile", "cpp_project_framework_callables.cmake", "cpp_project_framework.cmake"
 
     def export_sources(self):
         for resource in self.exports_resources:
