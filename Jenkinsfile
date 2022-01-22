@@ -71,9 +71,7 @@ python -m pip install --upgrade pip'''
           when { expression { !isUnix() } }
           steps {
             checkout scm
-            bat '''make venv_create
-make venv_activate
-python -m pip install --upgrade pip'''
+            bat 'make venv_create && .venv\\Scripts\\activate && python -m pip install --upgrade pip'
             stash 'prepare'
           }
         }
@@ -97,9 +95,7 @@ make build'''
           when { expression { !isUnix() } }
           steps {
             unstash 'prepare'
-            bat '''make venv_activate
-make cmake_project
-make build'''
+            bat 'make venv_activate && make cmake_project && make build'
             stash 'build'
           }
         }
