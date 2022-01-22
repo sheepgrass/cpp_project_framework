@@ -1393,3 +1393,14 @@ java -jar $(JENKINS_HOME)/jenkins.war --httpPort=8080
 %USERPROFILE%\.jenkins
 ```
 
+## Continuous Integration for C++ Projects with Jenkins
+
+Jenkins - Pipeline:
+<https://www.jenkins.io/doc/book/pipeline/>
+
+Continuous Integration for C/C++ Projects with Jenkins and Conan:
+<https://www.jenkins.io/blog/2017/07/07/jenkins-conan/>
+
+Introduction into an Automated C++ Build Setup with Jenkins and CMake:
+<https://thoughts-on-coding.com/2019/03/27/introduction-into-build-automation-setup-with-jenkins-and-cmake/>
+
