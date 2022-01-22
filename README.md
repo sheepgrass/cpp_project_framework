@@ -1472,17 +1472,17 @@ pipeline {
         sh """`make --no-print-directory venv_activate`
 cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
       }
-    }
-  }
-  post {
-    always {
-      archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml", fingerprint: true
-      xunit (
-        thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-        tools: [
-          CTest(pattern: "${env.BUILD_TYPE}/Testing/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
-        ]
-      )
+      post {
+        always {
+          archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml", fingerprint: true
+          xunit (
+            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+            tools: [
+              CTest(pattern: "${env.BUILD_TYPE}/Testing/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+            ]
+          )
+        }
+      }
     }
   }
 }
@@ -1510,17 +1510,17 @@ pipeline {
         sh """`make --no-print-directory venv_activate`
 cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
       }
-    }
-  }
-  post {
-    always {
-      archiveArtifacts artifacts: "${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
-      xunit (
-        thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-        tools: [
-          GoogleTest(pattern: "${env.BUILD_TYPE}/gtest/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
-        ]
-      )
+      post {
+        always {
+          archiveArtifacts artifacts: "${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
+          xunit (
+            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+            tools: [
+              GoogleTest(pattern: "${env.BUILD_TYPE}/gtest/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+            ]
+          )
+        }
+      }
     }
   }
 }
