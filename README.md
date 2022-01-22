@@ -271,6 +271,44 @@ PointerAlignment: Left
 AccessModifierOffset: -4
 ```
 
+## Setup Git
+
+<https://stackoverflow.com/questions/68775869/support-for-password-authentication-was-removed-please-use-a-personal-access-to>
+
+### Configure Git Client User
+
+```bash
+git config --global user.name "Curtis Lo"
+git config --global user.email "github_email"
+git config -l
+```
+
+### Clone Git Repository
+
+```bash
+git clone https://github.com/sheepgrass/cpp_project_framework.git
+```
+
+### Remember Git Credential
+
+```bash
+git config --global credential.helper cache
+```
+
+## Install Build Essential (GCC, Make)
+
+```bash
+# Linux (Ubuntu)
+sudo apt install build-essential
+```
+
+## Install CMake
+
+```bash
+# Linux (Ubuntu)
+sudo apt-get install cmake
+```
+
 ## Create Python Virtual Environment under Current Project
 
 ```bash
