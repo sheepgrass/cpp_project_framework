@@ -170,7 +170,7 @@ conan_remove_local:
 	source .venv/bin/activate && \
 	conan remove "`make -s project_name`*" -r local
 
-conan_replace_cache: conan_remove_local conan_upload_local
+conan_replace_local: conan_remove_local conan_upload_local
 
 echo:
 	@echo BUILD_TYPE=$(BUILD_TYPE)
