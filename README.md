@@ -189,6 +189,27 @@ conan_package_tools (optional)
 cppcheck (optional)
 clang-format (optional)
 clang-check (optional)
+
+Features
+CMake-based project management, including dependencies
+Conan support for dependency management in CMake, completely optional
+Additional tools such as clang-format and cppcheck
+Support for shared/static libraries, including generation of export information
+Basic CPack configuration for redistributables
+GitHub Actions
+```
+
+CMake-Jenkins-CPP Framework
+<https://github.com/planetpratik/CMake-Jenkins-CPP>
+
+```yaml
+A Cross-Platform Modern C++ Project Framework Set Up Using CMake, Jenkins & Vcpkg
+
+Goals :-
+To create a Cross-Platform C++ project framework using CMake which follows same project structure as FieaGameEngine Project ( originally developed using Visual Studio 2017 ).
+To support Continuous Integration using Jenkins.
+To support better dependency management using Vcpkg as a package manager.
+To be easily able to bootstrap cross-platform C++ project using CMake & Jenkins with minimum efforts.
 ```
 
 ## Useful Resources for C++
@@ -1403,4 +1424,10 @@ Continuous Integration for C/C++ Projects with Jenkins and Conan:
 
 Introduction into an Automated C++ Build Setup with Jenkins and CMake:
 <https://thoughts-on-coding.com/2019/03/27/introduction-into-build-automation-setup-with-jenkins-and-cmake/>
+
+Jenkins - Blue Ocean:
+<https://www.jenkins.io/doc/book/blueocean/>
+
+Visual Pipeline Creation in Blue Ocean:
+<https://www.youtube.com/watch?v=LzFmTiH8nos>
 
