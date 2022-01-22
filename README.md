@@ -694,3 +694,52 @@ std::map<std::string /* name */, ObjectPtr> objects;    ///< objects to be manag
 ```c++
 virtual ObjectPtr Get(const std::string& name /**< [in] name of the object */)
 ```
+
+## Preferred C++ Programming Styles
+
+Google C++ Style Guide
+<https://google.github.io/styleguide/cppguide.html>
+
+GROMACS Style Guide
+<http://manual.gromacs.org/current/dev-manual/style.html>
+
+ISO C++ Coding Standards
+<https://isocpp.org/wiki/faq/coding-standards>
+
+### C++ Naming Styles
+
+#### C++ Variable Names (all kinds of variables including but not limited to followings: global, local, const, static, member, parameters)
+
+The names of variables (including function parameters) and data members are all lowercase, with underscores between words, i.e. snake case => snake_case
+
+#### C++ Type Names (all kinds of types including but not limited to followings: struct, class, enum, typedef, using alias)
+
+Type names start with a capital letter and have a capital letter for each new word, with no underscores, i.e. camel case => CamelCase
+
+#### C++ Function Names (function and member method)
+
+Function names start with a capital letter and have a capital letter for each new word, with no underscores, i.e. camel case => CamelCase
+
+#### C++ Namespace Names (namespace)
+
+The names of namespaces are all lowercase, with underscores between words, i.e. snake case => snake_case
+
+#### C++ Macro Names (#define, including but not limited to followings: macro constant, macro function)
+
+Macros should not be used. However, if they are absolutely needed, then they should be named with all capitals and underscores, i.e. macro case => MACRO_CASE
+
+#### C++ Enumerator Member Names (enum member)
+
+The names of enumerator members are all lowercase, with underscores between words, i.e. snake case => snake_case
+
+#### C++ Indentation
+
+Use 4 spaces at a time for indentation. Do not use tabs in code. You should set your editor to emit spaces when you hit the tab key.
+
+#### C++ Main File Name (file containing the main() entry function)
+
+Main file name must have the same name as the final program binary name which should be all lowercase, with underscores between words, i.e. snake case => snake_case
+
+#### C++ Class File Names (file containing a single class declaration and/or definition)
+
+Class file names must have the same name as the single class name it contains which should start with a capital letter and have a capital letter for each new word, with no underscores, i.e. camel case => CamelCase
