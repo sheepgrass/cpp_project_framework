@@ -254,8 +254,8 @@ make build'''
                     env.COVERAGE_REPORT_FILE = 'CoverageReport.html'
                     sh "mv ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
                   } else {
-                    env.PROJECT_NAME = bat(script: 'make project_name', returnStdout: true).trim()
-                    env.COVERAGE_REPORT_DIR = bat(script: "dir /b /s /ad /o-n ${env.BUILD_TYPE}\\${env.PROJECT_NAME}\\coverage\\CoverageReport-*", returnStdout: true).split('\n').getAt(0).trim()
+                    env.PROJECT_NAME = bat(script: '@make project_name', returnStdout: true).trim()
+                    env.COVERAGE_REPORT_DIR = bat(script: "@dir /b /s /ad /o-n ${env.BUILD_TYPE}\\${env.PROJECT_NAME}\\coverage\\CoverageReport-*", returnStdout: true).split('\n')[0].trim()
                     env.COVERAGE_REPORT_FILE = 'index.html'
                     bat "rename ${env.BUILD_TYPE} ${env.BUILD_AGENT}_${env.BUILD_TYPE}"
                   }
