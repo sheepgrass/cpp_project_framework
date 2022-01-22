@@ -37,7 +37,7 @@ pipeline {
           echo "Build Type: ${env.BUILD_TYPE}"
       }
     }
-    stage('Build') {
+    stage('Prepare') {
       parallel {
         stage('Unix') {
           agent { label env.BUILD_AGENT }
@@ -45,7 +45,30 @@ pipeline {
           steps {
             sh '''make venv_create
 `make --no-print-directory venv_activate`
-python -m pip install --upgrade pip
+python -m pip install --upgrade pip'''
+            stash includes: ".venv/**", name: 'prepare'
+          }
+        }
+        stage('Windows') {
+          agent { label env.BUILD_AGENT }
+          when { expression { !isUnix() } }
+          steps {
+            bat '''make venv_create
+make venv_activate
+python -m pip install --upgrade pip'''
+            stash includes: ".venv/**", name: 'prepare'
+          }
+        }
+      }
+    }
+    stage('Build') {
+      parallel {
+        stage('Unix') {
+          agent { label env.BUILD_AGENT }
+          when { expression { isUnix() } }
+          steps {
+            unstash 'prepare'
+            sh '''`make --no-print-directory venv_activate`
 make cmake_project
 make build'''
             stash includes: "${env.BUILD_TYPE}/**", name: 'build'
@@ -55,9 +78,8 @@ make build'''
           agent { label env.BUILD_AGENT }
           when { expression { !isUnix() } }
           steps {
-            bat '''make venv_create
-make venv_activate
-python -m pip install --upgrade pip
+            unstash 'prepare'
+            bat '''make venv_activate
 make cmake_project
 make build'''
             stash includes: "${env.BUILD_TYPE}/**", name: 'build'
