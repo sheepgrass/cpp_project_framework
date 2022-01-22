@@ -162,6 +162,9 @@ make build'''
         stage('Windows') {
           agent { label env.BUILD_AGENT }
           when { expression { !isUnix() } }
+          environment {
+	    PACK_FORMAT = 'ZIP'
+	  }
           steps {
             unstash 'build'
             bat 'make package'
