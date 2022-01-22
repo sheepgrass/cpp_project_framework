@@ -102,6 +102,10 @@ conan install conanfile.txt -b missing -s build_type=%BUILD_TYPE% -if %BUILD_TYP
 cmake -S . -B %BUILD_TYPE% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% %CMAKE_PROJECT_ARG%
 @EXIT /B 0
 
+:help
+cmake --build %BUILD_TYPE% --config %BUILD_TYPE% --target help %CMAKE_BUILD_ARG%
+@EXIT /B 0
+
 :build
 cmake --build %BUILD_TYPE% --config %BUILD_TYPE% %CMAKE_BUILD_ARG%
 @EXIT /B 0
@@ -123,6 +127,11 @@ cmake --open %BUILD_TYPE%
 CD %BUILD_TYPE%
 cpack -C %BUILD_TYPE% %CPACK_ARG%
 CD ..
+@EXIT /B 0
+
+:run
+@CALL :build
+cmake --build %BUILD_TYPE% --config %BUILD_TYPE% --target run %CMAKE_BUILD_ARG%
 @EXIT /B 0
 
 :test
