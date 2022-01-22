@@ -1595,3 +1595,24 @@ pipeline {
 }
 ```
 
+## Trigger Parameterized Build Using API
+
+Jenkins : Parameterized Build:
+<https://wiki.jenkins.io/display/JENKINS/Parameterized+Build>
+
+How to remotely trigger Jenkins multibranch pipeline project build?:
+<https://stackoverflow.com/questions/39490150/how-to-remotely-trigger-jenkins-multibranch-pipeline-project-build>
+
+jenkins rest api returns 400 nothing is submitted:
+<https://stackoverflow.com/questions/52101155/jenkins-rest-api-returns-400-nothing-is-submitted>
+
+### Add New User API Token
+
+Dashboard > Manage Jenkins > Manager Users > <user_name> > Configure > API Token > Add new Token
+
+### Parameterized Build HTTP Post Request
+
+```bash
+curl --location --request POST 'http://localhost:18080/job/cpp_project_framework/job/master/buildWithParameters?BUILD_AGENT=Any&BUILD_TYPE=Debug&ENABLE_DEPLOY_STAGE=true' --user <user_name>:<api_token>
+```
+
