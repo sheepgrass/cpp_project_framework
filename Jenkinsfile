@@ -18,6 +18,9 @@ make build'''
       }
     }
     stage('Test') {
+      environment {
+        GTEST_OUTPUT = 'xml:../Testing/gtest/'
+      }
       steps {
         sh """`make --no-print-directory venv_activate`
 cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
@@ -28,7 +31,10 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
     always {
       xunit (
         thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-        tools: [ CTest(pattern: "${env.BUILD_TYPE}/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true) ]
+        tools: [
+          CTest(pattern: "${env.BUILD_TYPE}/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true),
+          GoogleTest(pattern: "${env.BUILD_TYPE}/Testing/gtest/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+        ]
       )
     }
   }
