@@ -2,8 +2,10 @@
 
 IF "%BUILD_TYPE%"=="" (
     ECHO BUILD_TYPE not set
-    EXIT /B 1
+    @EXIT /B 1
 )
+
+IF "%PYTHON_EXE%"=="" SET PYTHON_EXE=%LOCALAPPDATA%\Continuum\anaconda3\python.exe
 
 SET CMAKE_PROJECT_ARG=
 IF NOT "%BUILD_SYSTEM%"=="" SET CMAKE_PROJECT_ARG=%CMAKE_PROJECT_ARG% -G "%BUILD_SYSTEM%"
@@ -16,56 +18,71 @@ SET CPACK_ARG=
 IF NOT "%PACK_FORMAT%"=="" SET CPACK_ARG=%CPACK_ARG% -G %PACK_FORMAT%
 
 SET TARGET=%1
+IF "%TARGET%"=="" SET TARGET=all
+
 @ECHO ON
 @CALL :%TARGET%
 @ECHO OFF
-EXIT /B %ERRORLEVEL%
+@EXIT /B %ERRORLEVEL%
+
+:all
+@CALL :conan_install
+@CALL :cmake_project
+@CALL :build
+@EXIT /B 0
 
 :venv_create
-%LOCALAPPDATA%\Continuum\anaconda3\python.exe -m venv .venv
-EXIT /B 0
+%PYTHON_EXE% -m venv .venv
+@EXIT /B 0
 
 :venv_activate
 CALL .venv\Scripts\activate
-@ECHO ON
-EXIT /B 0
+@EXIT /B 0
 
 :venv_deactivate
 CALL deactivate
-EXIT /B 0
+@EXIT /B 0
 
 :pip_install_conan
-CALL :venv_activate
+@CALL :venv_activate
 pip install -U conan
 conan
-EXIT /B 0
+@EXIT /B 0
 
 :conan_install
-CALL :venv_activate
+@CALL :venv_activate
 conan install . -b missing -s build_type=%BUILD_TYPE% -if %BUILD_TYPE%
-EXIT /B 0
+@EXIT /B 0
 
 :cmake_project
 cmake -S . -B %BUILD_TYPE% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% %CMAKE_PROJECT_ARG%
-EXIT /B 0
+@EXIT /B 0
 
 :build
 cmake --build %BUILD_TYPE% --config %BUILD_TYPE% %CMAKE_BUILD_ARG%
-EXIT /B 0
+@EXIT /B 0
 
 :clean
 cmake --build %BUILD_TYPE% --config %BUILD_TYPE% --target clean %CMAKE_BUILD_ARG%
-EXIT /B 0
+@EXIT /B 0
 
 :clean_and_build
 cmake --build %BUILD_TYPE% --config %BUILD_TYPE% --clean-first %CMAKE_BUILD_ARG%
-EXIT /B 0
+@EXIT /B 0
+
+:cmake_open
+cmake --open %BUILD_TYPE%
+@EXIT /B 0
 
 :package
-CALL :build
-cd %BUILD_TYPE% && cpack -C %BUILD_TYPE% %CPACK_ARG%
-EXIT /B 0
+@CALL :build
+CD %BUILD_TYPE% && cpack -C %BUILD_TYPE% %CPACK_ARG%
+@EXIT /B 0
+
+:delete
+RMDIR /S /Q %BUILD_TYPE%
+@EXIT /B 0
 
 :echo
 ECHO %BUILD_TYPE%
-EXIT /B 0
+@EXIT /B 0
