@@ -710,11 +710,13 @@ ISO C++ Coding Standards
 
 #### C++ General Naming Rules
 
-For the purposes of the naming rules below, a "word" is anything that you would write in English without internal spaces. This includes abbreviations, such as acronyms and initialisms. For names written in mixed case (also sometimes referred to as "camel case" or "Pascal case"), in which the first letter of each word is capitalized, prefer to capitalize abbreviations as single words, e.g., StartRpc() rather than StartRPC().
+For the purposes of the naming rules below, a "word" is anything that you would write in English without internal spaces. This includes abbreviations, such as acronyms and initialisms. For names written in mixed case (also sometimes referred to as "camel case" or "Pascal case"), in which the first letter of each word is capitalized, prefer to capitalize abbreviations as single words, e.g., StartRpc() rather than StartRPC(), Id rather than ID, UtcTimestamp rather than UTCTimestamp.
 
 #### C++ Variable Names (all kinds of variables including but not limited to followings: global, local, const, static, member, parameters)
 
 The names of variables (including function parameters) and data members are all lowercase, with underscores between words, i.e. snake case => snake_case
+
+For simplicity and easy memorization of the naming rule, prefix or suffix should not be added to the variable names for different type of variables. For examples, the followings naming styles are not preferred: leading "k" in constant variables, prefix "g_" in global variables, trailing underscore in data member variables. This also makes easier to move variables to different scopes without renaming them.
 
 #### C++ Type Names (all kinds of types including but not limited to followings: struct, class, enum, typedef, using alias)
 
