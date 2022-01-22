@@ -2,9 +2,10 @@ ifndef BUILD_TYPE
   NO_BUILD_TYPE_TARGETS = \
     debug release minsizerel relwithdebinfo \
     venv_create venv_delete venv_activate venv_deactivate \
-	pip_install_conan conan_list \
-	doxygen_delete \
-	conan_start_local conan_add_local \
+    pip_install_conan conan_list \
+    doxygen_delete \
+    conan_start_local conan_add_local \
+    gcc_list_include_paths gcc_list_lib_paths \
     echo
   ifeq ($(filter $(MAKECMDGOALS),$(NO_BUILD_TYPE_TARGETS)),)
     $(error BUILD_TYPE not set, MAKEFLAGS="$(MAKEFLAGS)", MAKECMDGOALS="$(MAKECMDGOALS)", NO_BUILD_TYPE_TARGETS="$(NO_BUILD_TYPE_TARGETS)")
@@ -189,6 +190,12 @@ conan_remove_local:
 	conan remove "`make -s project_name`*" -r local
 
 conan_replace_local: conan_remove_local conan_upload_local
+
+gcc_list_include_paths:
+	@echo | gcc -xc++ -E -Wp,-v - 2>&1 | grep '^[[:space:]]*/' | sed 's/^[[:space:]]*//'
+
+gcc_list_lib_paths:
+	@gcc -print-search-dirs | sed '/^lib/b 1;d;:1;s,/[^/.][^/]*/\.\./,/,;t 1;s,:[^=]*=,:;,;s,;,;  ,g' | tr \; \\012 | tr : \\012 | grep '^[[:space:]]*/' | sed 's/^[[:space:]]*//'
 
 echo:
 	@echo -e BUILD_TYPE=$(BUILD_TYPE)\\nVIRTUAL_ENV=$(VIRTUAL_ENV)

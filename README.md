@@ -1306,3 +1306,27 @@ git-submodule - Initialize, update or inspect submodules
 ```bash
 git submodule add <repository url> [<submodule name>]
 ```
+
+## List GCC Default Include and Library Paths
+
+Library path in gcc:
+<https://transang.me/library-path-in-gcc/>
+
+### List GCC Default Include Paths
+
+What are the GCC default include directories?:
+<https://stackoverflow.com/questions/4980819/what-are-the-gcc-default-include-directories>
+
+```bash
+echo | gcc -xc++ -E -Wp,-v - 2>&1 | grep '^[[:space:]]*/' | sed 's/^[[:space:]]*//'
+```
+
+### List GCC Default Library Paths
+
+How to print the ld(linker) search path:
+<https://stackoverflow.com/questions/9922949/how-to-print-the-ldlinker-search-path>
+
+```bash
+gcc -print-search-dirs | sed '/^lib/b 1;d;:1;s,/[^/.][^/]*/\.\./,/,;t 1;s,:[^=]*=,:;,;s,;,;  ,g' | tr \; \\012 | tr : \\012 | grep '^[[:space:]]*/' | sed 's/^[[:space:]]*//'
+```
+
