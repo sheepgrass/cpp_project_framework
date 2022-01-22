@@ -1461,6 +1461,8 @@ Producing CTest results in Jenkins (xUnit >= 1.58):
 ctest(1):
 <https://cmake.org/cmake/help/latest/manual/ctest.1.html>
 
+Jenkinsfile
+
 ```groovy
 pipeline {
   agent any
@@ -1493,6 +1495,8 @@ Using gtest in jenkins:
 
 Advanced googletest Topics - Generating an XML Report:
 <https://google.github.io/googletest/advanced.html#generating-an-xml-report>
+
+Jenkinsfile
 
 ```groovy
 pipeline {
@@ -1535,4 +1539,35 @@ How to determine the current operating system in a Jenkins pipeline:
 
 isUnix: Checks if running on a Unix-like node:
 <https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/#isunix-checks-if-running-on-a-unix-like-node>
+
+Jenkinsfile
+
+```groovy
+pipeline {
+  agent any
+  stages {
+    stage('Test') {
+      environment {
+        GTEST_OUTPUT = 'xml:../gtest/'
+      }
+      parallel {
+        stage('Unix') {
+          when { expression { isUnix() } }
+          steps {
+            sh """`make --no-print-directory venv_activate`
+cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+          }
+        }
+        stage('Windows') {
+          when { expression { !isUnix() } }
+          steps {
+            bat """make venv_activate
+cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+          }
+        }
+      }
+    }
+  }
+}
+```
 
