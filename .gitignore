@@ -43,3 +43,6 @@ RelWithDebInfo
 
 # Python Virtual Environment Target Directory
 .venv
+
+# Doxygen folder
+doxygen
