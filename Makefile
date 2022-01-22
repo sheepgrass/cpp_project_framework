@@ -30,8 +30,10 @@ endif
 
 .PHONY: all \
 	venv_create venv_delete venv_activate venv_deactivate \
-	pip_install_conan conan_install cmake_project build clean clean_and_build cmake_open package delete \
-	project_name project_version recipe_create conan_package echo
+	pip_install_conan conan_list conan_install \
+	cmake_project build clean clean_and_build cmake_open package delete \
+	project_name project_version recipe_create conan_package \
+	conan_start_local conan_add_local conan_upload_local echo
 
 all: conan_install cmake_project build
 
@@ -51,6 +53,10 @@ pip_install_conan:
 	source .venv/bin/activate && \
 	pip install -U conan && \
 	conan
+
+conan_list:
+	source .venv/bin/activate && \
+	conan remote list
 
 conan_install:
 	source .venv/bin/activate && \
@@ -91,6 +97,18 @@ recipe_create:
 conan_package:
 	source .venv/bin/activate && \
 	conan create . demo/testing
+
+conan_start_local:
+	source .venv/bin/activate && \
+	conan_server
+
+conan_add_local:
+	source .venv/bin/activate && \
+	conan remote add local http://localhost:9300/
+
+conan_upload_local:
+	source .venv/bin/activate && \
+	conan upload `cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_NAME:STATIC=" | cut -d'=' -f2`/`cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_VERSION:STATIC=" | cut -d'=' -f2`@demo/testing --all -r=local
 
 echo:
 	@echo $(BUILD_TYPE)

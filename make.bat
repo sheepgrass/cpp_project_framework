@@ -53,6 +53,11 @@ pip install -U conan
 conan
 @EXIT /B 0
 
+:conan_list
+@CALL :venv_activate
+conan remote list
+@EXIT /B 0
+
 :conan_install
 @CALL :venv_activate
 conan install conanfile.txt -b missing -s build_type=%BUILD_TYPE% -if %BUILD_TYPE%
@@ -114,6 +119,21 @@ CD ..
 :conan_package
 @CALL :venv_activate
 conan create . demo/testing
+@EXIT /B 0
+
+:conan_start_local
+@CALL :venv_activate
+conan_server
+@EXIT /B 0
+
+:conan_add_local
+@CALL :venv_activate
+conan remote add local http://localhost:9300/
+@EXIT /B 0
+
+:conan_upload_local
+@CALL :venv_activate
+conan upload %PROJECT_NAME%/%PROJECT_VERSION%@demo/testing --all -r=local
 @EXIT /B 0
 
 :echo

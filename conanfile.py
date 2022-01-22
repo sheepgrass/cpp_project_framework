@@ -7,7 +7,7 @@ class CppProjectFrameworkConan(ConanFile):
     license = "GNU Affero General Public License v3.0"
     author = "Curtis Lo"
     homepage = "https://github.com/sheepgrass/cpp_project_framework"
-    url = "<Package recipe repository url here, for issues about the package>"
+    url = "http://localhost:9300/"  # Package recipe repository url here, for issues about the package
     description = "C++ Project Framework is a framework for creating C++ project."
     topics = ("c++", "project", "framework")
     settings = "os", "compiler", "build_type", "arch"

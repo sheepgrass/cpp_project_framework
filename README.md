@@ -92,3 +92,33 @@ C++ Project Framework is a framework for creating C++ project.
     https://docs.conan.io/en/latest/creating_packages/getting_started.html
 
     conan create . demo/testing
+
+## Get List of Conan Repository Servers (Remotes) in Use
+
+    https://docs.conan.io/en/latest/uploading_packages/uploading_to_remotes.html
+
+    conan remote list
+
+## Add Conan Repository Server (Remote)
+
+    conan remote add local http://localhost:9300
+
+## Search Conan Package
+
+    conan search {PACKAGE_NAME} -r=local
+
+## Upload Conan Package to Conan Repository Server (Remote)
+
+    https://docs.conan.io/en/latest/uploading_packages/uploading_to_remotes.html
+
+    conan upload {CMAKE_PROJECT_NAME}/{CMAKE_PROJECT_VERSION}@demo/testing --all -r=local
+
+## Remove Local Conan Package Cache
+
+    conan remove {CMAKE_PROJECT_NAME}*
+
+## Run Simple Open Source Conan Repository Server
+
+    https://docs.conan.io/en/latest/uploading_packages/running_your_server.html
+
+    conan_server
