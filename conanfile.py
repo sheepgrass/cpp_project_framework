@@ -14,8 +14,13 @@ class CppProjectFrameworkConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = {"shared": False}
     generators = "cmake"
-    exports_sources = "conanfile.txt", "%s/*" % name
+    exports_sources = "%s/*" % name, "test_package/*.*"
     build_requires = "gtest/1.10.0"
+    exports_resources = ".gitignore", "LICENSE", "conanfile.txt", "CMakeLists.txt", "make.bat", "Makefile", "cpp_project_framework.cmake"
+
+    def export_sources(self):
+        for resource in self.exports_resources:
+            self.copy(resource)
 
     def build(self):
         cmake = CMake(self)
@@ -35,6 +40,8 @@ class CppProjectFrameworkConan(ConanFile):
         self.copy("*.dylib*", dst="lib", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
+        for resource in self.exports_resources:
+            self.copy(resource, dst="res")
 
     def package_info(self):
         self.cpp_info.libs = []
