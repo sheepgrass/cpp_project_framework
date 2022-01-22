@@ -157,7 +157,7 @@ endmacro()
 # find all header files
 macro(cpf_find_all_header_files)
     if(NOT HEADER_FILES)
-        file(GLOB HEADER_FILES *.h *.hpp)
+        file(GLOB HEADER_FILES *.h *.hpp *.hxx)
     endif()
 endmacro()
 
