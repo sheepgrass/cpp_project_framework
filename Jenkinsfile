@@ -2,16 +2,22 @@ pipeline {
   agent any
   stages {
     stage('Init') {
+      input {
+        message 'Set Parameters:'
+        parameters {
+          choice choices: ['Any', 'Linux', 'Windows', 'Docker'], description: 'Build Agent', name: 'BUILD_AGENT'
+          choice choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type', name: 'BUILD_TYPE'
+        }
+      }
       steps {
         script {
-          env.BUILD_AGENT = input message: 'Set Build Agent:', parameters: [choice(name: 'BUILD_AGENT', choices: ['any', 'linux', 'windows', 'docker'], description: 'Build Agent')]
-          env.BUILD_AGENT = env.BUILD_AGENT == 'any' ? '' : env.BUILD_AGENT
-          env.BUILD_TYPE = input message: 'Set Build Type:', parameters: [choice(name: 'BUILD_TYPE', choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type')]
+          env.BUILD_AGENT = BUILD_AGENT == 'Any' ? '' : BUILD_AGENT
+          env.BUILD_TYPE = BUILD_TYPE
           parallel (
-            "${env.BUILD_AGENT} - ${env.BUILD_TYPE}": {
+            "${BUILD_AGENT} - ${BUILD_TYPE}": {
               stage('Set Parameters') {
-                echo "Build Agent: ${env.BUILD_AGENT} | ${BUILD_AGENT}"
-                echo "Build Type: ${env.BUILD_TYPE}"
+                echo "Build Agent: ${BUILD_AGENT}"
+                echo "Build Type: ${BUILD_TYPE}"
               }
             }
           )
