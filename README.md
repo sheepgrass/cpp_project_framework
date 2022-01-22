@@ -11,11 +11,16 @@ C++ Project Framework is a framework for creating C++ project.
 ├── <name>/
 │   └── ...
 ├── <module>/
-│   └── <module>.h  // header file containing mainly module declarations
-│   └── <module>.hpp    // header file containing module declarations and/or definitions
-│   └── <module>.cpp    // source file containing module definitions
+│   ├── <module>.h  // header file containing mainly module declarations
+│   ├── <module>.hpp    // header file containing module declarations and/or definitions
+│   ├── <module>.cpp    // source file containing module definitions
 │   └── <module>.test.cpp   // source file containing module unit tests
+├── ...
 └── tests/  // functional/integration tests
+    ├── benchmarks/ // benchmark/performance tests
+    │   ├── <benchmark>/
+    │   │   └── <benchmark>.benchmark.cpp   // source file containing module benchmark tests
+    │   └── ...
     └── ...
 ```
 
@@ -695,6 +700,35 @@ std::map<std::string /* name */, ObjectPtr> objects;    ///< objects to be manag
 virtual ObjectPtr Get(const std::string& name /**< [in] name of the object */)
 ```
 
+### Brief description for variables
+
+Brief description sentence for variables must start with lowercase word
+
+```c++
+std::map<std::string /* name */, ObjectPtr> objects;    ///< objects to be managed
+```
+
+```c++
+virtual ObjectPtr Get(const std::string& name /**< [in] name of the object */)
+```
+
+### Brief description for files, classes, functions, methods
+
+Brief description sentence for files, classes, functions, methods, macro functions must start with captalized word
+
+```c++
+/**
+* @file    cpp_project_framework.h
+* @author  Curtis Lo
+* @brief   This file is just a dummy header file
+*/
+```
+
+```c++
+/// Get the test case name of current test case
+#define GET_TEST_CASE_NAME() ((test_info_->test_suite_name() + std::string(".") + test_info_->name()).c_str())
+```
+
 ## Preferred C++ Programming Styles
 
 Google C++ Style Guide
@@ -755,3 +789,23 @@ Template parameters should follow the naming style for their category: type temp
 #### C++ Indentation
 
 Use 4 spaces at a time for indentation. Do not use tabs in code. You should set your editor to emit spaces when you hit the tab key.
+
+## Support Microbenchmark Performance Test
+
+Micro benchmarking libraries for C++
+<https://www.bfilipek.com/2016/01/micro-benchmarking-libraries-for-c.html>
+
+Google Benchmark
+<https://github.com/google/benchmark>
+
+sltbench
+<https://github.com/ivafanas/sltbench>
+
+SkyPat
+<https://github.com/skymizer/SkyPat>
+
+```ini
+# conanfile.txt
+[build_requires]
+benchmark/1.5.1
+```

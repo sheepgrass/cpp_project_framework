@@ -91,3 +91,6 @@ cpf_add_unit_tests("")
 
 # add doxygen target
 cpf_add_doxygen_target()
+
+# add benchmark tests
+cpf_add_benchmarks("")

@@ -15,7 +15,7 @@ class CppProjectFrameworkConan(ConanFile):
     default_options = {"shared": False}
     generators = "cmake"
     exports_sources = "%s/*" % name, "test_package/*.*"
-    build_requires = "gtest/1.10.0", "doxygen/1.8.20"
+    build_requires = "gtest/1.10.0", "doxygen/1.8.20", "benchmark/1.5.1"
     exports_resources = ".gitignore", "LICENSE", "conanfile.txt", "CMakeLists.txt", "make.bat", "Makefile", "cpp_project_framework_callables.cmake", "cpp_project_framework.cmake"
 
     def export_sources(self):
