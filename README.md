@@ -11,15 +11,15 @@ C++ Project Framework is a framework for creating C++ project.
 ├── <name>/
 │   └── ...
 ├── <module>/
-│   ├── <module>.h  // header file containing mainly module declarations
-│   ├── <module>.hpp    // header file containing module declarations and/or definitions
-│   ├── <module>.cpp    // source file containing module definitions
-│   └── <module>.test.cpp   // source file containing module unit tests
+│   ├── <module>.h        // header file containing mainly module declarations
+│   ├── <module>.hpp      // header file containing module declarations and/or definitions
+│   ├── <module>.cpp      // source file containing module definitions
+│   └── <module>.test.cpp // source file containing module unit tests
 ├── ...
-└── tests/  // functional/integration tests
+└── tests/ // functional/integration tests
     ├── benchmarks/ // benchmark/performance tests
     │   ├── <benchmark>/
-    │   │   └── <benchmark>.benchmark.cpp   // source file containing module benchmark tests
+    │   │   └── <benchmark>.benchmark.cpp // source file containing module benchmark tests
     │   └── ...
     └── ...
 ```
