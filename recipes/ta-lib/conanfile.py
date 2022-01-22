@@ -20,7 +20,14 @@ class TaLibConan(ConanFile):
             tools.get(**self.conan_data["sources"][self.version]["src"])
 
     def build(self):
-        if self.settings.os != "Windows":
+        # https://www.ta-lib.org/d_api/d_api.html#How%20to%20start%20using%20TA-LIB
+        if self.settings.os == "Windows":
+            vcvars_command = tools.vcvars_command(self)
+            for build_config in ["cdd", "cdr", "cmd", "cmr", "csd", "csr"]:
+                with tools.chdir("ta-lib/c/make/%s/win32/msvc" % build_config):
+                    self.run("%s && nmake" % vcvars_command)
+            pass
+        else:
             with tools.chdir("ta-lib"):
                 autotools = AutoToolsBuildEnvironment(self)
                 autotools.configure()
