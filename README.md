@@ -211,6 +211,12 @@ A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny
 
 ## Visual Studio Code CMake Tools Settings
 
+[Configuring CMake Tools](https://vector-of-bool.github.io/docs/vscode-cmake-tools/settings.html)
+
+### Allow Building in Different Directories per Build Type
+
+<https://github.com/microsoft/vscode-cmake-tools/issues/151>
+
 File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directory
 
 ```json
