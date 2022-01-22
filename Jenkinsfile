@@ -8,6 +8,7 @@ pipeline {
   parameters {
     choice choices: ['', 'Any', 'Linux', 'Windows', 'Docker'], description: 'Build Agent', name: 'BUILD_AGENT'
     choice choices: ['', 'Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type', name: 'BUILD_TYPE'
+    booleanParam defaultValue: true, description: 'Enable Deploy Stage', name: 'ENABLE_DEPLOY_STAGE'
   }
   stages {
     stage('Init') {
@@ -190,6 +191,7 @@ make build'''
     }
     stage('Deploy') {
       agent { label env.BUILD_AGENT }
+      when { expression { params.ENABLE_DEPLOY_STAGE } }
       steps {
         input 'Deploy?'
       }
