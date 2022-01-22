@@ -415,7 +415,6 @@ macro(cpf_add_doxygen_target)
         set(SET_DOXYFILE_VALUES_SNIPPET "${SET_DOXYFILE_VALUES_SNIPPET} kvs['EXTRACT_ANON_NSPACES'] = 'YES';")
         set(WRITE_DOXYFILE_LINES_SNIPPET "f = open('Doxyfile', 'w'); r = [f.write(l[0] + '=' + (l[1] if kvs.get(l[0].strip()) is None else (' ' + kvs.get(l[0].strip()) if kvs.get(l[0].strip()).strip() else '') + '\\n') if type(l) is list else l) for l in lines]; f.close();")
         set(UPDATE_DOXYFILE_CMD "python -c \"${READ_DOXYFILE_LINES_SNIPPET} ${GET_DOXYFILE_KEY_VALUES_SNIPPET} ${SET_DOXYFILE_VALUES_SNIPPET} ${WRITE_DOXYFILE_LINES_SNIPPET}\"")
-        message("UPDATE_DOXYFILE_CMD=${UPDATE_DOXYFILE_CMD}")
 
         add_custom_target(doxygen_create_config COMMAND "${DOXYGEN_PROGRAM}" -g WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
         add_custom_target(doxygen COMMAND "${DOXYGEN_PROGRAM}" WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
