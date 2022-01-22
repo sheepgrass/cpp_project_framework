@@ -87,6 +87,26 @@ CD %BUILD_TYPE% && cpack -C %BUILD_TYPE% %CPACK_ARG%
 RMDIR /S /Q %BUILD_TYPE%
 @EXIT /B 0
 
+:project_name
+@FOR /F %%I IN ('TYPE %BUILD_TYPE%\CMakeCache.txt ^| FIND "CMAKE_PROJECT_NAME:STATIC="') DO @SET PROJECT_NAME=%%I
+@SET PROJECT_NAME=%PROJECT_NAME:~26%
+@ECHO %PROJECT_NAME%
+@EXIT /B 0
+
+:project_version
+@FOR /F %%I IN ('TYPE %BUILD_TYPE%\CMakeCache.txt ^| FIND "CMAKE_PROJECT_VERSION:STATIC="') DO @SET PROJECT_VERSION=%%I
+@SET PROJECT_VERSION=%PROJECT_VERSION:~29%
+@ECHO %PROJECT_VERSION%
+@EXIT /B 0
+
+:recipe_create:
+@CALL :venv_activate
+@CALL :project_name
+@CALL :project_version
+MKDIR package && CD package
+conan new %PROJECT_NAME%/%PROJECT_VERSION% -t
+@EXIT /B 0
+
 :echo
 ECHO %BUILD_TYPE%
 @EXIT /B 0
