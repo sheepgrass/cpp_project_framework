@@ -141,9 +141,35 @@ make build'''
         }
       }
     }
-    stage('Pack') {
+    stage('Post Test') {
       parallel {
-        stage('Unix') {
+        stage('Coverage - Unix') {
+          agent { label env.BUILD_AGENT }
+          when { expression { isUnix() } }
+          steps {
+            unstash 'test'
+            sh 'make coverage'
+          }
+          post {
+            success {
+              archiveArtifacts artifacts: "${env.BUILD_TYPE}/**/coverage/", fingerprint: true
+            }
+          }
+        }
+        stage('Coverage - Windows') {
+          agent { label env.BUILD_AGENT }
+          when { expression { !isUnix() } }
+          steps {
+            unstash 'test'
+            bat 'make coverage'
+          }
+          post {
+            success {
+              archiveArtifacts artifacts: "${env.BUILD_TYPE}/**/coverage/", fingerprint: true
+            }
+          }
+        }
+        stage('Pack - Unix') {
           agent { label env.BUILD_AGENT }
           when { expression { isUnix() } }
           steps {
@@ -159,7 +185,7 @@ make build'''
             }
           }
         }
-        stage('Windows') {
+        stage('Pack - Windows') {
           agent { label env.BUILD_AGENT }
           when { expression { !isUnix() } }
           environment {
