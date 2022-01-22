@@ -36,6 +36,8 @@ class CppProjectFrameworkConan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include/%s" % self.name, src=self.name)
+        self.copy("*.hpp", dst="include/%s" % self.name, src=self.name)
+        self.copy("*.hxx", dst="include/%s" % self.name, src=self.name)
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.dylib*", dst="lib", keep_path=False)
@@ -45,4 +47,6 @@ class CppProjectFrameworkConan(ConanFile):
             self.copy(resource, dst="res", src="res")
 
     def package_info(self):
+        postfix = "_d" if self.settings.build_type == "Debug" else ""
+        name_with_postfix = self.name + postfix
         self.cpp_info.libs = []
