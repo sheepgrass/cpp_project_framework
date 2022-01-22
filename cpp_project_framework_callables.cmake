@@ -4,6 +4,8 @@
 # detect build type and build folder
 macro(cpf_detect_build_type)
     message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
+    message("CMAKE_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
+    message("CMAKE_BINARY_DIR=${CMAKE_BINARY_DIR}")
     message("CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
     message("CMAKE_CURRENT_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}")
     if(NOT CMAKE_CONFIGURATION_TYPES)
@@ -12,7 +14,7 @@ macro(cpf_detect_build_type)
     message("CMAKE_CONFIGURATION_TYPES=${CMAKE_CONFIGURATION_TYPES}")
     list(JOIN CMAKE_CONFIGURATION_TYPES "|" SUPPORTED_BUILD_TYPES)
     message("SUPPORTED_BUILD_TYPES=${SUPPORTED_BUILD_TYPES}")
-    string(REGEX MATCH "(${SUPPORTED_BUILD_TYPES})$" DETECTED_BUILD_FOLDER ${CMAKE_CURRENT_BINARY_DIR})
+    string(REGEX MATCH "(${SUPPORTED_BUILD_TYPES})$" DETECTED_BUILD_FOLDER ${CMAKE_BINARY_DIR})
     message("DETECTED_BUILD_FOLDER=${DETECTED_BUILD_FOLDER}")
     if(NOT DETECTED_BUILD_FOLDER IN_LIST CMAKE_CONFIGURATION_TYPES)
         message(FATAL_ERROR "DETECTED_BUILD_FOLDER (${DETECTED_BUILD_FOLDER}) must be in one of the CMAKE_CONFIGURATION_TYPES (${CMAKE_CONFIGURATION_TYPES})")
@@ -32,13 +34,13 @@ endmacro()
 
 # check if python virtual environment exists
 macro(cpf_detect_virtual_environment)
-    set(VENV_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.venv)
+    set(VENV_PATH ${CMAKE_SOURCE_DIR}/.venv)
     if(IS_DIRECTORY ${VENV_PATH})
         message("python virtual environment found, VENV_PATH=${VENV_PATH}")
     else()
         find_program(PYTHON_PATH NAMES python3 python HINTS "$ENV{LOCALAPPDATA}\\Continuum\\anaconda3" REQUIRED)
         message("PYTHON_PATH=${PYTHON_PATH}")
-        execute_process(COMMAND ${PYTHON_PATH} -m venv .venv WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+        execute_process(COMMAND ${PYTHON_PATH} -m venv .venv WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
         if(IS_DIRECTORY ${VENV_PATH})
             message("python virtual environment created, VENV_PATH=${VENV_PATH}")
         else()
@@ -46,35 +48,45 @@ macro(cpf_detect_virtual_environment)
         endif()
     endif()
     if(WIN32)
-        set(VENV_ACTIVATE_CMD ".venv\\Scripts\\activate")
+        set(VENV_ACTIVATE_CMD "${VENV_PATH}/Scripts/activate")
     else()
-        set(VENV_ACTIVATE_CMD "source .venv/bin/activate")
+        set(VENV_ACTIVATE_CMD "source ${VENV_PATH}/bin/activate")
     endif()
+endmacro()
+
+# run shell command
+macro(cpf_run_shell_command SHELL_CMD SHELL_WORKING_DIRECTORY)
+    message("SHELL_CMD=${SHELL_CMD}")
+    message("SHELL_WORKING_DIRECTORY=${SHELL_WORKING_DIRECTORY}")
+    if(WIN32)
+        execute_process(COMMAND CMD /c "${SHELL_CMD}" WORKING_DIRECTORY ${SHELL_WORKING_DIRECTORY})
+    else()
+        execute_process(COMMAND bash -c "${SHELL_CMD}" WORKING_DIRECTORY ${SHELL_WORKING_DIRECTORY})
+    endif()
+endmacro()
+
+# run command in virtual environment
+macro(cpf_run_venv_command VENV_CMD SHELL_WORKING_DIRECTORY)
+    cpf_run_shell_command("${VENV_ACTIVATE_CMD} && ${VENV_CMD}" "${SHELL_WORKING_DIRECTORY}")
 endmacro()
 
 # install conan dependencies
 macro(cpf_install_conan_dependencies)
-    set(PIP_INSTALL_CONAN_CMD "pip install -U conan")
-    set(CONAN_INSTALL_CMD "conan install conanfile.txt -b missing -s build_type=${DETECTED_BUILD_TYPE} -if ${DETECTED_BUILD_FOLDER}")
-    if(WIN32)
-        execute_process(COMMAND CMD /c "${VENV_ACTIVATE_CMD} && ${PIP_INSTALL_CONAN_CMD} && ${CONAN_INSTALL_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-    else()
-        execute_process(COMMAND bash -c "${VENV_ACTIVATE_CMD} && ${PIP_INSTALL_CONAN_CMD} && ${CONAN_INSTALL_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-    endif()
+    cpf_run_venv_command("pip install -U conan && conan install conanfile.txt -b missing -s build_type=${DETECTED_BUILD_TYPE} -if ${DETECTED_BUILD_FOLDER}" ${CMAKE_CURRENT_SOURCE_DIR})
 endmacro()
 
 # inject conan information
 macro(cpf_inject_conan_info)
     if(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
-    message("cmake_multi generator conan information detected")
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
-    conan_basic_setup()
+        message("cmake_multi generator conan information detected")
+        include(${CMAKE_BINARY_DIR}/conanbuildinfo_multi.cmake)
+        conan_basic_setup()
     elseif(EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    message("cmake generator conan information detected")
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    conan_basic_setup()
+        message("cmake generator conan information detected")
+        include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+        conan_basic_setup()
     else()
-    message("no cmake generator conan information detected")
+        message("no cmake generator conan information detected")
     endif()
 endmacro()
 
@@ -213,7 +225,6 @@ macro(cpf_add_gcov_compiler_flags)
     if(UNIX)
         set(GCOV_COMPILER_FLAGS "--coverage")
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${GCOV_COMPILER_FLAGS}")
-        set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
     endif()
 endmacro()
 
@@ -254,7 +265,6 @@ macro(cpf_add_unit_tests LINK_TYPES)
                 target_link_libraries(${UNIT_TEST_EXE} ${LINK_TYPE}_lib)
                 conan_target_link_libraries(${UNIT_TEST_EXE})
                 add_test(NAME ${UNIT_TEST_EXE} COMMAND ${UNIT_TEST_EXE})
-                cpf_add_unit_test_gcov_target()
             endif()
         endforeach()
         if(NOT UNIT_TEST_EXE)
@@ -263,48 +273,30 @@ macro(cpf_add_unit_tests LINK_TYPES)
             add_executable(${UNIT_TEST_EXE} ${TEST_SRC_FILES})
             conan_target_link_libraries(${UNIT_TEST_EXE})
             add_test(NAME ${UNIT_TEST_EXE} COMMAND ${UNIT_TEST_EXE})
-            cpf_add_unit_test_gcov_target()
         endif()
     endforeach()
+
+    cpf_add_unit_test_gcov_target()
 endmacro()
 
 # add unit test gcov target
 macro(cpf_add_unit_test_gcov_target)
     if(GCOV_COMPILER_FLAGS)
-        set(GCOV_OBJECT_DIR ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${UNIT_TEST_EXE}.dir)
-        set(GCOV_TARGET ${UNIT_TEST_EXE}.gcov)
-        message("        GCOV_OBJECT_DIR=${GCOV_OBJECT_DIR}")
-        message("        GCOV_TARGET=${GCOV_TARGET}")
+        set(GCOV_TARGET gcov)
+        message("GCOV_TARGET=${GCOV_TARGET}")
         add_custom_target(${GCOV_TARGET}
             COMMAND mkdir -p ${GCOV_TARGET}
             COMMAND ${CMAKE_MAKE_PROGRAM} test
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             )
-        add_custom_command(TARGET ${GCOV_TARGET}
-            COMMAND echo "=================== GCOV ===================="
-            COMMAND gcov -b ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp -o ${GCOV_OBJECT_DIR}
-            COMMAND echo "-- Coverage files have been output to ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}"
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}
-            )
+        set(GCOVR_CMD "${VENV_ACTIVATE_CMD} && pip install -U gcovr && gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR} --html-details gcov_report.html")
+        message("GCOVR_CMD=${GCOVR_CMD}")
+        if(WIN32)
+            add_custom_command(TARGET ${GCOV_TARGET} COMMAND CMD /c "${GCOVR_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET} VERBATIM)
+        else()
+            add_custom_command(TARGET ${GCOV_TARGET} COMMAND bash -c "${GCOVR_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET} VERBATIM)
+        endif()
+        add_custom_command(TARGET ${GCOV_TARGET} COMMAND echo "-- Coverage files have been output to ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}")
         add_dependencies(${GCOV_TARGET} ${UNIT_TEST_EXE})
-        cpf_add_unit_test_lcov_target()
     endif()
-endmacro()
-
-# add unit test lcov target
-macro(cpf_add_unit_test_lcov_target)
-    set(LCOV_TARGET ${UNIT_TEST_EXE}.lcov)
-    add_custom_target(${LCOV_TARGET}
-        COMMAND mkdir -p ${LCOV_TARGET}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        )
-    add_custom_command(TARGET ${LCOV_TARGET}
-        COMMAND echo "=================== LCOV ===================="
-        COMMAND echo "-- Passing lcov tool under code coverage"
-        COMMAND lcov --capture --directory ${GCOV_OBJECT_DIR} --output-file coverage.info
-        COMMAND echo "-- Generating HTML output files"
-        COMMAND genhtml coverage.info --output-directory .
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${LCOV_TARGET}
-        )
-    add_dependencies(${LCOV_TARGET} ${GCOV_TARGET})
 endmacro()
