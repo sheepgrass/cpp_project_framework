@@ -175,13 +175,13 @@ make build'''
           steps {
             unstash 'build'
             sh 'make package'
-            stash 'pack'
           }
           post {
             success {
               script {
                 env.PACKAGE_FILE_NAME = sh(script: 'make --no-print-directory package_file_name', returnStdout: true).trim()
               }
+              archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
             }
           }
         }
@@ -194,13 +194,13 @@ make build'''
           steps {
             unstash 'build'
             bat 'make package'
-            stash 'pack'
           }
           post {
             success {
               script {
                 env.PACKAGE_FILE_NAME = bat(script: '@make package_file_name', returnStdout: true).trim()
               }
+              archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
             }
           }
         }
@@ -228,14 +228,6 @@ make build'''
             success {
               archiveArtifacts artifacts: "doxygen/", fingerprint: true
             }
-          }
-        }
-      }
-      post {
-        success {
-          node(env.BUILD_AGENT) {
-            unstash 'pack'
-            archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
           }
         }
       }
