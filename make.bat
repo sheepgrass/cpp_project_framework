@@ -8,10 +8,10 @@ IF "%BUILD_TYPE%"=="" (
     SET NO_BUILD_TYPE_TARGETS=
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS!debug release minsizerel relwithdebinfo
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! venv_create venv_delete venv_activate venv_deactivate
-	SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! pip_install_conan conan_list
-	SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! doxygen_delete
-	SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! conan_start_local conan_add_local
-	SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! echo
+    SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! pip_install_conan conan_list
+    SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! doxygen_delete
+    SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! conan_start_local conan_add_local
+    SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! echo
     FOR %%G IN (!NO_BUILD_TYPE_TARGETS!) DO (
         IF "%TARGET%"=="%%G" GOTO MAKE_START
     )
