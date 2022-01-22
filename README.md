@@ -1386,7 +1386,7 @@ complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-
 Add below line instead of above one to `~/.bashrc` file to enable auto completion of Makefile targets with CMake build targets using `bash-completion` Linux package:
 
 ```bash
-complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\` "\`make help 2>/dev/null | grep -oE '^\.\.\. [a-zA-Z0-9_.-]+' | sed 's/\.\.\. /CMAKE_BUILD_TARGET-/'\`" make
+complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\` \`make help 2>/dev/null | grep -oE '^\.\.\. [a-zA-Z0-9_.-]+' | sed 's/\.\.\. /CMAKE_BUILD_TARGET-/'\`" make
 ```
 
 Source `~/.bashrc` file after making the change to make it take effect:
