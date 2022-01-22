@@ -1,0 +1,6 @@
+1596737236
+conandata.yml: 749b50c12c7ed07058fa95a1c653efdb
+conanfile.py: fa996f8c370e24693eabdc22f6a19709
+export_source/CMakeLists.txt: e4d1288161e751118d8c7e367aaf2e48
+export_source/patches/0001-remove-explicit-stdlib-setting.patch: 14a0c161cfd8ec5ce1a7128f8f7d0a7b
+export_source/patches/0002-remove-explicit-stdlib-setting.patch: 70ab0507fd1be5e8b99117d19893d4dc

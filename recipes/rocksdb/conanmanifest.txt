@@ -1,0 +1,6 @@
+1600937067
+conandata.yml: 8c2a389155876f5213f2a10f9d33c169
+conanfile.py: 3ada27ee35fb5845085c7e227a1f13bc
+export_source/CMakeLists.txt: 1b652de656da7b18179695da2d137638
+export_source/patches/6.10.2/0001-Rename-jemalloc-according-to-conan-packages.patch: 76dd715d1edf9dd09479b6b8542be9fb
+export_source/patches/6.8.1/0001-Rename-jemalloc-according-to-conan-packages.patch: 95d92c680448a65639c7d91357f31d71
