@@ -10,7 +10,7 @@ class RestinioConan(ConanFile):
     url = "https://github.com/conan-io/conan-center-index"
     description = "RESTinio is a header-only C++14 library that gives you an embedded HTTP/Websocket server."
     topics = ("http-server", "websockets", "rest", "tls-support")
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", "patches/*"]
     settings = "os", "compiler", "build_type", "arch"
     options = {"asio": ["boost", "standalone"], "with_openssl": [True, False], "with_zlib": [True, False], "with_pcre": [1, 2, None]}
     default_options = {"asio": "standalone", "with_openssl": False, "with_zlib": False, "with_pcre": None}
@@ -81,6 +81,9 @@ class RestinioConan(ConanFile):
         tools.get(**self.conan_data["sources"][self.version])
         extracted_dir = self.name + "-v." + self.version
         os.rename(extracted_dir, self._source_subfolder)
+        if "patches" in self.conan_data and self.version in self.conan_data["patches"]:
+            for patch in self.conan_data["patches"][self.version]:
+                tools.patch(**patch)
 
     def _configure_cmake(self):
         if self._cmake:

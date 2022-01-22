@@ -1,0 +1,119 @@
+--- dev/restinio/buffers.hpp
++++ dev/restinio/buffers.hpp
+@@ -376,23 +376,23 @@
+ 
+ // Constant for suitable alignment of any entity in writable_base_t hierarchy.
+ constexpr std::size_t buffer_storage_align =
+-	std::max< std::size_t >( {
++	std::max< std::size_t >(std::max< std::size_t >(std::max< std::size_t >(std::max< std::size_t >(std::max< std::size_t >(
+ 		alignof( empty_buf_t ),
+-		alignof( const_buf_t ),
+-		alignof( string_buf_t ),
+-		alignof( shared_datasizeable_buf_t< std::string > ),
+-		alignof( sendfile_write_operation_t ),
+-		alignof( fmt_minimal_memory_buffer_buf_t ) } );
++		alignof( const_buf_t )),
++		alignof( string_buf_t )),
++		alignof( shared_datasizeable_buf_t< std::string > )),
++		alignof( sendfile_write_operation_t )),
++		alignof( fmt_minimal_memory_buffer_buf_t ));
+ 
+ //! An of memory that is to be enough to hold any possible buffer entity.
+ constexpr std::size_t needed_storage_max_size =
+-	std::max< std::size_t >( {
++	std::max< std::size_t >(std::max< std::size_t >(std::max< std::size_t >(std::max< std::size_t >(std::max< std::size_t >(
+ 		sizeof( empty_buf_t ),
+-		sizeof( const_buf_t ),
+-		sizeof( string_buf_t ),
+-		sizeof( shared_datasizeable_buf_t< std::string > ),
+-		sizeof( sendfile_write_operation_t ),
+-		sizeof( fmt_minimal_memory_buffer_buf_t ) } );
++		sizeof( const_buf_t )),
++		sizeof( string_buf_t )),
++		sizeof( shared_datasizeable_buf_t< std::string > )),
++		sizeof( sendfile_write_operation_t )),
++		sizeof( fmt_minimal_memory_buffer_buf_t ));
+ 
+ } /* namespace impl */
+ 
+--- dev/restinio/http_headers.hpp
++++ dev/restinio/http_headers.hpp
+@@ -1760,11 +1760,11 @@
+ 		{}
+ 
+ 	constexpr http_method_id_t( const http_method_id_t & ) noexcept = default;
+-	constexpr http_method_id_t &
++	http_method_id_t &
+ 	operator=( const http_method_id_t & ) noexcept = default;
+ 
+ 	constexpr http_method_id_t( http_method_id_t && ) noexcept = default;
+-	constexpr http_method_id_t &
++	http_method_id_t &
+ 	operator=( http_method_id_t && ) noexcept = default;
+ 
+ 	constexpr auto
+@@ -1831,7 +1831,7 @@
+ class default_http_methods_t
+ {
+ public :
+-	inline static constexpr http_method_id_t
++	inline static http_method_id_t
+ 	from_nodejs( int value ) noexcept 
+ 	{
+ 		http_method_id_t result;
+--- dev/restinio/sendfile.hpp
++++ dev/restinio/sendfile.hpp
+@@ -69,7 +69,7 @@
+ 			- If chunk_size_value is greater than sendfile_max_chunk_size returns sendfile_max_chunk_size.
+ 			- Otherwise returns chunk_size_value itself.
+ 		*/
+-		static constexpr file_size_t
++		static file_size_t
+ 		clarify_chunk_size( file_size_t chunk_size_value ) noexcept
+ 		{
+ 			if( 0 == chunk_size_value )
+@@ -83,7 +83,7 @@
+ 
+ 	public:
+ 
+-		constexpr sendfile_chunk_size_guarded_value_t( file_size_t chunk_size_value ) noexcept
++		sendfile_chunk_size_guarded_value_t( file_size_t chunk_size_value ) noexcept
+ 			:	m_chunk_size{ clarify_chunk_size( chunk_size_value ) }
+ 		{}
+ 
+--- dev/restinio/impl/header_helpers.hpp
++++ dev/restinio/impl/header_helpers.hpp
+@@ -12,6 +12,7 @@
+ #include <numeric>
+ 
+ #include <restinio/buffers.hpp>
++#include <restinio/http_headers.hpp>
+ 
+ namespace restinio
+ {
+@@ -140,7 +141,7 @@
+ 	}
+ 
+ 	constexpr const char header_field_sep[] = ": ";
+-	h.for_each_field( [&result, header_field_sep, header_rn](const auto & f) {
++	h.for_each_field( [&result, &header_field_sep, &header_rn](const auto & f) {
+ 		result += f.name();
+ 		result.append( header_field_sep, ct_string_len( header_field_sep ) );
+ 		result += f.value();
+--- dev/restinio/router/method_matcher.hpp
++++ dev/restinio/router/method_matcher.hpp
+@@ -229,11 +229,11 @@
+ 
+ 	//! Alignment to be used by the internal buffer.
+ 	static constexpr std::size_t alignment =
+-			std::max( {
++			std::max(std::max(
+ 					alignof(simple_matcher_t),
+-					alignof(fixed_size_any_of_matcher_t<4>),
++					alignof(fixed_size_any_of_matcher_t<4>)),
+ 					alignof(allocated_matcher_proxy_t<
+-							fixed_size_any_of_matcher_t<20>>) } );
++							fixed_size_any_of_matcher_t<20>>));
+ 
+ 	//! A type of free function to be used to move a value of
+ 	//! an object to the specified buffer.
