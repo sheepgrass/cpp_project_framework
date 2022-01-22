@@ -28,7 +28,7 @@ ifdef PACK_FORMAT
 CPACK_ARG += -G $(PACK_FORMAT)
 endif
 
-.PHONY: all venv_create venv_delete venv_activate venv_deactivate pip_install_conan conan_install cmake_project build clean clean_and_build cmake_open package delete echo
+.PHONY: all venv_create venv_delete venv_activate venv_deactivate pip_install_conan conan_install cmake_project build clean clean_and_build cmake_open package delete project_name project_version recipe_create echo
 
 all: conan_install cmake_project build
 
@@ -73,6 +73,17 @@ package: build
 
 delete:
 	rm -rf $(BUILD_TYPE)
+
+project_name:
+	@cat $(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_NAME:STATIC=" | cut -d'=' -f2
+
+project_version:
+	@cat $(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_VERSION:STATIC=" | cut -d'=' -f2
+
+recipe_create:
+	source .venv/bin/activate && \
+	mkdir -p package && cd package && \
+	conan new `cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_NAME:STATIC=" | cut -d'=' -f2`/`cat ../$(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_VERSION:STATIC=" | cut -d'=' -f2` -t
 
 echo:
 	@echo $(BUILD_TYPE)
