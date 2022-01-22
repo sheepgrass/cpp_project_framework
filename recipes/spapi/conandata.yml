@@ -1,0 +1,11 @@
+sources:
+  8.75.4:
+    linux:
+      sha256: d43f5621ea3bf288e4787c727fd1be4de87261a35413332b1896941cebba6190
+      url: http://spsystem.info/download/API/R8754/SPAPIDLL_R8.75.4_LINUX.zip
+    win32:
+      sha256: eb13b98adb5f9644b88f6004d1adcbe64fc35df4dfc882cbcfc624b554e1558a
+      url: http://spsystem.info/download/API/R8754/SPAPIDLL_R8.75.4_WIN32.zip
+    win64:
+      sha256: 330622dadcbff843b1f79c4de4e695178366dc59fabae903780988b35cb33b6c
+      url: http://spsystem.info/download/API/R8754/SPAPIDLL_R8.75.4_WIN64.zip
