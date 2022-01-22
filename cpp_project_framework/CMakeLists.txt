@@ -52,6 +52,9 @@ if(NOT DEFINED CMAKE_DEBUG_POSTFIX)
     set(CMAKE_DEBUG_POSTFIX _d)
 endif()
 
+# add gcov compiler flags
+cpf_add_gcov_compiler_flags()
+
 # add binary target
 cpf_add_binary_target()
 

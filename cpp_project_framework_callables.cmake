@@ -208,6 +208,36 @@ macro(cpf_install)
     endif()
 endmacro()
 
+# add gcov compiler flags
+macro(cpf_add_gcov_compiler_flags)
+    if(UNIX)
+        set(GCOV_COMPILER_FLAGS "--coverage")
+        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${GCOV_COMPILER_FLAGS}")
+        set(CMAKE_CXX_OUTPUT_EXTENSION_REPLACE ON)
+    endif()
+endmacro()
+
+# add unit test gcov target
+macro(cpf_add_unit_test_gcov_target)
+    if(GCOV_COMPILER_FLAGS)
+        set(GCOV_OBJECT_DIR ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${UNIT_TEST_EXE}.dir)
+        set(GCOV_TARGET ${UNIT_TEST_EXE}.gcov)
+        message("        GCOV_OBJECT_DIR=${GCOV_OBJECT_DIR}")
+        message("        GCOV_TARGET=${GCOV_TARGET}")
+        add_custom_target(${GCOV_TARGET}
+            COMMAND mkdir -p ${GCOV_TARGET}
+            COMMAND ${CMAKE_MAKE_PROGRAM} test
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            )
+        add_custom_command(TARGET ${GCOV_TARGET}
+            COMMAND echo "=================== GCOV ===================="
+            COMMAND gcov -b ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp -o ${GCOV_OBJECT_DIR}
+            COMMAND echo "-- Coverage files have been output to ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}
+            )
+    endif()
+endmacro()
+
 # build and execute unit test (make test)
 macro(cpf_add_unit_tests LINK_TYPES)
     enable_testing()
@@ -245,6 +275,7 @@ macro(cpf_add_unit_tests LINK_TYPES)
                 target_link_libraries(${UNIT_TEST_EXE} ${LINK_TYPE}_lib)
                 conan_target_link_libraries(${UNIT_TEST_EXE})
                 add_test(NAME ${UNIT_TEST_EXE} COMMAND ${UNIT_TEST_EXE})
+                cpf_add_unit_test_gcov_target()
             endif()
         endforeach()
         if(NOT UNIT_TEST_EXE)
@@ -253,6 +284,7 @@ macro(cpf_add_unit_tests LINK_TYPES)
             add_executable(${UNIT_TEST_EXE} ${TEST_SRC_FILES})
             conan_target_link_libraries(${UNIT_TEST_EXE})
             add_test(NAME ${UNIT_TEST_EXE} COMMAND ${UNIT_TEST_EXE})
+            cpf_add_unit_test_gcov_target()
         endif()
     endforeach()
 endmacro()
