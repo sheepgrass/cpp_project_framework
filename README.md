@@ -49,6 +49,8 @@ Visual Studio Code Extensions:
     Remote - SSH >= 0.55.0
     Remote Development >= 0.20.0
     GitLens >= 10.2.2
+    Doxygen Documentation Generator >= 1.1.0
+    C++ TestMate >= 3.6.23
 ```
 
 ## Recommended C++ Development Environment
