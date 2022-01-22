@@ -197,6 +197,11 @@ conan create .
 conan remove %PROJECT_NAME%*
 @EXIT /B 0
 
+:conan_replace_cache
+@CALL :conan_remove_cache
+@CALL :conan_package
+@EXIT /B 0
+
 :conan_start_local
 @CALL :venv_activate
 conan_server
@@ -225,6 +230,11 @@ conan upload %PROJECT_NAME%/%PROJECT_VERSION% --all -r=local
 @CALL :venv_activate
 @CALL :project_name
 conan remove %PROJECT_NAME%* -r local
+@EXIT /B 0
+
+:conan_replace_local
+@CALL :conan_remove_local
+@CALL :conan_upload_local
 @EXIT /B 0
 
 :echo

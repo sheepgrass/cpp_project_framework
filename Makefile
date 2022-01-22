@@ -42,8 +42,8 @@ endif
 	pip_install_conan conan_list conan_install \
 	cmake_project build clean clean_and_build cmake_open package test coverage delete \
 	project_name project_version doxygen_bin_path doxygen_create_config doxygen doxygen_delete \
-	recipe_create conan_package_test conan_package conan_remove_cache \
-	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local \
+	recipe_create conan_package_test conan_package conan_remove_cache conan_replace_cache \
+	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local conan_replace_local \
 	echo
 
 all: conan_install cmake_project build
@@ -148,6 +148,8 @@ conan_remove_cache:
 	source .venv/bin/activate && \
 	conan remove "`make -s project_name`*"
 
+conan_replace_cache: conan_remove_cache conan_package
+
 conan_start_local:
 	source .venv/bin/activate && \
 	conan_server
@@ -167,6 +169,8 @@ conan_upload_local:
 conan_remove_local:
 	source .venv/bin/activate && \
 	conan remove "`make -s project_name`*" -r local
+
+conan_replace_cache: conan_remove_local conan_upload_local
 
 echo:
 	@echo BUILD_TYPE=$(BUILD_TYPE)
