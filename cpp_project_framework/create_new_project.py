@@ -118,12 +118,14 @@ def create_new_project():
             with open(os.path.join(parameters['project_directory'], template_file), 'w') as fout:
                 fout.write(Template(fin.read()).safe_substitute(parameters))
 
-    template_source_files = (
+    template_source_files = {
         'CMakeLists.txt',
         'Template.cpp',
         'Template.h',
         'Template.test.cpp',
-    )
+    }
+    if parameters['project_type'] == 'EXE':
+        template_source_files.add('main.cpp')
     for template_source_file in template_source_files:
         with open(os.path.join(base_directory, template_folder, template_folder, template_source_file), 'r') as fin:
             with open(os.path.join(parameters['source_directory'], template_source_file.replace('Template', parameters['project_camel_name'])), 'w') as fout:

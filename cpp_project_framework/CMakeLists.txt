@@ -20,7 +20,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # specify extra include directories
 set(EXTRA_INCLUDE_PATHS )
 if(EXTRA_INCLUDE_PATHS)
-    include_directories(${EXTRA_INCLUDE_PATHs})
+    include_directories(${EXTRA_INCLUDE_PATHS})
 endif()
 
 # specify extra library directories
@@ -46,6 +46,11 @@ cpf_find_all_header_files()
 
 # specify the source files
 set(SRC_FILES cpp_project_framework.cpp ${HEADER_FILES})
+
+# set the main source file containing the main function
+if(IS_EXE)
+    set(MAIN_SRC_FILE main.cpp)
+endif()
 
 # set postfix for output name of debug build type
 if(NOT DEFINED CMAKE_DEBUG_POSTFIX)
@@ -93,13 +98,23 @@ install(DIRECTORY ${CPF_SOURCE_DIR}/test_package/ DESTINATION res/test_package P
 include(CPack)
 
 # add unit tests
-cpf_add_unit_tests("")
-if(UNIX)
-    target_link_libraries(${UNIT_TEST_EXE} stdc++fs)
+if(IS_LIB)
+    cpf_add_unit_tests("static;shared")
+else()
+    cpf_add_unit_tests("")
 endif()
+foreach(UNIT_TEST_EXE ${UNIT_TEST_EXE_LIST})
+    if(UNIX)
+        target_link_libraries(${UNIT_TEST_EXE} stdc++fs)
+    endif()
+endforeach()
 
 # add doxygen target
 cpf_add_doxygen_target()
 
 # add benchmark tests
-cpf_add_benchmarks("")
+if(IS_LIB)
+    cpf_add_benchmarks("static;shared")
+else()
+    cpf_add_benchmarks("")
+endif()

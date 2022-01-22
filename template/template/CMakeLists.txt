@@ -17,6 +17,24 @@ cpf_set_project_type("${project_type}")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# specify extra include directories
+set(EXTRA_INCLUDE_PATHS )
+if(EXTRA_INCLUDE_PATHS)
+    include_directories(${EXTRA_INCLUDE_PATHS})
+endif()
+
+# specify extra library directories
+set(EXTRA_LIB_PATHS )
+if(EXTRA_LIB_PATHS)
+    link_directories(${EXTRA_LIB_PATHS})
+endif()
+
+# add extra project directories
+set(SUB_PROJECT_PATH )
+if(SUB_PROJECT_PATH)
+    add_subdirectory(${SUB_PROJECT_PATH})
+endif()
+
 # inject conan information
 cpf_inject_conan_info()
 
@@ -25,11 +43,19 @@ set(HEADER_FILES
     ${project_camel_name}.h
 )
 
+# find all header files
+cpf_find_all_header_files()
+
 # specify the source files
 set(SRC_FILES
     ${project_camel_name}.cpp
     ${HEADER_FILES}
 )
+
+# set the main source file containing the main function
+if(IS_EXE)
+    set(MAIN_SRC_FILE main.cpp)
+endif()
 
 # set postfix for output name of debug build type
 if(NOT DEFINED CMAKE_DEBUG_POSTFIX)
@@ -39,8 +65,25 @@ endif()
 # add gcov compiler flags
 cpf_add_gcov_compiler_flags()
 
+# suppress specific msvc compiler warnings
+cpf_suppress_msvc_compiler_warnings("")
+
+# suppress specific msvc linker warnings
+cpf_suppress_msvc_linker_warnings("")
+
 # add binary target
 cpf_add_binary_target()
+
+# specify depending library files
+set(USER_STATIC_MODULES )
+set(USER_DYNAMIC_MODULES )
+set(BOOST_STATIC_MODULES )
+set(BOOST_DYNAMIC_MODULES )
+
+string(REGEX REPLACE  "([^;]+)" "\\1.a" USER_STATIC_LIBS "${USER_STATIC_MODULES}")
+string(REGEX REPLACE  "([^;]+)" "\\1.so" USER_DYNAMIC_LIBS "${USER_DYNAMIC_MODULES}")
+string(REGEX REPLACE "([^;]+)" "boost_\\1.a" BOOST_STATIC_LIBS "${BOOST_STATIC_MODULES}")
+string(REGEX REPLACE "([^;]+)" "boost_\\1.so" BOOST_DYNAMIC_LIBS "${BOOST_DYNAMIC_MODULES}")
 
 # link target with depending library files
 cpf_binary_target_link_libraries()
