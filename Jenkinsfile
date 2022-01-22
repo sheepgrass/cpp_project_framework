@@ -5,6 +5,7 @@ pipeline {
       steps {
         sh '''make venv_create
 `make --no-print-directory venv_activate`
+python -m pip install --upgrade pip
 make cmake_project
 make build'''
       }
