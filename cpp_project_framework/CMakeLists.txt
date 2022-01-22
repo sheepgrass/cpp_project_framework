@@ -88,6 +88,9 @@ include(CPack)
 
 # add unit tests
 cpf_add_unit_tests("")
+if(UNIX)
+    target_link_libraries(${UNIT_TEST_EXE} stdc++fs)
+endif()
 
 # add doxygen target
 cpf_add_doxygen_target()
