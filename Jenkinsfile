@@ -29,7 +29,4 @@ make test'''
     }
 
   }
-  environment {
-    BUILD_TYPE = "${params.BUILD_TYPE}"
-  }
 }
