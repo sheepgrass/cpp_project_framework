@@ -11,7 +11,7 @@ set(CPF_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 include(${CPF_SOURCE_DIR}/cpp_project_framework_callables.cmake)
 
 # set the project type
-cpf_set_project_type("LIB")
+cpf_set_project_type("${project_type}")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 14)
@@ -55,10 +55,18 @@ cpf_install()
 include(CPack)
 
 # add unit tests
-cpf_add_unit_tests("static;shared")
+if(IS_LIB)
+    cpf_add_unit_tests("static;shared")
+else()
+    cpf_add_unit_tests("")
+endif()
 
 # add doxygen target
 cpf_add_doxygen_target()
 
 # add benchmark tests
-cpf_add_benchmarks("static;shared")
+if(IS_LIB)
+    cpf_add_benchmarks("static;shared")
+else()
+    cpf_add_benchmarks("")
+endif()

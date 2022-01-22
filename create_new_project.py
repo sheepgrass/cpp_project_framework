@@ -12,28 +12,46 @@ def snake_to_camel_case(snake_case):
 def snake_to_title_case(snake_case):
     return ' '.join(x.capitalize() for x in snake_case.split('_'))
 
-parameters = {
-    'project_name': input('Project Name (will be auto converted to snake case): '),
-    'project_version': input('Project Version (default to 1.0 if ignored): '),
-    'project_author': input('Project Author: '),
-    'project_title': input('Project Title (space separated title case of Project Name if ignored): '),
-    'project_description': input('Project Description (same as Project Title if ignored): '),
-    'parent_directory': input('Parent Directory (default to ".mod" folder under current directory if ignored): '),
-}
+parameters = {}
 
-if not parameters['project_name']:
-    print(f'ERROR: exit as "Project Name" not set', file=sys.stderr)
-    exit()
-parameters['project_name'] = to_snake_case(parameters['project_name'])
+def get_project_name():
+    parameters['project_name'] = to_snake_case(input('Project Name (will be auto converted to snake case): '))
+    return not parameters['project_name']
+while get_project_name():
+    print(f'ERROR: "Project Name" not set', file=sys.stderr)
 parameters['project_camel_name'] = snake_to_camel_case(parameters['project_name'])
+
+supported_project_types = ('LIB', 'EXE', 'HEADER_ONLY')
+default_project_type = 'LIB'
+def get_project_type():
+    parameters['project_type'] = to_snake_case(input(f'Project Type ({supported_project_types}) (default to {default_project_type} if ignored): ')).upper()
+    if not parameters['project_type']:
+        parameters['project_type'] = default_project_type
+    return parameters['project_type'] not in supported_project_types
+while get_project_type():
+    print(f'ERROR: "Project Type" ({parameters["project_type"]}) not in supported project types ({supported_project_types})', file=sys.stderr)
+
+default_project_version = '1.0'
+parameters['project_version'] = input(f'Project Version (default to {default_project_version} if ignored): ')
 if not parameters['project_version']:
-    parameters['project_version'] = '1.0'
+    parameters['project_version'] = default_project_version
+
+parameters['project_author'] = input('Project Author: ')
+
+default_project_title = snake_to_title_case(parameters['project_name'])
+parameters['project_title'] = input(f'Project Title (space separated title case of Project Name ({default_project_title}) if ignored): ')
 if not parameters['project_title']:
-    parameters['project_title'] = snake_to_title_case(parameters['project_name'])
+    parameters['project_title'] = default_project_title
+
+default_project_description = parameters['project_title']
+parameters['project_description'] = input(f'Project Description (same as Project Title ({default_project_description}) if ignored): ')
 if not parameters['project_description']:
-    parameters['project_description'] = parameters['project_title']
+    parameters['project_description'] = default_project_description
+
+default_parent_directory = os.path.join(os.curdir, '.mod')
+parameters['parent_directory'] = input(f'Parent Directory (default to ".mod" folder under current directory ({default_parent_directory}) if ignored): ')
 if not parameters['parent_directory']:
-    parameters['parent_directory'] = os.path.join(os.curdir, '.mod')
+    parameters['parent_directory'] = default_parent_directory
 
 def create_directories(directory_key):
     try:
