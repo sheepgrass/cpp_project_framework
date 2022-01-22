@@ -88,3 +88,6 @@ include(CPack)
 
 # add unit tests
 cpf_add_unit_tests("")
+
+# add doxygen target
+cpf_add_doxygen_target()

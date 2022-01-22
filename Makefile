@@ -3,6 +3,7 @@ ifndef BUILD_TYPE
     debug release minsizerel relwithdebinfo \
     venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list \
+	doxygen_delete \
 	conan_start_local conan_add_local \
     echo
   ifeq ($(filter $(MAKECMDGOALS),$(NO_BUILD_TYPE_TARGETS)),)
