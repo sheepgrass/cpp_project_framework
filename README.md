@@ -1571,3 +1571,30 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
 }
 ```
 
+## Dynamic Stage Name Support in Jenkins
+
+Stage name must be a string literal - Solution:
+<https://issues.jenkins.io/browse/JENKINS-43820?focusedCommentId=397048&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-397048>
+
+```groovy
+pipeline {
+  agent any
+  stages {
+    stage('Init') {
+      steps {
+        script {
+          env.BUILD_TYPE = input message: 'Set parameters:', parameters: [choice(name: 'BUILD_TYPE', choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type')]
+          parallel (
+            "${env.BUILD_TYPE}": {
+              stage('Build Type') {
+                echo "Build Type: ${env.BUILD_TYPE}"
+              }
+            }
+          )
+        }
+      }
+    }
+  }
+}
+```
+

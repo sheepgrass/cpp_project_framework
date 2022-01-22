@@ -5,8 +5,14 @@ pipeline {
       steps {
 	script {
 	  env.BUILD_TYPE = input message: 'Set parameters:', parameters: [choice(name: 'BUILD_TYPE', choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type')]
+          parallel (
+            "${env.BUILD_TYPE}": {
+              stage('Build Type') {
+                echo "Build Type: ${env.BUILD_TYPE}"
+              }
+            }
+          )
 	}
-        echo "Build Type: ${env.BUILD_TYPE}"
       }
     }
     stage('Build') {
