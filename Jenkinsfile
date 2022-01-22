@@ -11,6 +11,13 @@ make build'''
       }
     }
 
+    stage('Test') {
+      steps {
+        sh '''`make --no-print-directory venv_activate`
+make test'''
+      }
+    }
+
   }
   environment {
     BUILD_TYPE = 'Debug'
