@@ -218,10 +218,14 @@ A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny
 
 <https://github.com/microsoft/vscode-cmake-tools/issues/151>
 
-File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directory
+File > Preferences > Settings > Extensions > CMake Tools > Cmake: Build Directory
+
+.vscode/settings.json
 
 ```json
-"cmake.buildDirectory": "${workspaceFolder}/${buildType}"
+{
+    "cmake.buildDirectory": "${workspaceFolder}/${buildType}"
+}
 ```
 
 ## Visual Studio Code C++ Include Path Setting
@@ -242,17 +246,29 @@ File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directo
 }
 ```
 
-## C++ TestMate Visual Studio Code Extension for Test Explorer Setting
+## Manually Specify a Python Interpreter
+
+<https://code.visualstudio.com/docs/python/environments#_manually-specify-an-interpreter>
+
+File > Preferences > Settings > Extensions > Python > Python: Default Interpreter Path
 
 .vscode/settings.json
 
 ```json
 {
-    "testMate.cpp.test.advancedExecutables": [
-      {
-        "pattern": "{build,Build,BUILD,out,Out,OUT,Debug,Release}/**/*{test,Test,TEST}*"
-      }
-    ]
+    "python.defaultInterpreterPath": "./.venv/bin/python"
+}
+```
+
+## C++ TestMate Visual Studio Code Extension for Test Explorer Setting
+
+File > Preferences > Settings > Extensions > C++ TestMate > TestMate > Cpp > Tests: Executables
+
+.vscode/settings.json
+
+```json
+{
+    "testMate.cpp.test.executables": "{build,Build,BUILD,out,Out,OUT,Debug,Release}/**/*{test,Test,TEST}*"
 }
 ```
 
