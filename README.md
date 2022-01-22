@@ -1334,3 +1334,22 @@ How to print the ld(linker) search path:
 gcc -print-search-dirs | sed '/^lib/b 1;d;:1;s,/[^/.][^/]*/\.\./,/,;t 1;s,:[^=]*=,:;,;s,;,;  ,g' | tr \; \\012 | tr : \\012 | grep '^[[:space:]]*/' | sed 's/^[[:space:]]*//'
 ```
 
+## Bash Auto Completion of Makefile Targets
+
+bash completion of makefile target:
+<https://stackoverflow.com/questions/4188324/bash-completion-of-makefile-target>
+
+How to add bash auto completion in Ubuntu Linux:
+<https://www.cyberciti.biz/faq/add-bash-auto-completion-in-ubuntu-linux/>
+
+Add below line to `~/.bashrc` file to enable auto completion of Makefile targets using `bash-completion` Linux package:
+
+```bash
+complete -W "\`grep -oE '^[a-zA-Z0-9_.-]+:([^=]|$)' ?akefile | sed 's/[^a-zA-Z0-9_.-]*$//'\`" make
+```
+
+Source `~/.bashrc` file after making the change to make it take effect:
+
+```bash
+source ~/.bashrc
+```
