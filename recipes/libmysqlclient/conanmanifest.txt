@@ -6,3 +6,5 @@ export_source/patches/0001-find-cmake.patch: c4aaf35756d409854c53599631d17dda
 export_source/patches/0002-dont-install-static-libraries+fix-mysql-config.patch: a4916f82bf3c8b21097750879251a945
 export_source/patches/0003-msvc-install-no-pdb.patch: 6114f492e0b592045efe7442dbe76a04
 export_source/patches/0004-find-openssl-debug.patch: efce32dfce4e490005a7fa0602720560
+export_source/patches/0005-support-msvc-version-1900.patch: 42cbd8f7b0da12962ac7031c7d0be26a
+export_source/patches/0006-remove-initializers.patch: 18200a542282e62ebe7eebc25daa4977
