@@ -10,11 +10,21 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh '''make venv_create
+        script {
+          if (isUnix()) {
+            sh '''make venv_create
 `make --no-print-directory venv_activate`
 python -m pip install --upgrade pip
 make cmake_project
 make build'''
+          } else {
+            bat '''make venv_create
+make venv_activate
+python -m pip install --upgrade pip
+make cmake_project
+make build'''
+          }
+        }
       }
     }
     stage('Test') {
@@ -22,8 +32,15 @@ make build'''
         GTEST_OUTPUT = 'xml:../gtest/'
       }
       steps {
-        sh """`make --no-print-directory venv_activate`
+        script {
+          if (isUnix()) {
+            sh """`make --no-print-directory venv_activate`
 cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+          } else {
+            bat """make venv_activate
+cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+          }
+        }
       }
     }
   }
