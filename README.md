@@ -234,6 +234,20 @@ File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directo
 }
 ```
 
+## C++ TestMate Visual Studio Code Extension for Test Explorer Setting
+
+.vscode/settings.json
+
+```json
+{
+    "testMate.cpp.test.advancedExecutables": [
+      {
+        "pattern": "{build,Build,BUILD,out,Out,OUT,Debug,Release}/**/*{test,Test,TEST}*"
+      }
+    ]
+}
+```
+
 ## Create Python Virtual Environment under Current Project
 
 ```bash
