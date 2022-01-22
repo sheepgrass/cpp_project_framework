@@ -410,6 +410,71 @@ conan create . 1.3.3@sheepgrass/modified
 conan upload g3log/1.3.3@sheepgrass/modified --all -r=local
 ```
 
+### Create Patch File in Unified Diff Format for Existing Package using WinMerge
+
+<https://docs.conan.io/en/latest/reference/tools.html#tools-patch>
+
+1. Set original source file as 1st file
+
+2. Set modified source file as 2nd file
+
+3. Compare them
+
+4. In menu, select "Tools > Generate Patch..."
+
+5. Set "Result" to target patch file path and name with extension *.patch
+
+6. Set "Format > Style:" to "Unified"
+
+7. Set "Format > Context:" to "3"
+
+8. Set "Whitespaces" to "Compare"
+
+9. Uncheck "Ignore blank lines"
+
+10. Check "Case sensitive"
+
+11. Check "Ignore carriage return differences (Windows/Unix/Mac)"
+
+12. Click "OK" to generate patch file
+
+13. Modify patch file to make diff path relative to "source_subfolder"
+
+14. Add patch file to conandata.yml:
+
+    ```yaml
+    patches:
+    [version]:
+    - base_path: source_subfolder
+        patch_file: patches/?.patch
+    ```
+
+15. Calculate MD5 checksum for the patch file:
+
+    ```cmd
+    certutil -hashfile ?.patch md5
+    ```
+
+16. Add patch file to conanmanifest.txt:
+
+    ```txt
+    export_source/patches/?.patch: [md5]
+    ```
+
+17. Add patch files to export sources of conan recipe file conanfile.py:
+
+    ```python
+    exports_sources = ["CMakeLists.txt", "patches/*"]
+    ```
+
+18. Add patch snippet to conan recipe file conanfile.py:
+
+    ```python
+    if "patches" in self.conan_data and self.version in self.conan_data["patches"]:
+        for patch in self.conan_data["patches"][self.version]:
+            tools.patch(**patch)
+    ```
+
 ## Get List of Conan Repository Servers (Remotes) in Use
 
 <https://docs.conan.io/en/latest/uploading_packages/uploading_to_remotes.html>
