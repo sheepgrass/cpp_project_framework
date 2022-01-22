@@ -107,6 +107,7 @@ macro(cpf_install_cpp_project_framework_files)
     if(CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK)
         file(INSTALL
             ${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}/cpp_project_framework_callables.cmake
+            ${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}/cpp_project_framework.cmake
             ${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}/make.bat
             ${CONAN_RES_DIRS_CPP_PROJECT_FRAMEWORK}/Makefile
             DESTINATION ${CMAKE_SOURCE_DIR}
@@ -283,6 +284,7 @@ macro(cpf_add_unit_tests LINK_TYPES)
                         add_dependencies(${UNIT_TEST_EXE} static_lib)
                     endif()
                 endif()
+                target_include_directories(${UNIT_TEST_EXE} PRIVATE "${CMAKE_SOURCE_DIR}")
                 target_link_libraries(${UNIT_TEST_EXE} ${LINK_TYPE}_lib)
                 conan_target_link_libraries(${UNIT_TEST_EXE})
                 add_test(NAME ${UNIT_TEST_EXE} COMMAND ${UNIT_TEST_EXE})
@@ -293,6 +295,7 @@ macro(cpf_add_unit_tests LINK_TYPES)
             set(UNIT_TEST_EXE ${TEST_UNIT}.test)
             message("        UNIT_TEST_EXE=${UNIT_TEST_EXE}")
             add_executable(${UNIT_TEST_EXE} ${TEST_SRC_FILES})
+            target_include_directories(${UNIT_TEST_EXE} PRIVATE "${CMAKE_SOURCE_DIR}")
             conan_target_link_libraries(${UNIT_TEST_EXE})
             add_test(NAME ${UNIT_TEST_EXE} COMMAND ${UNIT_TEST_EXE})
             list(APPEND UNIT_TEST_EXE_LIST ${UNIT_TEST_EXE})
