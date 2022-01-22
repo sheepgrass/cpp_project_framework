@@ -51,6 +51,7 @@ Visual Studio Code Extensions:
     GitLens >= 10.2.2
     Doxygen Documentation Generator >= 1.1.0
     C++ TestMate >= 3.6.23
+    Five Server (Live Server) >= 0.0.34
 ```
 
 ## Recommended C++ Development Environment
@@ -918,6 +919,20 @@ doxygen -g
 # Generate Source Code Documentation
 doxygen
 ```
+
+## View Test Coverage Report or Doxygen Documentation by Five Server Visual Studio Code Extension
+
+<https://marketplace.visualstudio.com/items?itemName=yandeu.five-server>
+
+```
+Right-Click a File in the Explorer > Open with Five Server
+```
+
+Example Test Coverage Report Path:
+`Debug/cpp_project_framework/coverage/CoverageReport-2020-01-01-01h01m01s/CoverageReport.html`
+
+Example Doxygen Documentation Path:
+`doxygen/html/index.html`
 
 ## Preferred Doxygen Documentation Rules
 
