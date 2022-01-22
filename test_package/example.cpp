@@ -1,6 +1,8 @@
+#include "gtest/gtest.h"
 #include "cpp_project_framework.h"
 
-int main()
+
+TEST(TestSuiteName, TestName)
 {
-    return 0;
+    EXPECT_TRUE(true);
 }
