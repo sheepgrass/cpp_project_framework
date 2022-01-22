@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "~/.conan/data/**"
+            ]
+        },
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "~/.conan/data/**"
+            ]
+        },
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "~/.conan/data/**",
+                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
+            ]
+        }
+    ],
+    "version": 4
+}

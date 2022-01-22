@@ -1,0 +1,4 @@
+{
+    "cmake.buildDirectory": "${workspaceFolder}/${buildType}",
+    "testMate.cpp.test.executables": "{build,Build,BUILD,out,Out,OUT,Debug,Release}/**/*{test,Test,TEST}"
+}

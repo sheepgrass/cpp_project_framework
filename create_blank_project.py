@@ -51,6 +51,9 @@ test_package_folder = 'test_package'
 parameters['test_package_directory'] = os.path.join(parameters["project_directory"], test_package_folder)
 create_directories('test_package_directory')
 
+parameters['vscode_directory'] = os.path.join(parameters["project_directory"], '.vscode')
+create_directories('vscode_directory')
+
 base_files = (
     '.clang-format',
     '.gitignore',
@@ -94,3 +97,10 @@ for template_source_file in template_source_files:
     with open(os.path.join(template_folder, template_folder, template_source_file), 'r') as fin:
         with open(os.path.join(parameters['source_directory'], template_source_file.replace('Template', parameters['project_camel_name'])), 'w') as fout:
             fout.write(Template(fin.read()).safe_substitute(parameters))
+
+vscode_files = (
+    'c_cpp_properties.json',
+    'settings.json',
+)
+for vscode_file in vscode_files:
+    shutil.copy2(os.path.join(template_folder, 'vscode', vscode_file), parameters['vscode_directory'], follow_symlinks=True)
