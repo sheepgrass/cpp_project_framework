@@ -732,10 +732,6 @@ Macros should not be used. However, if they are absolutely needed, then they sho
 
 The names of enumerator members are all lowercase, with underscores between words, i.e. snake case => snake_case
 
-#### C++ Indentation
-
-Use 4 spaces at a time for indentation. Do not use tabs in code. You should set your editor to emit spaces when you hit the tab key.
-
 #### C++ Main File Name (file containing the main() entry function)
 
 Main file name must have the same name as the final program binary name which should be all lowercase, with underscores between words, i.e. snake case => snake_case
@@ -743,3 +739,9 @@ Main file name must have the same name as the final program binary name which sh
 #### C++ Class File Names (file containing a single class declaration and/or definition)
 
 Class file names must have the same name as the single class name it contains which should start with a capital letter and have a capital letter for each new word, with no underscores, i.e. camel case => CamelCase
+
+### C++ Code Formatting Styles
+
+#### C++ Indentation
+
+Use 4 spaces at a time for indentation. Do not use tabs in code. You should set your editor to emit spaces when you hit the tab key.
