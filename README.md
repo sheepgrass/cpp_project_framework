@@ -17,6 +17,30 @@ C++ Project Framework is a framework for creating C++ project.
     └── tests/  // functional/integration tests
         └── ...
 
+## Recommended C++ Development Environment
+
+    https://www.reddit.com/r/cpp/comments/af74l1/recommendations_for_setting_up_a_modern_c_dev/
+
+    build system generator: CMake
+    build system: Ninja
+    compiler: clang++ (cross-platform), MSBuild/MSVC (Windows), g++ (Linux)
+    Integrated Development Environment (IDE): Visual Studio Code, Qt Creator
+    static code analyzers: clang-tidy, Cppcheck, Clazy
+    source code formatter: clang-format
+    source code documentation generator: Doxygen
+    software distribution packaging system: CPack
+    C++ libraries:
+        general-purpose: C++ Standard Library
+        general-purpose: Boost C+ Libraries
+        string formatting: fmt
+        logging: spdlog
+        automated testing: Google Test / Google Mock
+        graphical user interface (GUI): Qt
+    package manager: Conan, vcpkg
+    continuous integration (CI): Jenkins, CDash
+    version control system (VCS): Git
+    code coverage: OpenCppCoverage (Windows), gcov + gcovr (Linux)
+
 ## Create Python Virtual Environment under Current Project
 
     # Linux
