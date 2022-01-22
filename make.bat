@@ -20,8 +20,6 @@ IF NOT "%PACK_FORMAT%"=="" SET CPACK_ARG=%CPACK_ARG% -G %PACK_FORMAT%
 SET TARGET=%1
 IF "%TARGET%"=="" SET TARGET=all
 
-SET ARGS=%*
-
 @ECHO ON
 @CALL :%TARGET%
 @ECHO OFF
@@ -127,9 +125,14 @@ RMDIR /S /Q %BUILD_TYPE%
 @EXIT /B 0
 @EXIT /B 0
 
+:doxygen_create_config
+@CALL :doxygen_bin_path
+%DOXYGEN_BIN_PATH%/doxygen -g
+@EXIT /B 0
+
 :doxygen
 @CALL :doxygen_bin_path
-%DOXYGEN_BIN_PATH%/%ARGS%
+%DOXYGEN_BIN_PATH%/doxygen
 @EXIT /B 0
 
 :doxygen_delete

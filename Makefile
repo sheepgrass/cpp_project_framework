@@ -32,7 +32,7 @@ endif
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
 	cmake_project build clean clean_and_build cmake_open package test coverage delete \
-	project_name project_version doxygen_bin_path doxygen doxygen_delete \
+	project_name project_version doxygen_bin_path doxygen_create_config doxygen doxygen_delete \
 	recipe_create conan_package_test conan_package conan_remove_cache \
 	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local echo
 
@@ -98,10 +98,13 @@ project_version:
 
 doxygen_bin_path:
 	@source .venv/bin/activate && \
-	@python -c "lines = [l.strip() for l in list(open('$(BUILD_TYPE)/conanbuildinfo.txt'))]; print(lines[lines.index('[bindirs_doxygen]') + 1])"
+	python -c "lines = [l.strip() for l in list(open('$(BUILD_TYPE)/conanbuildinfo.txt'))]; print(lines[lines.index('[bindirs_doxygen]') + 1])"
+
+doxygen_create_config:
+	`make -s doxygen_bin_path`/doxygen -g
 
 doxygen:
-	`make -s doxygen_bin_path`/$(MAKECMDGOALS)
+	`make -s doxygen_bin_path`/doxygen
 
 doxygen_delete:
 	rm -rf docs
