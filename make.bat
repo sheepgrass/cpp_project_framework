@@ -172,6 +172,12 @@ RMDIR /S /Q %BUILD_TYPE%
 RMDIR /S /Q docs
 @EXIT /B 0
 
+:benchmark_folder
+@CALL :venv_activate
+@CALL :project_name
+IF NOT EXIST tests\benchmarks\%PROJECT_NAME% MKDIR tests\benchmarks\%PROJECT_NAME%
+@EXIT /B 0
+
 :recipe_create
 @CALL :venv_activate
 @CALL :project_name

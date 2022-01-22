@@ -42,7 +42,7 @@ endif
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
 	cmake_project build clean clean_and_build cmake_open package test coverage delete \
-	project_name project_version doxygen_bin_path doxygen_create_config doxygen doxygen_delete \
+	project_name project_version doxygen_bin_path doxygen_create_config doxygen doxygen_delete benchmark_folder \
 	recipe_create conan_package_test conan_package conan_remove_cache conan_replace_cache \
 	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local conan_replace_local \
 	echo
@@ -131,6 +131,10 @@ doxygen:
 
 doxygen_delete:
 	rm -rf docs
+
+benchmark_folder:
+	source .venv/bin/activate && \
+	mkdir -p tests/benchmarks/`make -s project_name`
 
 recipe_create:
 	source .venv/bin/activate && \
