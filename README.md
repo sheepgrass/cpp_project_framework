@@ -1631,7 +1631,7 @@ pipeline {
             not {
               allOf {
                 expression { env.BUILD_TYPE_FILTER == 'All' }
-                expression { env.BUILD_TYPE == '' }
+                expression { env.BUILD_TYPE == 'Any' }
               }
             }
           }
@@ -1639,7 +1639,7 @@ pipeline {
         axes {
           axis {
             name 'BUILD_AGENT'
-            values '', 'Linux', 'Windows', 'Docker'
+            values 'Any', 'Linux', 'Windows', 'Docker'
           }
           axis {
             name 'BUILD_TYPE'
@@ -1647,6 +1647,22 @@ pipeline {
           }
         }
         stages {
+          stage('Check') {
+            options {
+              timeout(time: 5, unit: 'SECONDS')
+            }
+            agent {
+              node {
+                label env.BUILD_AGENT == 'Any' ? '' : env.BUILD_AGENT
+                customWorkspace "${env.JOB_NAME}/${env.BUILD_AGENT}/${env.BUILD_TYPE}"
+              }
+            }
+            steps {
+              echo "Build Agent: ${env.BUILD_AGENT}"
+              echo "Build Type: ${env.BUILD_TYPE}"
+              echo "Build Workspace: ${env.JOB_NAME}/${env.BUILD_AGENT}/${env.BUILD_TYPE}"
+            }
+          }
         }
       }
     }
