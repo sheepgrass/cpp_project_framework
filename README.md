@@ -86,3 +86,9 @@ C++ Project Framework is a framework for creating C++ project.
 
     mkdir package && cd package
     conan new {CMAKE_PROJECT_NAME}/{CMAKE_PROJECT_VERSION} -t
+
+## Create Conan Package
+
+    https://docs.conan.io/en/latest/creating_packages/getting_started.html
+
+    conan create . demo/testing

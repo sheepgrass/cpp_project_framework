@@ -55,7 +55,7 @@ conan
 
 :conan_install
 @CALL :venv_activate
-conan install . -b missing -s build_type=%BUILD_TYPE% -if %BUILD_TYPE%
+conan install conanfile.txt -b missing -s build_type=%BUILD_TYPE% -if %BUILD_TYPE%
 @EXIT /B 0
 
 :cmake_project
@@ -80,7 +80,9 @@ cmake --open %BUILD_TYPE%
 
 :package
 @CALL :build
-CD %BUILD_TYPE% && cpack -C %BUILD_TYPE% %CPACK_ARG%
+CD %BUILD_TYPE%
+cpack -C %BUILD_TYPE% %CPACK_ARG%
+CD ..
 @EXIT /B 0
 
 :delete
@@ -99,7 +101,7 @@ RMDIR /S /Q %BUILD_TYPE%
 @ECHO %PROJECT_VERSION%
 @EXIT /B 0
 
-:recipe_create:
+:recipe_create
 @CALL :venv_activate
 @CALL :project_name
 @CALL :project_version
@@ -107,6 +109,11 @@ IF NOT EXIST package MKDIR package
 CD package
 conan new %PROJECT_NAME%/%PROJECT_VERSION% -t
 CD ..
+@EXIT /B 0
+
+:conan_package
+@CALL :venv_activate
+conan create . demo/testing
 @EXIT /B 0
 
 :echo
