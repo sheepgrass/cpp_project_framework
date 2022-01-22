@@ -20,6 +20,8 @@ IF NOT "%PACK_FORMAT%"=="" SET CPACK_ARG=%CPACK_ARG% -G %PACK_FORMAT%
 SET TARGET=%1
 IF "%TARGET%"=="" SET TARGET=all
 
+SET ARGS=%*
+
 @ECHO ON
 @CALL :%TARGET%
 @ECHO OFF
@@ -116,6 +118,22 @@ RMDIR /S /Q %BUILD_TYPE%
 @FOR /F %%I IN ('TYPE %BUILD_TYPE%\CMakeCache.txt ^| FIND "CMAKE_PROJECT_VERSION:STATIC="') DO @SET PROJECT_VERSION=%%I
 @SET PROJECT_VERSION=%PROJECT_VERSION:~29%
 @ECHO %PROJECT_VERSION%
+@EXIT /B 0
+
+:doxygen_bin_path
+@CALL :venv_activate
+@FOR /F "usebackq" %%I IN (`python -c "lines = [l.strip() for l in list(open('%BUILD_TYPE%/conanbuildinfo.txt'))]; print(lines[lines.index('[bindirs_doxygen]') + 1])"`) DO @SET DOXYGEN_BIN_PATH=%%I
+@ECHO %DOXYGEN_BIN_PATH%
+@EXIT /B 0
+@EXIT /B 0
+
+:doxygen
+@CALL :doxygen_bin_path
+%DOXYGEN_BIN_PATH%/%ARGS%
+@EXIT /B 0
+
+:doxygen_delete
+RMDIR /S /Q docs
 @EXIT /B 0
 
 :recipe_create

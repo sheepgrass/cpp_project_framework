@@ -32,7 +32,8 @@ endif
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
 	cmake_project build clean clean_and_build cmake_open package test coverage delete \
-	project_name project_version recipe_create conan_package_test conan_package conan_remove_cache \
+	project_name project_version doxygen_bin_path doxygen doxygen_delete \
+	recipe_create conan_package_test conan_package conan_remove_cache \
 	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local echo
 
 all: conan_install cmake_project build
@@ -94,6 +95,16 @@ project_name:
 
 project_version:
 	@cat $(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_VERSION:STATIC=" | cut -d'=' -f2
+
+doxygen_bin_path:
+	@source .venv/bin/activate && \
+	@python -c "lines = [l.strip() for l in list(open('$(BUILD_TYPE)/conanbuildinfo.txt'))]; print(lines[lines.index('[bindirs_doxygen]') + 1])"
+
+doxygen:
+	`make -s doxygen_bin_path`/$(MAKECMDGOALS)
+
+doxygen_delete:
+	rm -rf docs
 
 recipe_create:
 	source .venv/bin/activate && \
