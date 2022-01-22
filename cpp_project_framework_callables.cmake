@@ -368,15 +368,20 @@ macro(cpf_add_unit_test_coverage_target)
             message("NATIVE_CURRENT_SOURCE_DIR=${NATIVE_CURRENT_SOURCE_DIR}")
             message("NATIVE_COVERAGE_TARGET_DIR=${NATIVE_COVERAGE_TARGET_DIR}")
             add_custom_target(${COVERAGE_TARGET} COMMAND MKDIR ${COVERAGE_TARGET} || (EXIT 0) WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+
+            set(UNIT_TEST_EXE_DIR "${CMAKE_CURRENT_BINARY_DIR}/${DETECTED_BUILD_TYPE}")
             foreach(UNIT_TEST_EXE ${UNIT_TEST_EXE_LIST})
-                set(UNIT_TEST_EXE_DIR "${CMAKE_CURRENT_BINARY_DIR}/${DETECTED_BUILD_TYPE}")
                 file(TO_NATIVE_PATH "${UNIT_TEST_EXE_DIR}" NATIVE_UNIT_TEST_EXE_DIR)
                 file(TO_NATIVE_PATH "${UNIT_TEST_EXE_DIR}/${UNIT_TEST_EXE}" NATIVE_UNIT_TEST_EXE_PATH)
                 message("UNIT_TEST_EXE=${UNIT_TEST_EXE}")
                 message("UNIT_TEST_EXE_DIR=${UNIT_TEST_EXE_DIR}")
                 message("NATIVE_UNIT_TEST_EXE_DIR=${NATIVE_UNIT_TEST_EXE_DIR}")
                 message("NATIVE_UNIT_TEST_EXE_PATH=${NATIVE_UNIT_TEST_EXE_PATH}")
-                add_custom_command(TARGET ${COVERAGE_TARGET} COMMAND "${OPEN_CPP_COVERAGE_PROGRAM}" --sources "${NATIVE_CURRENT_SOURCE_DIR}" -- "${NATIVE_UNIT_TEST_EXE_PATH}" --working_dir "${NATIVE_UNIT_TEST_EXE_DIR}" --export_type html:"${NATIVE_COVERAGE_TARGET_DIR}" WORKING_DIRECTORY ${COVERAGE_TARGET_DIR} VERBATIM)
+                add_custom_command(TARGET ${COVERAGE_TARGET}
+                    COMMAND "${OPEN_CPP_COVERAGE_PROGRAM}" --sources "${NATIVE_CURRENT_SOURCE_DIR}" -- "${NATIVE_UNIT_TEST_EXE_PATH}" --working_dir "${NATIVE_UNIT_TEST_EXE_DIR}" --export_type html:"${NATIVE_COVERAGE_TARGET_DIR}"
+                    COMMAND ECHO Coverage Results: ${NATIVE_COVERAGE_TARGET_DIR}\\LastCoverageResults.log
+                    WORKING_DIRECTORY ${COVERAGE_TARGET_DIR} VERBATIM)
+                add_custom_command(TARGET ${COVERAGE_TARGET} COMMAND CMD /c "FOR /F \"tokens=*\" %%I IN ('FINDSTR /C:\"Coverage generated in Folder\" \"${NATIVE_COVERAGE_TARGET_DIR}\\LastCoverageResults.log\"') DO @ECHO %%I\\index.html" WORKING_DIRECTORY ${COVERAGE_TARGET_DIR})
             endforeach()
         endif()
     endif()
