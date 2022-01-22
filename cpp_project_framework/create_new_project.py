@@ -56,8 +56,8 @@ def create_new_project():
     if not parameters['project_description']:
         parameters['project_description'] = default_project_description
 
-    default_parent_directory = os.path.join(os.curdir, '.mod')
-    parameters['parent_directory'] = input(f'Parent Directory (default to ".mod" folder under current directory ({default_parent_directory}) if ignored): ')
+    default_parent_directory = os.curdir
+    parameters['parent_directory'] = input(f'Parent Directory (default to current directory ({default_parent_directory}) if ignored): ')
     if not parameters['parent_directory']:
         parameters['parent_directory'] = default_parent_directory
 
