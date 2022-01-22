@@ -822,3 +822,15 @@ SkyPat
 [build_requires]
 benchmark/1.5.1
 ```
+
+## Use Git Submodules
+
+Git Tools - Submodules
+<https://www.git-scm.com/book/en/v2/Git-Tools-Submodules>
+
+git-submodule - Initialize, update or inspect submodules
+<https://git-scm.com/docs/git-submodule>
+
+```bash
+git submodule add <repository url> [<submodule name>]
+```
