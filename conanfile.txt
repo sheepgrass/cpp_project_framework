@@ -2,3 +2,6 @@
 
 [generators]
 cmake_multi
+
+[build_requires]
+gtest/1.10.0

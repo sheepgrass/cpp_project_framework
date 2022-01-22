@@ -2,6 +2,21 @@
 
 C++ Project Framework is a framework for creating C++ project.
 
+## Canonical Project Structure for C++
+
+    http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1204r0.html
+
+    <name>/
+    ├── <name>/
+    │   └── ...
+    ├── <module>/
+    │   └── <module>.h  // header file containing mainly module declarations
+    │   └── <module>.hpp    // header file containing module declarations and/or definitions
+    │   └── <module>.cpp    // source file containing module definitions
+    │   └── <module>.test.cpp   // source file containing module unit tests
+    └── tests/  // functional/integration tests
+        └── ...
+
 ## Create Python Virtual Environment under Current Project
 
     # Linux
@@ -23,6 +38,13 @@ C++ Project Framework is a framework for creating C++ project.
     source .venv/bin/activate
     pip install conan
     conan
+
+## Search for Repository (Package Recipes) in ConanCenter
+
+    https://conan.io/center
+
+    conan search --remote=conan-center g3log
+    conan inspect g3log/1.3.3
 
 ## Create Conan File
 

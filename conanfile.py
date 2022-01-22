@@ -15,6 +15,7 @@ class CppProjectFrameworkConan(ConanFile):
     default_options = {"shared": False}
     generators = "cmake"
     exports_sources = "conanfile.txt", "%s/*" % name
+    build_requires = "gtest/1.10.0"
 
     def build(self):
         cmake = CMake(self)
