@@ -31,7 +31,7 @@ endif
 .PHONY: all \
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
-	cmake_project build clean clean_and_build cmake_open package test delete \
+	cmake_project build clean clean_and_build cmake_open package test coverage delete \
 	project_name project_version recipe_create conan_package_test conan_package conan_remove_cache \
 	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local echo
 
@@ -82,6 +82,9 @@ package: build
 
 test: build
 	cd $(BUILD_TYPE) && ctest -C $(BUILD_TYPE)
+
+coverage: build
+	cmake --build $(BUILD_TYPE) --config $(BUILD_TYPE) --target coverage $(CMAKE_BUILD_ARG)
 
 delete:
 	rm -rf $(BUILD_TYPE)

@@ -97,6 +97,11 @@ ctest -C %BUILD_TYPE%
 CD ..
 @EXIT /B 0
 
+:coverage
+@CALL :build
+cmake --build %BUILD_TYPE% --config %BUILD_TYPE% --target coverage %CMAKE_BUILD_ARG%
+@EXIT /B 0
+
 :delete
 RMDIR /S /Q %BUILD_TYPE%
 @EXIT /B 0
