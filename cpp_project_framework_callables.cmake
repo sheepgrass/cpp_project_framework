@@ -266,6 +266,10 @@ macro(cpf_add_unit_tests LINK_TYPES)
 
     foreach(TEST_UNIT ${TEST_UNITS})
         set(TEST_SRC_FILES ${TEST_UNIT}.test.cpp)
+        if(IS_EXE)
+            list(APPEND TEST_SRC_FILES ${SRC_FILES})
+            list(REMOVE_ITEM TEST_SRC_FILES ${PROJECT_NAME}.cpp)
+        endif()
         message("    TEST_SRC_FILES=${TEST_SRC_FILES}")
 
         set(UNIT_TEST_EXE )
