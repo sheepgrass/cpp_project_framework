@@ -35,6 +35,10 @@ IF "%TARGET%"=="" SET TARGET=all
 %PYTHON_EXE% -m venv .venv
 @EXIT /B 0
 
+:venv_delete
+RMDIR /S /Q .venv
+@EXIT /B 0
+
 :venv_activate
 CALL .venv\Scripts\activate
 @EXIT /B 0

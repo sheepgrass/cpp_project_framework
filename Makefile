@@ -2,6 +2,8 @@ ifndef BUILD_TYPE
 $(error BUILD_TYPE not set)
 endif
 
+SHELL = bash
+
 ifndef PYTHON_EXE
 PYTHON_EXE = python3
 endif
@@ -26,12 +28,15 @@ ifdef PACK_FORMAT
 CPACK_ARG += -G $(PACK_FORMAT)
 endif
 
-.PHONY: all venv_create venv_activate venv_deactivate conan_install cmake_project build clean clean_and_build cmake_open package delete echo
+.PHONY: all venv_create venv_delete venv_activate venv_deactivate pip_install_conan conan_install cmake_project build clean clean_and_build cmake_open package delete echo
 
 all: conan_install cmake_project build
 
 venv_create:
 	$(PYTHON_EXE) -m venv .venv
+
+venv_delete:
+	rm -rf .venv
 
 venv_activate:
 	source .venv/bin/activate
@@ -39,11 +44,13 @@ venv_activate:
 venv_deactivate:
 	deactivate
 
-pip_install_conan: venv_activate
-	pip install -U conan
+pip_install_conan:
+	source .venv/bin/activate && \
+	pip install -U conan && \
 	conan
 
 conan_install:
+	source .venv/bin/activate && \
 	conan install . -b missing -s build_type=$(BUILD_TYPE) -if $(BUILD_TYPE)
 
 cmake_project:
@@ -65,7 +72,7 @@ package: build
 	cd $(BUILD_TYPE) && cpack -C $(BUILD_TYPE) $(CPACK_ARG)
 
 delete:
-	rm -rf %BUILD_TYPE%
+	rm -rf $(BUILD_TYPE)
 
 echo:
 	@echo $(BUILD_TYPE)
