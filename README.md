@@ -248,11 +248,18 @@ C++ Project Framework is a framework for creating C++ project.
     source .venv/bin/activate
     pip install -U gcovr
 
-    #Generate coverage report by gcovr (tabular report on console)
+    # Generate coverage report by gcovr (tabular report on console)
     gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR}
 
-    #Generate coverage report by gcovr (text file output)
+    # Generate coverage report by gcovr (text file output)
     gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR} -o gcov_report.txt
 
-    #Generate coverage report by gcovr (html file output)
+    # Generate coverage report by gcovr (html file output)
     gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR} --html-details gcov_report.html
+
+## Generate Unit Test Code Coverage Report by OpenCppCoverage for Windows
+
+    https://github.com/OpenCppCoverage/OpenCppCoverage
+
+    # Generate coverage report by OpenCppCoverage
+    OpenCppCoverage.exe --sources "${NATIVE_CURRENT_SOURCE_DIR}" -- "${NATIVE_UNIT_TEST_EXE_PATH}" --working_dir "${NATIVE_UNIT_TEST_EXE_DIR}" --export_type html:"${NATIVE_COVERAGE_TARGET_DIR}"
