@@ -13,6 +13,13 @@ def snake_to_title_case(snake_case):
     return ' '.join(x.capitalize() for x in snake_case.split('_'))
 
 def create_new_project():
+    base_directory = os.path.join(sys.prefix, 'cpp_project_framework')
+    if not os.path.isfile(os.path.join(base_directory, 'cpp_project_framework.cmake')):
+        base_directory = '.'
+    if not os.path.isfile(os.path.join(base_directory, 'cpp_project_framework.cmake')):
+        print(f'FATAL: template files not found', file=sys.stderr)
+        exit()
+
     parameters = {}
 
     def get_project_name():
@@ -77,8 +84,6 @@ def create_new_project():
 
     parameters['vscode_directory'] = os.path.join(parameters["project_directory"], '.vscode')
     create_directories('vscode_directory')
-
-    base_directory = os.path.join(sys.prefix, 'cpp_project_framework')
 
     base_files = (
         '.clang-format',
