@@ -203,8 +203,27 @@ A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny
 
 ## Visual Studio Code CMake Tools Settings
 
+File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directory
+
 ```json
 "cmake.buildDirectory": "${workspaceFolder}/${buildType}"
+```
+
+## Visual Studio Code C++ Include Path Setting
+
+.vscode/c_cpp_properties.json
+
+```json
+{
+    "configurations": [
+        {
+            "includePath": [
+                "${workspaceFolder}/**",
+                "~/.conan/data/**"
+            ]
+        }
+    ]
+}
 ```
 
 ## Create Python Virtual Environment under Current Project
