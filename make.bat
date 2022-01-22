@@ -133,7 +133,7 @@ conan create . demo/testing
 conan create .
 @EXIT /B 0
 
-:conan_remove
+:conan_remove_cache
 @CALL :venv_activate
 @CALL :project_name
 conan remove %PROJECT_NAME%*
@@ -161,6 +161,12 @@ conan upload %PROJECT_NAME%/%PROJECT_VERSION%@demo/testing --all -r=local
 @CALL :project_name
 @CALL :project_version
 conan upload %PROJECT_NAME%/%PROJECT_VERSION% --all -r=local
+@EXIT /B 0
+
+:conan_remove_local
+@CALL :venv_activate
+@CALL :project_name
+conan remove %PROJECT_NAME%* -r local
 @EXIT /B 0
 
 :echo
