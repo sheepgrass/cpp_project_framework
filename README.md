@@ -36,7 +36,7 @@ C++ Project Framework is a framework for creating C++ project.
     https://docs.conan.io/en/latest/installation.html
 
     source .venv/bin/activate
-    pip install conan
+    pip install -U conan
     conan
 
 ## Search for Repository (Package Recipes) in ConanCenter
@@ -211,3 +211,24 @@ C++ Project Framework is a framework for creating C++ project.
 
     lcov --capture --directory ${GCOV_OBJECT_DIR} --output-file coverage.info
     genhtml coverage.info --output-directory .
+
+## Generate Unit Test Code Coverage Report by gcovr
+
+    https://gcovr.com/en/stable/guide.html
+    https://github.com/gcovr/gcovr
+
+    # Compile and generate binary object files with debug info and coverage info without optimization
+    g++ --coverage -g -O0 -o main main_test.cpp -L /usr/lib -I/usr/include
+
+    # Install gcovr
+    source .venv/bin/activate
+    pip install -U gcovr
+
+    #Generate coverage report by gcovr (tabular report on console)
+    gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR}
+
+    #Generate coverage report by gcovr (text file output)
+    gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR} -o gcov_report.txt
+
+    #Generate coverage report by gcovr (html file output)
+    gcovr -r ${CMAKE_CURRENT_SOURCE_DIR} --object-directory ${CMAKE_CURRENT_BINARY_DIR} --html-details gcov_report.html
