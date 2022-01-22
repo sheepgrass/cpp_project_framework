@@ -21,13 +21,14 @@ else()
 endif()
 
 # install conan dependencies
+set(CONAN_INSTALL_CMD "conan install conanfile.txt -b missing -s build_type=${DETECTED_BUILD_TYPE} -if ${DETECTED_BUILD_FOLDER}")
 if(WIN32)
     set(VENV_ACTIVATE_CMD ".venv\\Scripts\\activate")
+    execute_process(COMMAND CMD /c "${VENV_ACTIVATE_CMD} && ${CONAN_INSTALL_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 else()
     set(VENV_ACTIVATE_CMD "source .venv/bin/activate")
+    execute_process(COMMAND bash -c "${VENV_ACTIVATE_CMD} && ${CONAN_INSTALL_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
-set(CONAN_INSTALL_CMD "conan install conanfile.txt -b missing -s build_type=${DETECTED_BUILD_TYPE} -if ${DETECTED_BUILD_FOLDER}")
-execute_process(COMMAND CMD /c "${VENV_ACTIVATE_CMD} && ${CONAN_INSTALL_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 # add extra project directories
 set(SUB_PROJECT_PATH ${CMAKE_PROJECT_NAME})
