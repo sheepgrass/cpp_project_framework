@@ -18,9 +18,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/.conan/data/**",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
-            ]
+                "~/.conan/data/**"
+            ],
+            "windowsSdkVersion": "10.0.10240.0"
         }
     ],
     "version": 4

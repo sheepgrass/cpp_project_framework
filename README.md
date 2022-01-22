@@ -234,9 +234,9 @@ File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directo
         {
             "includePath": [
                 "${workspaceFolder}/**",
-                "~/.conan/data/**",
-                "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
-            ]
+                "~/.conan/data/**"
+            ],
+            "windowsSdkVersion": "10.0.10240.0"
         }
     ]
 }
