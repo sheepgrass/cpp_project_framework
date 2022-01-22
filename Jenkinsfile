@@ -1,5 +1,8 @@
 pipeline {
-  agent any
+  options {
+    preserveStashes()
+  }
+  agent none
   stages {
     stage('Init') {
       input {
@@ -88,15 +91,17 @@ make build'''
       }
       post {
         always {
-          unstash 'test'
-          archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml, ${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
-          xunit (
-            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-            tools: [
-              CTest(pattern: "${env.BUILD_TYPE}/Testing/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true),
-              GoogleTest(pattern: "${env.BUILD_TYPE}/gtest/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
-            ]
-          )
+          node(env.BUILD_AGENT) {
+            unstash 'test'
+            archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml, ${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
+            xunit (
+              thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+              tools: [
+                CTest(pattern: "${env.BUILD_TYPE}/Testing/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true),
+                GoogleTest(pattern: "${env.BUILD_TYPE}/gtest/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+              ]
+            )
+          }
         }
       }
     }
@@ -137,8 +142,10 @@ make build'''
       }
       post {
         success {
-          unstash 'pack'
-          archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
+          node(env.BUILD_AGENT) {
+            unstash 'pack'
+            archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
+          }
         }
       }
     }
