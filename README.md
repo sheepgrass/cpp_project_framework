@@ -1447,6 +1447,9 @@ Jenkins - Recording tests and artifacts:
 xUnit plugin - step([$class: 'XUnitPublisher']): Publish xUnit test result report:
 <https://www.jenkins.io/doc/pipeline/steps/xunit/>
 
+Jenkins Core - archiveArtifacts: Archive the artifacts:
+<https://www.jenkins.io/doc/pipeline/steps/core/#archiveartifacts-archive-the-artifacts>
+
 Apache Ant - Directory-based Tasks - Patterns:
 <https://ant.apache.org/manual/dirtasks.html#patterns>
 
