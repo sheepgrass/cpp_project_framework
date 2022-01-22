@@ -123,9 +123,14 @@ conan new %PROJECT_NAME%/%PROJECT_VERSION% -t
 CD ..
 @EXIT /B 0
 
-:conan_package
+:conan_package_test
 @CALL :venv_activate
 conan create . demo/testing
+@EXIT /B 0
+
+:conan_package
+@CALL :venv_activate
+conan create .
 @EXIT /B 0
 
 :conan_remove
@@ -144,11 +149,18 @@ conan_server
 conan remote add local http://localhost:9300/
 @EXIT /B 0
 
-:conan_upload_local
+:conan_upload_local_test
 @CALL :venv_activate
 @CALL :project_name
 @CALL :project_version
 conan upload %PROJECT_NAME%/%PROJECT_VERSION%@demo/testing --all -r=local
+@EXIT /B 0
+
+:conan_upload_local
+@CALL :venv_activate
+@CALL :project_name
+@CALL :project_version
+conan upload %PROJECT_NAME%/%PROJECT_VERSION% --all -r=local
 @EXIT /B 0
 
 :echo

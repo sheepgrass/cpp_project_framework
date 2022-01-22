@@ -32,8 +32,8 @@ endif
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
 	cmake_project build clean clean_and_build cmake_open package test delete \
-	project_name project_version recipe_create conan_package conan_remove \
-	conan_start_local conan_add_local conan_upload_local echo
+	project_name project_version recipe_create conan_package_test conan_package conan_remove \
+	conan_start_local conan_add_local conan_upload_local_test conan_upload_local echo
 
 all: conan_install cmake_project build
 
@@ -97,9 +97,13 @@ recipe_create:
 	mkdir -p package && cd package && \
 	conan new `make -s project_name`/`make -s project_version` -t
 
-conan_package:
+conan_package_test:
 	source .venv/bin/activate && \
 	conan create . demo/testing
+
+conan_package:
+	source .venv/bin/activate && \
+	conan create .
 
 conan_remove:
 	source .venv/bin/activate && \
@@ -113,9 +117,13 @@ conan_add_local:
 	source .venv/bin/activate && \
 	conan remote add local http://localhost:9300/
 
-conan_upload_local:
+conan_upload_local_test:
 	source .venv/bin/activate && \
 	conan upload `make -s project_name`/`make -s project_version`@demo/testing --all -r=local
+
+conan_upload_local:
+	source .venv/bin/activate && \
+	conan upload `make -s project_name`/`make -s project_version` --all -r=local
 
 echo:
 	@echo $(BUILD_TYPE)
