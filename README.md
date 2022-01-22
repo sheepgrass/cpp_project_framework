@@ -4,7 +4,11 @@ C++ Project Framework is a framework for creating C++ project.
 
 ## Canonical Project Structure for C++
 
+Canonical Project Structure:
 <http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1204r0.html>
+
+The Pitchfork Layout:
+<https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs>
 
 ```c++
 <name>/
@@ -122,6 +126,13 @@ Source Code Formatter: ClangFormat (clang-format)
 ```
 
 ## Similar Projects Creating C++ Project Framework
+
+Pitchfork
+<https://github.com/vector-of-bool/pitchfork>
+
+```yaml
+Pitchfork is a set of conventions for native C and C++ projects. The most prominent being the project layout conventions.
+```
 
 Boiler plate for C++ projects
 <https://github.com/bsamseth/cpp-project>
