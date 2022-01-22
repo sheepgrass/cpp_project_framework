@@ -6,6 +6,7 @@
 
 #include "gtest.h"
 #include "cpp_project_framework.h"
+#include "filesystem.h"
 
 
 /// Unit test anonymous namespace
@@ -55,6 +56,13 @@ TEST(CppProjectFrameworkGoogleTestTest, GetTestCaseName)
 TEST(CppProjectFrameworkGoogleTestTest, ScopedTraceCodeBlock)
 {
     SCOPED_TRACE_CODE_BLOCK(EXPECT_STREQ(GET_TEST_CASE_NAME(), "CppProjectFrameworkGoogleTestTest.ScopedTraceCodeBlock"));
+}
+
+/// Test for filesystem header
+TEST(CppProjectFrameworkFileSystem, FileSystem)
+{
+    namespace fs = sheepgrass::filesystem;
+    EXPECT_TRUE(fs::is_directory(fs::current_path()));
 }
 
 }
