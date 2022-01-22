@@ -7,7 +7,8 @@ cmake_minimum_required(VERSION 3.10)
 project(cpp_project_framework VERSION 1.0)
 
 # add C++ project framework support
-include(${CMAKE_CURRENT_SOURCE_DIR}/../cpp_project_framework_callables.cmake)
+set(CPF_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+include(${CPF_SOURCE_DIR}/cpp_project_framework_callables.cmake)
 
 # set the project type
 cpf_set_project_type()
@@ -73,6 +74,11 @@ cpf_rename_binary_target()
 
 # install targets and files
 cpf_install()
+foreach(RES_FILE ".gitignore" "LICENSE" "conanfile.txt" "CMakeLists.txt" "make.bat" "Makefile" "cpp_project_framework_callables.cmake" "cpp_project_framework.cmake")
+    install(FILES ${CPF_SOURCE_DIR}/${RES_FILE} DESTINATION res)
+endforeach()
+install(FILES ${CPF_SOURCE_DIR}/${PROJECT_NAME}/CMakeLists.txt DESTINATION res/${PROJECT_NAME})
+install(DIRECTORY ${CPF_SOURCE_DIR}/test_package/ DESTINATION res/test_package PATTERN "build" EXCLUDE)
 
 # build an installer (make package)
 include(CPack)
