@@ -1,42 +1,64 @@
 ifndef BUILD_TYPE
-$(error BUILD_TYPE not set)
+  NO_BUILD_TYPE_GOALS = \
+    debug release minsizerel relwithdebinfo \
+    venv_create venv_delete venv_activate venv_deactivate \
+	pip_install_conan conan_list \
+	conan_start_local conan_add_local \
+    echo
+  ifeq ($(filter $(MAKECMDGOALS),$(NO_BUILD_TYPE_GOALS)),)
+    $(error BUILD_TYPE not set, flags="$(MAKEFLAGS)", goals="$(MAKECMDGOALS)")
+  endif
 endif
 
 SHELL = bash
 
 ifndef PYTHON_EXE
-PYTHON_EXE = python3
+  PYTHON_EXE = python3
 endif
 
 CMAKE_PROJECT_ARG =
 ifdef BUILD_SYSTEM
-CMAKE_PROJECT_ARG += -G "$(BUILD_SYSTEM)"
+  CMAKE_PROJECT_ARG += -G "$(BUILD_SYSTEM)"
 endif
 ifdef TARGET_PLATFORM
-CMAKE_PROJECT_ARG += -A $(TARGET_PLATFORM)
+  CMAKE_PROJECT_ARG += -A $(TARGET_PLATFORM)
 endif
 
 CMAKE_BUILD_ARG =
 ifdef JOBS
-CMAKE_BUILD_ARG += -j$(JOBS)
+  CMAKE_BUILD_ARG += -j$(JOBS)
 else
-CMAKE_BUILD_ARG += -j4
+  CMAKE_BUILD_ARG += -j4
 endif
 
 CPACK_ARG =
 ifdef PACK_FORMAT
-CPACK_ARG += -G $(PACK_FORMAT)
+  CPACK_ARG += -G $(PACK_FORMAT)
 endif
 
 .PHONY: all \
+	debug release minsizerel relwithdebinfo \
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
 	cmake_project build clean clean_and_build cmake_open package test coverage delete \
 	project_name project_version doxygen_bin_path doxygen_create_config doxygen doxygen_delete \
 	recipe_create conan_package_test conan_package conan_remove_cache \
-	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local echo
+	conan_start_local conan_add_local conan_upload_local_test conan_upload_local conan_remove_local \
+	echo
 
 all: conan_install cmake_project build
+
+debug:
+	BUILD_TYPE=Debug make $(MAKEFLAGS)
+
+release:
+	BUILD_TYPE=Release make $(MAKEFLAGS)
+
+minsizerel:
+	export BUILD_TYPE=MinSizeRel make $(MAKEFLAGS)
+
+relwithdebinfo:
+	export BUILD_TYPE=RelWithDebInfo make $(MAKEFLAGS)
 
 venv_create:
 	$(PYTHON_EXE) -m venv .venv
@@ -147,4 +169,4 @@ conan_remove_local:
 	conan remove "`make -s project_name`*" -r local
 
 echo:
-	@echo $(BUILD_TYPE)
+	@echo BUILD_TYPE=$(BUILD_TYPE)
