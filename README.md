@@ -458,6 +458,14 @@ conan install . -b missing -s build_type={CMAKE_BUILD_TYPE} -if {CMAKE_BUILD_TYP
 %USERPROFILE%\.conan\data
 ```
 
+## Create Blank C++ Project by Python Script with Template
+
+Input the required parameters as prompted in below python script and a new blank C++ project will be created:
+
+```bash
+python create_blank_project.py
+```
+
 ## Generate CMake Project
 
 <https://cmake.org/cmake/help/latest/manual/cmake.1.html#generate-a-project-buildsystem>
