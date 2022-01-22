@@ -21,6 +21,7 @@ class CppProjectFrameworkConan(ConanFile):
     def export_sources(self):
         for resource in self.exports_resources:
             self.copy(resource)
+            self.copy(resource, dst="res")
 
     def build(self):
         cmake = CMake(self)
@@ -41,7 +42,7 @@ class CppProjectFrameworkConan(ConanFile):
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
         for resource in self.exports_resources:
-            self.copy(resource, dst="res")
+            self.copy(resource, dst="res", src="res")
 
     def package_info(self):
         self.cpp_info.libs = []
