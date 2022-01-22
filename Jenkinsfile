@@ -4,17 +4,30 @@ pipeline {
     preserveStashes()
   }
   agent none
+  parameters {
+    choice choices: ['', 'Any', 'Linux', 'Windows', 'Docker'], description: 'Build Agent', name: 'BUILD_AGENT'
+    choice choices: ['', 'Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type', name: 'BUILD_TYPE'
+  }
   stages {
     stage('Init') {
-      input {
-        message 'Set Parameters:'
-        parameters {
-          choice choices: ['Any', 'Linux', 'Windows', 'Docker'], description: 'Build Agent', name: 'BUILD_AGENT'
-          choice choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type', name: 'BUILD_TYPE'
-        }
-      }
       steps {
         script {
+          def BUILD_AGENT = ''
+          def BUILD_TYPE = ''
+          if (params.BUILD_AGENT == '' || params.BUILD_TYPE == '') {
+            def inputParams = input (
+              message: 'Set Parameters:',
+              parameters: [
+                choice(choices: ['Any', 'Linux', 'Windows', 'Docker'], description: 'Build Agent', name: 'BUILD_AGENT'),
+                choice(choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type', name: 'BUILD_TYPE')
+              ]
+            )
+            BUILD_AGENT = inputParams.BUILD_AGENT
+            BUILD_TYPE = inputParams.BUILD_TYPE
+          } else {
+            BUILD_AGENT = params.BUILD_AGENT
+            BUILD_TYPE = params.BUILD_TYPE
+          }
           env.BUILD_AGENT = BUILD_AGENT == 'Any' ? '' : BUILD_AGENT
           env.BUILD_TYPE = BUILD_TYPE
           parallel (
