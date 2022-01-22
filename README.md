@@ -228,6 +228,10 @@ A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny
 
 [Packaging Python Projects](https://packaging.python.org/tutorials/packaging-projects/)
 
+[Building and Distributing Packages with Setuptools](https://setuptools.pypa.io/en/latest/userguide/index.html)
+
+[What Are Python Wheels](https://realpython.com/python-wheels/)
+
 Go to `cpp_project_framework` root folder first, activate python virtual evironment (create it if not yet created), then follow below procedures:
 
 ### Install C++ Project Framework Python Package Locally
