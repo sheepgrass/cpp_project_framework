@@ -189,3 +189,25 @@ C++ Project Framework is a framework for creating C++ project.
     https://cmake.org/cmake/help/latest/manual/ctest.1.html
 
     cd {CMAKE_BUILD_TYPE} && ctest -C {CMAKE_BUILD_TYPE}
+
+## Generate Unit Test Code Coverage Report by gcov and lcov
+
+    https://jhbell.com/using-cmake-and-gcov
+    https://github.com/jhbell/cmake-gcov
+    https://dr-kino.github.io/2019/12/22/test-coverage-using-gtest-gcov-and-lcov/
+    https://github.com/dr-kino/BraveCoverage
+    https://stackoverflow.com/questions/37978016/cmake-gcov-c-creating-wrong-gcno-files
+    https://github.com/bilke/cmake-modules/blob/master/CodeCoverage.cmake
+    https://stackoverflow.com/questions/13116488/detailed-guide-on-using-gcov-with-cmake-cdash
+    https://medium.com/@naveen.maltesh/generating-code-coverage-report-using-gnu-gcov-lcov-ee54a4de3f11
+    http://ltp.sourceforge.net/coverage/lcov.php
+
+    # Generate gcov info file with g++ compiler flags "-fprofile-arcs -ftest-coverage" or simply "--coverage"
+    g++ -o main -fprofile-arcs -ftest-coverage main_test.cpp -L /usr/lib -I/usr/include
+    g++ -o main --coverage main_test.cpp -L /usr/lib -I/usr/include
+
+    # Generate gcov data file from generated gcov info file
+    gcov -b ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp -o ${GCOV_OBJECT_DIR}
+
+    lcov --capture --directory ${GCOV_OBJECT_DIR} --output-file coverage.info
+    genhtml coverage.info --output-directory .

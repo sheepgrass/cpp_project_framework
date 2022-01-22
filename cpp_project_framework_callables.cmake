@@ -217,27 +217,6 @@ macro(cpf_add_gcov_compiler_flags)
     endif()
 endmacro()
 
-# add unit test gcov target
-macro(cpf_add_unit_test_gcov_target)
-    if(GCOV_COMPILER_FLAGS)
-        set(GCOV_OBJECT_DIR ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${UNIT_TEST_EXE}.dir)
-        set(GCOV_TARGET ${UNIT_TEST_EXE}.gcov)
-        message("        GCOV_OBJECT_DIR=${GCOV_OBJECT_DIR}")
-        message("        GCOV_TARGET=${GCOV_TARGET}")
-        add_custom_target(${GCOV_TARGET}
-            COMMAND mkdir -p ${GCOV_TARGET}
-            COMMAND ${CMAKE_MAKE_PROGRAM} test
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            )
-        add_custom_command(TARGET ${GCOV_TARGET}
-            COMMAND echo "=================== GCOV ===================="
-            COMMAND gcov -b ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp -o ${GCOV_OBJECT_DIR}
-            COMMAND echo "-- Coverage files have been output to ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}"
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}
-            )
-    endif()
-endmacro()
-
 # build and execute unit test (make test)
 macro(cpf_add_unit_tests LINK_TYPES)
     enable_testing()
@@ -287,4 +266,45 @@ macro(cpf_add_unit_tests LINK_TYPES)
             cpf_add_unit_test_gcov_target()
         endif()
     endforeach()
+endmacro()
+
+# add unit test gcov target
+macro(cpf_add_unit_test_gcov_target)
+    if(GCOV_COMPILER_FLAGS)
+        set(GCOV_OBJECT_DIR ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${UNIT_TEST_EXE}.dir)
+        set(GCOV_TARGET ${UNIT_TEST_EXE}.gcov)
+        message("        GCOV_OBJECT_DIR=${GCOV_OBJECT_DIR}")
+        message("        GCOV_TARGET=${GCOV_TARGET}")
+        add_custom_target(${GCOV_TARGET}
+            COMMAND mkdir -p ${GCOV_TARGET}
+            COMMAND ${CMAKE_MAKE_PROGRAM} test
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            )
+        add_custom_command(TARGET ${GCOV_TARGET}
+            COMMAND echo "=================== GCOV ===================="
+            COMMAND gcov -b ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp -o ${GCOV_OBJECT_DIR}
+            COMMAND echo "-- Coverage files have been output to ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${GCOV_TARGET}
+            )
+        add_dependencies(${GCOV_TARGET} ${UNIT_TEST_EXE})
+        cpf_add_unit_test_lcov_target()
+    endif()
+endmacro()
+
+# add unit test lcov target
+macro(cpf_add_unit_test_lcov_target)
+    set(LCOV_TARGET ${UNIT_TEST_EXE}.lcov)
+    add_custom_target(${LCOV_TARGET}
+        COMMAND mkdir -p ${LCOV_TARGET}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        )
+    add_custom_command(TARGET ${LCOV_TARGET}
+        COMMAND echo "=================== LCOV ===================="
+        COMMAND echo "-- Passing lcov tool under code coverage"
+        COMMAND lcov --capture --directory ${GCOV_OBJECT_DIR} --output-file coverage.info
+        COMMAND echo "-- Generating HTML output files"
+        COMMAND genhtml coverage.info --output-directory .
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${LCOV_TARGET}
+        )
+    add_dependencies(${LCOV_TARGET} ${GCOV_TARGET})
 endmacro()
