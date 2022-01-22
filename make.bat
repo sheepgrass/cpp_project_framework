@@ -23,6 +23,8 @@ IF "%BUILD_TYPE%"=="" (
 
 IF "%PYTHON_EXE%"=="" SET PYTHON_EXE=%LOCALAPPDATA%\Continuum\anaconda3\python.exe
 
+IF "%VIRTUAL_ENV%"=="" SET VIRTUAL_ENV=.venv
+
 SET CMAKE_PROJECT_ARG=
 IF NOT "%BUILD_SYSTEM%"=="" SET CMAKE_PROJECT_ARG=%CMAKE_PROJECT_ARG% -G "%BUILD_SYSTEM%"
 IF NOT "%TARGET_PLATFORM%"=="" SET CMAKE_PROJECT_ARG=%CMAKE_PROJECT_ARG% -A "%TARGET_PLATFORM%"
@@ -65,15 +67,15 @@ SET BUILD_TYPE=RelWithDebInfo
 @EXIT /B 0
 
 :venv_create
-%PYTHON_EXE% -m venv .venv
+%PYTHON_EXE% -m venv %VIRTUAL_ENV%
 @EXIT /B 0
 
 :venv_delete
-RMDIR /S /Q .venv
+RMDIR /S /Q %VIRTUAL_ENV%
 @EXIT /B 0
 
 :venv_activate
-CALL .venv\Scripts\activate
+CALL %VIRTUAL_ENV%\Scripts\activate
 @EXIT /B 0
 
 :venv_deactivate
@@ -247,4 +249,5 @@ conan remove %PROJECT_NAME%* -r local
 
 :echo
 ECHO BUILD_TYPE=%BUILD_TYPE%
+ECHO VIRTUAL_ENV=%VIRTUAL_ENV%
 @EXIT /B 0
