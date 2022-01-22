@@ -204,6 +204,32 @@ make build'''
             }
           }
         }
+        stage('Doxygen - Unix') {
+          agent { label env.BUILD_AGENT }
+          when { expression { isUnix() } }
+          steps {
+            unstash 'build'
+            sh 'make --no-print-directory doxygen'
+          }
+          post {
+            success {
+              archiveArtifacts artifacts: "doxygen/", fingerprint: true
+            }
+          }
+        }
+        stage('Doxygen - Windows') {
+          agent { label env.BUILD_AGENT }
+          when { expression { !isUnix() } }
+          steps {
+            unstash 'build'
+            bat 'make doxygen'
+          }
+          post {
+            success {
+              archiveArtifacts artifacts: "doxygen/", fingerprint: true
+            }
+          }
+        }
       }
       post {
         success {
