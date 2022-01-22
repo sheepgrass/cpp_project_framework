@@ -226,6 +226,14 @@ make build'''
           post {
             success {
               archiveArtifacts artifacts: "doxygen/", fingerprint: true
+              publishHTML target: [
+                  allowMissing: false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll: true,
+                  reportDir: 'doxygen/html/',
+                  reportFiles: 'index.html',
+                  reportName: 'Doxygen'
+              ]
             }
           }
         }
@@ -239,6 +247,14 @@ make build'''
           post {
             success {
               archiveArtifacts artifacts: "doxygen/", fingerprint: true
+              publishHTML target: [
+                  allowMissing: false,
+                  alwaysLinkToLastBuild: false,
+                  keepAll: true,
+                  reportDir: 'doxygen/html/',
+                  reportFiles: 'index.html',
+                  reportName: 'Doxygen'
+              ]
             }
           }
         }

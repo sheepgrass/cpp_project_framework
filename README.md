@@ -1624,3 +1624,25 @@ HTML Publisher:
 Declarative Pipeline: Publishing HTML Reports:
 <https://www.jenkins.io/blog/2017/02/10/declarative-html-publisher/>
 
+Configuring Content Security Policy:
+<https://www.jenkins.io/doc/book/security/configuring-content-security-policy/>
+
+Jenkins - HTML Publisher Plugin - No CSS is displayed when report is viewed in Jenkins Server:
+<https://stackoverflow.com/questions/35783964/jenkins-html-publisher-plugin-no-css-is-displayed-when-report-is-viewed-in-j>
+
+```groovy
+post {
+  success {
+    archiveArtifacts artifacts: "doxygen/", fingerprint: true
+    publishHTML target: [
+        allowMissing: false,
+        alwaysLinkToLastBuild: false,
+        keepAll: true,
+        reportDir: 'doxygen/html/',
+        reportFiles: 'index.html',
+        reportName: 'Doxygen'
+    ]
+  }
+}
+```
+
