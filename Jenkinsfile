@@ -1,5 +1,6 @@
 pipeline {
   options {
+    skipDefaultCheckout()
     buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     preserveStashes()
   }
@@ -47,8 +48,8 @@ pipeline {
       }
       agent { label env.BUILD_AGENT }
       steps {
-          echo "Build Agent: ${env.BUILD_AGENT}"
-          echo "Build Type: ${env.BUILD_TYPE}"
+        echo "Build Agent: ${env.BUILD_AGENT}"
+        echo "Build Type: ${env.BUILD_TYPE}"
       }
     }
     stage('Prepare') {
@@ -57,20 +58,22 @@ pipeline {
           agent { label env.BUILD_AGENT }
           when { expression { isUnix() } }
           steps {
+            checkout scm
             sh '''make venv_create
 `make --no-print-directory venv_activate`
 python -m pip install --upgrade pip'''
-            stash includes: ".venv/**", name: 'prepare'
+            stash 'prepare'
           }
         }
         stage('Windows') {
           agent { label env.BUILD_AGENT }
           when { expression { !isUnix() } }
           steps {
+            checkout scm
             bat '''make venv_create
 make venv_activate
 python -m pip install --upgrade pip'''
-            stash includes: ".venv/**", name: 'prepare'
+            stash 'prepare'
           }
         }
       }
@@ -85,7 +88,7 @@ python -m pip install --upgrade pip'''
             sh '''`make --no-print-directory venv_activate`
 make cmake_project
 make build'''
-            stash includes: "${env.BUILD_TYPE}/**", name: 'build'
+            stash 'build'
           }
         }
         stage('Windows') {
@@ -96,7 +99,7 @@ make build'''
             bat '''make venv_activate
 make cmake_project
 make build'''
-            stash includes: "${env.BUILD_TYPE}/**", name: 'build'
+            stash 'build'
           }
         }
       }
@@ -112,7 +115,7 @@ make build'''
           steps {
             unstash 'build'
             sh "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
-            stash includes: "${env.BUILD_TYPE}/**", name: 'test'
+            stash 'test'
           }
         }
         stage('Windows') {
@@ -121,7 +124,7 @@ make build'''
           steps {
             unstash 'build'
             bat "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
-            stash includes: "${env.BUILD_TYPE}/**", name: 'test'
+            stash 'test'
           }
         }
       }
@@ -149,7 +152,7 @@ make build'''
           steps {
             unstash 'build'
             sh 'make package'
-            stash includes: "${env.BUILD_TYPE}/**", name: 'pack'
+            stash 'pack'
           }
           post {
             success {
@@ -165,7 +168,7 @@ make build'''
           steps {
             unstash 'build'
             bat 'make package'
-            stash includes: "${env.BUILD_TYPE}/**", name: 'pack'
+            stash 'pack'
           }
           post {
             success {
