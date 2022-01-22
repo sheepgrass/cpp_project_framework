@@ -83,10 +83,5 @@ install(DIRECTORY ${CPF_SOURCE_DIR}/test_package/ DESTINATION res/test_package P
 # build an installer (make package)
 include(CPack)
 
-# build and execute unit test (make test)
-enable_testing()
-set(TEST_EXE ${PROJECT_NAME}.test)
-set(TEST_SRC_FILES cpp_project_framework.test.cpp)
-add_executable(${TEST_EXE} ${TEST_SRC_FILES})
-conan_target_link_libraries(${TEST_EXE})
-add_test(NAME ${TEST_EXE} COMMAND ${TEST_EXE})
+# add unit tests
+cpf_add_unit_tests("")
