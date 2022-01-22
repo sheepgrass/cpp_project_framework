@@ -103,8 +103,10 @@ RMDIR /S /Q %BUILD_TYPE%
 @CALL :venv_activate
 @CALL :project_name
 @CALL :project_version
-MKDIR package && CD package
+IF NOT EXIST package MKDIR package
+CD package
 conan new %PROJECT_NAME%/%PROJECT_VERSION% -t
+CD ..
 @EXIT /B 0
 
 :echo
