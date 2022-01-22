@@ -877,9 +877,9 @@ Google C++ Style Guide: Names and Order of Includes
 <https://google.github.io/styleguide/cppguide.html#Names_and_Order_of_Includes>
 
 Include header ordering should follow above "Google C++ Style Guide: Names and Order of Includes".
+Except "All of a project's header files should be listed as descendants of the project's source directory without use of UNIX directory aliases . (the current directory) or .. (the parent directory)." as its useful for identifying same project headers.
 
 Include headers in the following order: Related header, C system headers, C++ standard library headers, other libraries' headers, your project's headers.
-All of a project's header files should be listed as descendants of the project's source directory without use of UNIX directory aliases . (the current directory) or .. (the parent directory).
 Separate each non-empty group with one blank line.
 Within each section the includes should be ordered alphabetically.
 
