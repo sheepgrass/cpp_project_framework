@@ -144,3 +144,32 @@ C++ Project Framework is a framework for creating C++ project.
     https://docs.conan.io/en/latest/uploading_packages/running_your_server.html
 
     conan_server
+
+## Support Google Test
+
+    https://github.com/google/googletest
+    https://raymii.org/s/tutorials/Cpp_project_setup_with_cmake_and_unit_tests.html
+    https://gitlab.kitware.com/cmake/community/-/wikis/doc/ctest/Testing-With-CTest
+
+    # conanfile.txt
+    [build_requires]
+    gtest/1.10.0
+
+    # CMakeLists.txt (root project)
+    enable_testing()
+    ...
+    add_subdirectory(${SUB_PROJECT_PATH})
+
+    # CMakeLists.txt (subdirectory project)
+    enable_testing()
+    set(TEST_EXE ${PROJECT_NAME}.test)
+    set(TEST_SRC_FILES ${PROJECT_NAME}.test.cpp)
+    add_executable(${TEST_EXE} ${TEST_SRC_FILES})
+    conan_target_link_libraries(${TEST_EXE})
+    add_test(NAME ${TEST_EXE} COMMAND ${TEST_EXE})
+
+## Run CMake Tests by CTest
+
+    https://cmake.org/cmake/help/latest/manual/ctest.1.html
+
+    cd {CMAKE_BUILD_TYPE} && ctest -C {CMAKE_BUILD_TYPE}

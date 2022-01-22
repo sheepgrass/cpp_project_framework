@@ -90,6 +90,13 @@ cpack -C %BUILD_TYPE% %CPACK_ARG%
 CD ..
 @EXIT /B 0
 
+:test
+@CALL :build
+CD %BUILD_TYPE%
+ctest -C %BUILD_TYPE%
+CD ..
+@EXIT /B 0
+
 :delete
 RMDIR /S /Q %BUILD_TYPE%
 @EXIT /B 0

@@ -53,6 +53,9 @@ else()
     execute_process(COMMAND bash -c "${VENV_ACTIVATE_CMD} && ${CONAN_INSTALL_CMD}" WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
+# enable testing support (make test)
+enable_testing()
+
 # add extra project directories
 set(SUB_PROJECT_PATH ${CMAKE_PROJECT_NAME})
 if(SUB_PROJECT_PATH)
