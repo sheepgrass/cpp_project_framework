@@ -22,7 +22,7 @@ IF "%BUILD_TYPE%"=="" (
 
 :MAKE_START
 
-IF "%PYTHON_EXE%"=="" SET PYTHON_EXE=%LOCALAPPDATA%\Continuum\anaconda3\python.exe
+IF "%PYTHON_EXE%"=="" SET PYTHON_EXE=python
 
 IF "%VIRTUAL_ENV%"=="" SET VIRTUAL_ENV=.venv
 
