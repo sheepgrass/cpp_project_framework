@@ -39,7 +39,7 @@ endif()
 cpf_inject_conan_info()
 
 # specify the header files
-set(HEADER_FILES cpp_project_framework.h)
+set(HEADER_FILES cpp_project_framework.h gtest.h)
 
 # find all header files
 cpf_find_all_header_files()
