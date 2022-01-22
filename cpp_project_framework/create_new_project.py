@@ -61,6 +61,16 @@ def create_new_project():
     if not parameters['parent_directory']:
         parameters['parent_directory'] = default_parent_directory
 
+    default_cpp_standard = '14'
+    parameters['cpp_standard'] = input(f'C++ Standard (default to {default_cpp_standard} if ignored): ')
+    if not parameters['cpp_standard']:
+        parameters['cpp_standard'] = default_cpp_standard
+
+    default_cmake_version = '3.10'
+    parameters['cmake_version'] = input(f'CMake Version (default to {default_cmake_version} if ignored): ')
+    if not parameters['cmake_version']:
+        parameters['cmake_version'] = default_cmake_version
+
     def create_directories(directory_key):
         try:
             os.makedirs(parameters[directory_key])

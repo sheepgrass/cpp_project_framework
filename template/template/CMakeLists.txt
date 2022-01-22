@@ -1,7 +1,7 @@
 # CMake Tutorial: https://cmake.org/cmake/help/latest/guide/tutorial/index.html
 
 # specify the minimum required cmake version
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION ${cmake_version})
 
 # set the project name and version
 project(${project_name} VERSION ${project_version})
@@ -14,7 +14,7 @@ include(${CPF_SOURCE_DIR}/cpp_project_framework_callables.cmake)
 cpf_set_project_type("${project_type}")
 
 # specify the C++ standard
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD ${cpp_standard})
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # specify extra include directories

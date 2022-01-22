@@ -1,7 +1,7 @@
 # CMake Tutorial: https://cmake.org/cmake/help/latest/guide/tutorial/index.html
 
 # specify the minimum required cmake version
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION ${cmake_version})
 
 # set the project name and version
 project(${project_name} VERSION ${project_version} DESCRIPTION "${project_description}")
