@@ -78,6 +78,8 @@ def create_new_project():
     parameters['vscode_directory'] = os.path.join(parameters["project_directory"], '.vscode')
     create_directories('vscode_directory')
 
+    base_directory = os.path.join(sys.prefix, 'cpp_project_framework')
+
     base_files = (
         '.clang-format',
         '.gitignore',
@@ -88,7 +90,7 @@ def create_new_project():
         'Makefile',
     )
     for base_file in base_files:
-        shutil.copy2(base_file, parameters['project_directory'], follow_symlinks=True)
+        shutil.copy2(os.path.join(base_directory, base_file), parameters['project_directory'], follow_symlinks=True)
 
     test_package_files = (
         'CMakeLists.txt',
@@ -96,7 +98,7 @@ def create_new_project():
         'example.cpp',
     )
     for test_package_file in test_package_files:
-        shutil.copy2(os.path.join(test_package_folder, test_package_file), parameters['test_package_directory'], follow_symlinks=True)
+        shutil.copy2(os.path.join(base_directory, test_package_folder, test_package_file), parameters['test_package_directory'], follow_symlinks=True)
 
     template_folder = 'template'
     template_files = (
@@ -107,7 +109,7 @@ def create_new_project():
         'README.md',
     )
     for template_file in template_files:
-        with open(os.path.join(template_folder, template_file), 'r') as fin:
+        with open(os.path.join(base_directory, template_folder, template_file), 'r') as fin:
             with open(os.path.join(parameters['project_directory'], template_file), 'w') as fout:
                 fout.write(Template(fin.read()).safe_substitute(parameters))
 
@@ -118,7 +120,7 @@ def create_new_project():
         'Template.test.cpp',
     )
     for template_source_file in template_source_files:
-        with open(os.path.join(template_folder, template_folder, template_source_file), 'r') as fin:
+        with open(os.path.join(base_directory, template_folder, template_folder, template_source_file), 'r') as fin:
             with open(os.path.join(parameters['source_directory'], template_source_file.replace('Template', parameters['project_camel_name'])), 'w') as fout:
                 fout.write(Template(fin.read()).safe_substitute(parameters))
 
@@ -126,7 +128,7 @@ def create_new_project():
         'Template.benchmark.cpp',
     )
     for template_benchmark_file in template_benchmark_files:
-        with open(os.path.join(template_folder, tests_folder, benchmarks_folder, template_folder, template_benchmark_file), 'r') as fin:
+        with open(os.path.join(base_directory, template_folder, tests_folder, benchmarks_folder, template_folder, template_benchmark_file), 'r') as fin:
             with open(os.path.join(parameters['benchmarks_directory'], template_benchmark_file.replace('Template', parameters['project_camel_name'])), 'w') as fout:
                 fout.write(Template(fin.read()).safe_substitute(parameters))
 
@@ -135,7 +137,7 @@ def create_new_project():
         'settings.json',
     )
     for vscode_file in vscode_files:
-        shutil.copy2(os.path.join(template_folder, 'vscode', vscode_file), parameters['vscode_directory'], follow_symlinks=True)
+        shutil.copy2(os.path.join(base_directory, template_folder, 'vscode', vscode_file), parameters['vscode_directory'], follow_symlinks=True)
 
 if __name__ == '__main__':
     create_new_project()
