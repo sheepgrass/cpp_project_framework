@@ -100,6 +100,7 @@ def create_new_project():
         '.gitignore',
         'cpp_project_framework_callables.cmake',
         'cpp_project_framework.cmake',
+        'Jenkinsfile',
         'LICENSE',
         'make.bat',
         'Makefile',
