@@ -145,6 +145,22 @@ C++ Project Framework is a framework for creating C++ project.
 
     conan_server
 
+## Simple Open Source Conan Repository Server Config File Location
+
+    # Linux
+    ~/.conan_server/server.conf
+
+    # Windows
+    %USERPROFILE%\.conan_server\server.conf
+
+## Simple Open Source Conan Repository Server Package Location
+
+    # Linux
+    ~/.conan_server/data
+
+    # Windows
+    %USERPROFILE%\.conan_server\data
+
 ## Support Google Test
 
     https://github.com/google/googletest
