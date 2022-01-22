@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# Build folders
+build
+Debug
+Release
+MinSizeRel
+RelWithDebInfo
+
+# VS Code config folders
+.vscode
+
+# Python Virtual Environment Target Directory
+.venv
