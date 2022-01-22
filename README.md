@@ -708,6 +708,10 @@ ISO C++ Coding Standards
 
 ### C++ Naming Styles
 
+#### C++ General Naming Rules
+
+For the purposes of the naming rules below, a "word" is anything that you would write in English without internal spaces. This includes abbreviations, such as acronyms and initialisms. For names written in mixed case (also sometimes referred to as "camel case" or "Pascal case"), in which the first letter of each word is capitalized, prefer to capitalize abbreviations as single words, e.g., StartRpc() rather than StartRPC().
+
 #### C++ Variable Names (all kinds of variables including but not limited to followings: global, local, const, static, member, parameters)
 
 The names of variables (including function parameters) and data members are all lowercase, with underscores between words, i.e. snake case => snake_case
@@ -739,6 +743,10 @@ Main file name must have the same name as the final program binary name which sh
 #### C++ Class File Names (file containing a single class declaration and/or definition)
 
 Class file names must have the same name as the single class name it contains which should start with a capital letter and have a capital letter for each new word, with no underscores, i.e. camel case => CamelCase
+
+#### C++ Template Parameter Names
+
+Template parameters should follow the naming style for their category: type template parameters should follow the rules for type names, and non-type template parameters should follow the rules for variable names.
 
 ### C++ Code Formatting Styles
 
