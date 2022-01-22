@@ -116,6 +116,7 @@ Graphical User Interface: Qt
 Continous Integration (CI): Jenkins
 Debugger: gdb (Linux), WinDbg (Windows), Visual Studio Debugger (Windows)
 Performance Profiler: perf (Linux), gprof (Linux), orbit (Linux, Windows)
+Source Code Formatter: ClangFormat (clang-format)
 ```
 
 ## Similar Projects Creating C++ Project Framework
@@ -246,6 +247,28 @@ File > Preferences > Settings > CMake Tools configuration > Cmake: Build Directo
       }
     ]
 }
+```
+
+## C++ Code Formatting using Visual Studio Code with ClangFormat
+
+<https://code.visualstudio.com/docs/cpp/cpp-ide#_code-formatting>
+
+<https://clang.llvm.org/docs/ClangFormatStyleOptions.html>
+
+Format an entire file with Format Document (Shift+Alt+F) or just the current selection with Format Selection (Ctrl+K Ctrl+F) in right-click context menu.
+
+### Create ClangFormat File inside Visual Studio Code Workspace
+
+```yaml
+# .clang-format
+UseTab: Never
+IndentWidth: 4
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+ColumnLimit: 0
+PointerAlignment: Left
+AccessModifierOffset: -4
 ```
 
 ## Create Python Virtual Environment under Current Project
