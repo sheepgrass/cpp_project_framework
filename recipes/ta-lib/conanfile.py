@@ -41,7 +41,9 @@ class TaLibConan(ConanFile):
         else:
             self.copy("*.h", dst="include/%s" % self.name, src="ta-lib/include")
             self.copy("*.so*", dst="lib", src="ta-lib/src/.libs", keep_path=False)
-            self.copy("*.", dst="lib", src="ta-lib/src/.libs", keep_path=False)
+            self.copy("*.a", dst="lib", src="ta-lib/src/.libs", keep_path=False)
+            self.copy("*.la", dst="lib", src="ta-lib/src/.libs", keep_path=False)
+            self.copy("*.lai", dst="lib", src="ta-lib/src/.libs", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
