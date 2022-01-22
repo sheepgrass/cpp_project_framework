@@ -24,6 +24,16 @@ pipeline {
         }
       }
     }
+    stage('Check') {
+      options {
+        timeout(time: 5, unit: 'SECONDS')
+      }
+      agent { label env.BUILD_AGENT }
+      steps {
+          echo "Build Agent: ${env.BUILD_AGENT}"
+          echo "Build Type: ${env.BUILD_TYPE}"
+      }
+    }
     stage('Build') {
       parallel {
         stage('Unix') {
