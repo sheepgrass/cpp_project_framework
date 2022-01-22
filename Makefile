@@ -26,6 +26,19 @@ endif
 
 all: conan_install cmake_project build
 
+venv_create:
+	python3 -m venv .venv
+
+venv_activate:
+	source .venv/bin/activate
+
+venv_deactivate:
+	deactivate
+
+pip_install_conan: venv_activate
+	pip install -U conan
+	conan
+
 conan_install:
 	conan install . -b missing -s build_type=$(BUILD_TYPE) -if $(BUILD_TYPE)
 
