@@ -54,90 +54,63 @@ pipeline {
       }
     }
     stage('Prepare') {
-      parallel {
-        stage('Unix') {
-          agent { label env.BUILD_AGENT }
-          when { expression { isUnix() } }
-          steps {
-            checkout scm
+      agent { label env.BUILD_AGENT }
+      steps {
+        checkout scm
+        script {
+          if (isUnix()) {
             sh '''make venv_create
 `make --no-print-directory venv_activate`
 python -m pip install --upgrade pip'''
-            stash 'prepare'
-          }
-        }
-        stage('Windows') {
-          agent { label env.BUILD_AGENT }
-          when { expression { !isUnix() } }
-          steps {
-            checkout scm
+          } else {
             bat 'make venv_create && .venv\\Scripts\\activate && python -m pip install --upgrade pip'
-            stash 'prepare'
           }
         }
+        stash 'prepare'
       }
     }
     stage('Build') {
-      parallel {
-        stage('Unix') {
-          agent { label env.BUILD_AGENT }
-          when { expression { isUnix() } }
-          steps {
-            unstash 'prepare'
+      agent { label env.BUILD_AGENT }
+      steps {
+        unstash 'prepare'
+        script {
+          if (isUnix()) {
             sh '''`make --no-print-directory venv_activate`
 make cmake_project
 make build'''
-            stash 'build'
-          }
-        }
-        stage('Windows') {
-          agent { label env.BUILD_AGENT }
-          when { expression { !isUnix() } }
-          steps {
-            unstash 'prepare'
+          } else {
             bat 'make venv_activate && make cmake_project && make build'
-            stash 'build'
           }
         }
+        stash 'build'
       }
     }
     stage('Test') {
       environment {
         GTEST_OUTPUT = 'xml:../gtest/'
       }
-      parallel {
-        stage('Unix') {
-          agent { label env.BUILD_AGENT }
-          when { expression { isUnix() } }
-          steps {
-            unstash 'build'
+      agent { label env.BUILD_AGENT }
+      steps {
+        unstash 'build'
+        script {
+          if (isUnix()) {
             sh "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
-            stash 'test'
-          }
-        }
-        stage('Windows') {
-          agent { label env.BUILD_AGENT }
-          when { expression { !isUnix() } }
-          steps {
-            unstash 'build'
+          } else {
             bat "cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
-            stash 'test'
           }
         }
+        stash 'test'
       }
       post {
         always {
-          node(env.BUILD_AGENT) {
-            unstash 'test'
-            archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml, ${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
-            xunit (
-              thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
-              tools: [
-                CTest(pattern: "${env.BUILD_TYPE}/Testing/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true),
-                GoogleTest(pattern: "${env.BUILD_TYPE}/gtest/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
-              ]
-            )
-          }
+          archiveArtifacts artifacts: "${env.BUILD_TYPE}/Testing/**/*.xml, ${env.BUILD_TYPE}/gtest/**/*.xml", fingerprint: true
+          xunit (
+            thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+            tools: [
+              CTest(pattern: "${env.BUILD_TYPE}/Testing/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true),
+              GoogleTest(pattern: "${env.BUILD_TYPE}/gtest/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+            ]
+          )
         }
       }
     }
