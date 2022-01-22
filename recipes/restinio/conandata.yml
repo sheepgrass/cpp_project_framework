@@ -1,0 +1,4 @@
+sources:
+  0.6.9:
+    sha256: fcb05e15a346b4ff27757b89741289864f82f71affe61364325ce70dddefe31f
+    url: https://github.com/Stiffstream/restinio/archive/v.0.6.9.tar.gz
