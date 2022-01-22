@@ -137,3 +137,6 @@ def create_new_project():
     for vscode_file in vscode_files:
         shutil.copy2(os.path.join(template_folder, 'vscode', vscode_file), parameters['vscode_directory'], follow_symlinks=True)
 
+if __name__ == '__main__':
+    create_new_project()
+

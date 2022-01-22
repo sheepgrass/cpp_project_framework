@@ -44,5 +44,15 @@ RelWithDebInfo
 # Python Virtual Environment Target Directory
 .venv
 
+# Python Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python Distribution / packaging
+build/
+dist/
+*.egg-info/
+
 # Doxygen folder
 doxygen
