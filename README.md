@@ -1439,3 +1439,78 @@ Jenkins - Blue Ocean:
 Visual Pipeline Creation in Blue Ocean:
 <https://www.youtube.com/watch?v=LzFmTiH8nos>
 
+## Gather Test Results with xUnit Plugin for Jenkins
+
+Jenkins - Recording tests and artifacts:
+<https://www.jenkins.io/doc/pipeline/tour/tests-and-artifacts/>
+
+xUnit plugin - step([$class: 'XUnitPublisher']): Publish xUnit test result report:
+<https://www.jenkins.io/doc/pipeline/steps/xunit/>
+
+### Gather CTest Results with xUnit Plugin for Jenkins
+
+Producing CTest results in Jenkins (xUnit >= 1.58):
+<https://stackoverflow.com/questions/21633716/producing-ctest-results-in-jenkins-xunit-1-58>
+
+ctest(1):
+<https://cmake.org/cmake/help/latest/manual/ctest.1.html>
+
+```groovy
+pipeline {
+  agent any
+  stages {
+    stage('Test') {
+      steps {
+        sh """`make --no-print-directory venv_activate`
+cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+      }
+    }
+  }
+  post {
+    always {
+      xunit (
+        thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+        tools: [
+          CTest(pattern: "${env.BUILD_TYPE}/**/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+        ]
+      )
+    }
+  }
+}
+```
+
+### Gather Google Test Results with xUnit Plugin for Jenkins
+
+Using gtest in jenkins:
+<https://stackoverflow.com/questions/11540633/using-gtest-in-jenkins>
+
+Advanced googletest Topics - Generating an XML Report:
+<https://google.github.io/googletest/advanced.html#generating-an-xml-report>
+
+```groovy
+pipeline {
+  agent any
+  stages {
+    stage('Test') {
+      environment {
+        GTEST_OUTPUT = 'xml:../Testing/gtest/'
+      }
+      steps {
+        sh """`make --no-print-directory venv_activate`
+cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"""
+      }
+    }
+  }
+  post {
+    always {
+      xunit (
+        thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+        tools: [
+          GoogleTest(pattern: "${env.BUILD_TYPE}/Testing/gtest/*.xml", deleteOutputFiles: true, failIfNotNew: false, skipNoTestFiles: true, stopProcessingIfError: true)
+        ]
+      )
+    }
+  }
+}
+```
+
