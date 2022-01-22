@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  parameters {
+    choice(name: 'BUILD_TYPE', choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type')
+  }
   stages {
     stage('Build') {
       steps {
@@ -20,6 +23,6 @@ make test'''
 
   }
   environment {
-    BUILD_TYPE = 'Debug'
+    BUILD_TYPE = "${params.BUILD_TYPE}"
   }
 }
