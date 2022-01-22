@@ -27,6 +27,7 @@ macro(cpf_detect_build_type)
         set(DETECTED_BUILD_TYPE ${DETECTED_BUILD_FOLDER})
         message("CMAKE_BUILD_TYPE not found, DETECTED_BUILD_TYPE=DETECTED_BUILD_FOLDER=${DETECTED_BUILD_TYPE}")
     endif()
+    string(TOUPPER ${DETECTED_BUILD_TYPE} DETECTED_BUILD_TYPE_UPPER)
 endmacro()
 
 # check if python virtual environment exists
@@ -68,6 +69,15 @@ macro(cpf_inject_conan_info)
     message("no cmake generator conan information detected")
     endif()
 endmacro()
+
+# get variable by build type
+function(cpf_get_variable_by_build_type VARIABLE_NAME)
+    if (DEFINED ${VARIABLE_NAME}_${DETECTED_BUILD_TYPE_UPPER})
+        set(CPF_GET_VARIABLE ${${VARIABLE_NAME}_${DETECTED_BUILD_TYPE_UPPER}} PARENT_SCOPE)
+    else()
+        set(CPF_GET_VARIABLE ${${VARIABLE_NAME}} PARENT_SCOPE)
+    endif()
+endfunction()
 
 # set project type
 macro(cpf_set_project_type)
