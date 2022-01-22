@@ -40,7 +40,7 @@ cpf_inject_conan_info()
 
 # specify the header files
 set(HEADER_FILES
-    ${project_camel_name}.h
+    ${project_header_file}
 )
 
 # find all header files
@@ -48,7 +48,7 @@ cpf_find_all_header_files()
 
 # specify the source files
 set(SRC_FILES
-    ${project_camel_name}.cpp
+    ${project_source_file}
     ${HEADER_FILES}
 )
 

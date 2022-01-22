@@ -5,7 +5,7 @@
  */
 
 #include "cpp_project_framework/gtest.h"
-#include "${project_camel_name}.h"
+#include "${project_header_file}"
 
 
 /// Unit test anonymous namespace

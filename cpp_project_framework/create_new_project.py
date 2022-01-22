@@ -120,10 +120,17 @@ def create_new_project():
 
     template_source_files = {
         'CMakeLists.txt',
-        'Template.cpp',
-        'Template.h',
         'Template.test.cpp',
     }
+    if parameters['project_type'] == 'HEADER_ONLY':
+        parameters['project_header_file'] = parameters['project_camel_name'] + '.hpp'
+        parameters['project_source_file'] = ''
+        template_source_files.add('Template.hpp')
+    else:
+        parameters['project_header_file'] = parameters['project_camel_name'] + '.h'
+        parameters['project_source_file'] = parameters['project_camel_name'] + '.cpp'
+        template_source_files.add('Template.h')
+        template_source_files.add('Template.cpp')
     if parameters['project_type'] == 'EXE':
         template_source_files.add('main.cpp')
     for template_source_file in template_source_files:

@@ -5,7 +5,7 @@
  */
 
 #include "benchmark/benchmark.h"
-#include "${project_name}/${project_camel_name}.h"
+#include "${project_name}/${project_header_file}"
 
 
 using namespace ${project_name};
