@@ -1,8 +1,5 @@
 pipeline {
   agent any
-  parameters {
-    choice(name: 'BUILD_TYPE', choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type')
-  }
   stages {
     stage('Init') {
       steps {
