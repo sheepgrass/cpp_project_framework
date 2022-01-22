@@ -1,12 +1,12 @@
 ifndef BUILD_TYPE
-  NO_BUILD_TYPE_GOALS = \
+  NO_BUILD_TYPE_TARGETS = \
     debug release minsizerel relwithdebinfo \
     venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list \
 	conan_start_local conan_add_local \
     echo
-  ifeq ($(filter $(MAKECMDGOALS),$(NO_BUILD_TYPE_GOALS)),)
-    $(error BUILD_TYPE not set, flags="$(MAKEFLAGS)", goals="$(MAKECMDGOALS)")
+  ifeq ($(filter $(MAKECMDGOALS),$(NO_BUILD_TYPE_TARGETS)),)
+    $(error BUILD_TYPE not set, MAKEFLAGS="$(MAKEFLAGS)", MAKECMDGOALS="$(MAKECMDGOALS)", NO_BUILD_TYPE_TARGETS="$(NO_BUILD_TYPE_TARGETS)")
   endif
 endif
 
