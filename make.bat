@@ -11,6 +11,7 @@ IF "%BUILD_TYPE%"=="" (
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! pip_install_conan conan_list
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! doxygen_delete
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! conan_start_local conan_add_local
+    SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! jenkins_download jenkins_start
     SET NO_BUILD_TYPE_TARGETS=!NO_BUILD_TYPE_TARGETS! echo
     FOR %%G IN (!NO_BUILD_TYPE_TARGETS!) DO (
         IF "%TARGET%"=="%%G" GOTO MAKE_START
@@ -24,6 +25,8 @@ IF "%BUILD_TYPE%"=="" (
 IF "%PYTHON_EXE%"=="" SET PYTHON_EXE=%LOCALAPPDATA%\Continuum\anaconda3\python.exe
 
 IF "%VIRTUAL_ENV%"=="" SET VIRTUAL_ENV=.venv
+
+IF "%JENKINS_HOME%"=="" SET JENKINS_HOME=%USERPROFILE%\.jenkins
 
 SET CMAKE_PROJECT_ARG=
 IF NOT "%BUILD_SYSTEM%"=="" SET CMAKE_PROJECT_ARG=%CMAKE_PROJECT_ARG% -G "%BUILD_SYSTEM%"
@@ -258,6 +261,14 @@ conan remove %PROJECT_NAME%* -r local
 :conan_replace_local
 @CALL :conan_remove_local
 @CALL :conan_upload_local
+@EXIT /B 0
+
+:jenkins_download
+%PYTHON_EXE% -c "import os, requests; os.makedirs(os.path.expanduser(r'%JENKINS_HOME%'), mode=0o755, exist_ok=True); open(os.path.join(os.path.expanduser(r'%JENKINS_HOME%'), 'jenkins.war'), 'wb').write(requests.get('https://get.jenkins.io/war-stable/latest/jenkins.war', allow_redirects=True).content)"
+@EXIT /B 0
+
+:jenkins_start
+java -jar %JENKINS_HOME%/jenkins.war --httpPort=8080
 @EXIT /B 0
 
 :echo

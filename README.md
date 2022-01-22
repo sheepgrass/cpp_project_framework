@@ -1365,3 +1365,31 @@ Source `~/.bashrc` file after making the change to make it take effect:
 ```bash
 source ~/.bashrc
 ```
+
+## Install Jenkins
+
+Installing Jenkins - WAR files:
+<https://www.jenkins.io/doc/book/installing/war-file/>
+
+```bash
+python -c "import os, requests; os.makedirs(os.path.expanduser(r'$(JENKINS_HOME)'), mode=0o755, exist_ok=True); open(os.path.join(os.path.expanduser(r'$(JENKINS_HOME)'), 'jenkins.war'), 'wb').write(requests.get('https://get.jenkins.io/war-stable/latest/jenkins.war', allow_redirects=True).content)"
+```
+
+## Start Jenkins Web Application
+
+```bash
+java -jar $(JENKINS_HOME)/jenkins.war --httpPort=8080
+```
+
+## Jenkins Home Folder Location
+
+```bash
+# Linux
+~/.jenkins
+```
+
+```cmd
+# Windows
+%USERPROFILE%\.jenkins
+```
+

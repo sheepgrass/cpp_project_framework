@@ -6,6 +6,7 @@ ifndef BUILD_TYPE
     doxygen_delete \
     conan_start_local conan_add_local \
     gcc_list_include_paths gcc_list_lib_paths \
+    jenkins_download jenkins_start \
     echo
   ifeq ($(filter $(MAKECMDGOALS),$(NO_BUILD_TYPE_TARGETS)),)
     $(error BUILD_TYPE not set, MAKEFLAGS="$(MAKEFLAGS)", MAKECMDGOALS="$(MAKECMDGOALS)", NO_BUILD_TYPE_TARGETS="$(NO_BUILD_TYPE_TARGETS)")
@@ -20,6 +21,10 @@ endif
 
 ifndef VIRTUAL_ENV
   VIRTUAL_ENV = .venv
+endif
+
+ifndef JENKINS_HOME
+  JENKINS_HOME = ~/.jenkins
 endif
 
 CMAKE_PROJECT_ARG =
@@ -196,6 +201,12 @@ gcc_list_include_paths:
 
 gcc_list_lib_paths:
 	@gcc -print-search-dirs | sed '/^lib/b 1;d;:1;s,/[^/.][^/]*/\.\./,/,;t 1;s,:[^=]*=,:;,;s,;,;  ,g' | tr \; \\012 | tr : \\012 | grep '^[[:space:]]*/' | sed 's/^[[:space:]]*//'
+
+jenkins_download:
+	$(PYTHON_EXE) -c "import os, requests; os.makedirs(os.path.expanduser(r'$(JENKINS_HOME)'), mode=0o755, exist_ok=True); open(os.path.join(os.path.expanduser(r'$(JENKINS_HOME)'), 'jenkins.war'), 'wb').write(requests.get('https://get.jenkins.io/war-stable/latest/jenkins.war', allow_redirects=True).content)"
+
+jenkins_start:
+	java -jar $(JENKINS_HOME)/jenkins.war --httpPort=8080
 
 echo:
 	@echo -e BUILD_TYPE=$(BUILD_TYPE)\\nVIRTUAL_ENV=$(VIRTUAL_ENV)
