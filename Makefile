@@ -138,6 +138,9 @@ project_name:
 project_version:
 	@cat $(BUILD_TYPE)/CMakeCache.txt | grep "CMAKE_PROJECT_VERSION:STATIC=" | cut -d'=' -f2
 
+package_file_name:
+	@cat $(BUILD_TYPE)/CPackConfig.cmake | grep "^set(CPACK_PACKAGE_FILE_NAME " | cut -d'"' -f2
+
 doxygen_bin_path:
 	@source $(VIRTUAL_ENV)/bin/activate && \
 	python -c "lines = [l.strip() for l in list(open('$(BUILD_TYPE)/conanbuildinfo.txt'))]; print(lines[lines.index('[bindirs_doxygen]') + 1])"

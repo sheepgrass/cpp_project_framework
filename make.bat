@@ -169,6 +169,11 @@ RMDIR /S /Q %BUILD_TYPE%
 @ECHO %PROJECT_VERSION%
 @EXIT /B 0
 
+:package_file_name
+@FOR /F delims^=^"^ tokens^=2 %%I IN ('TYPE %BUILD_TYPE%\CPackConfig.cmake ^| FIND "set(CPACK_PACKAGE_FILE_NAME "') DO @SET PACKAGE_FILE_NAME=%%I
+@ECHO %PACKAGE_FILE_NAME%
+@EXIT /B 0
+
 :doxygen_bin_path
 @CALL :venv_activate
 @FOR /F "usebackq" %%I IN (`python -c "lines = [l.strip() for l in list(open('%BUILD_TYPE%/conanbuildinfo.txt'))]; print(lines[lines.index('[bindirs_doxygen]') + 1])"`) DO @SET DOXYGEN_BIN_PATH=%%I

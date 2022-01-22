@@ -72,6 +72,51 @@ cd ${env.BUILD_TYPE} && ctest -C ${env.BUILD_TYPE} -T Test --no-compress-output"
         }
       }
     }
+    stage('Pack') {
+       parallel {
+        stage('Unix') {
+          when { expression { isUnix() } }
+          steps {
+            sh '''`make --no-print-directory venv_activate`
+make package'''
+          }
+          post {
+            success {
+              script {
+                env.PACKAGE_FILE_NAME = sh (
+                  script: '''`make --no-print-directory venv_activate`
+make --no-print-directory package_file_name''',
+                  returnStdout: true
+                ).trim()
+              }
+            }
+          }
+        }
+        stage('Windows') {
+          when { expression { !isUnix() } }
+          steps {
+            bat '''make venv_activate
+make package'''
+          }
+          post {
+            success {
+              script {
+                env.PACKAGE_FILE_NAME = bat (
+                  script: '''make venv_activate
+make package_file_name''',
+                  returnStdout: true
+                ).trim()
+              }
+            }
+          }
+        }
+      }
+      post {
+        success {
+          archiveArtifacts artifacts: "${env.BUILD_TYPE}/${env.PACKAGE_FILE_NAME}*", fingerprint: true
+        }
+      }
+    }
     stage('Deploy') {
       steps {
         input 'Deploy?'
