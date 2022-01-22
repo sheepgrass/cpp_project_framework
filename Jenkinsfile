@@ -3,8 +3,8 @@ pipeline {
   stages {
     stage('Init') {
       steps {
-	script {
-	  env.BUILD_TYPE = input message: 'Set parameters:', parameters: [choice(name: 'BUILD_TYPE', choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type')]
+        script {
+          env.BUILD_TYPE = input message: 'Set parameters:', parameters: [choice(name: 'BUILD_TYPE', choices: ['Debug', 'Release', 'MinSizeRel', 'RelWithDebInfo'], description: 'Build Type')]
           parallel (
             "${env.BUILD_TYPE}": {
               stage('Build Type') {
@@ -12,7 +12,7 @@ pipeline {
               }
             }
           )
-	}
+        }
       }
     }
     stage('Build') {
