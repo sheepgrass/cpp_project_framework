@@ -211,6 +211,77 @@ Awesome C++
 A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny things. Inspired by awesome-... stuff.
 ```
 
+## Package C++ Project Framework Python Project
+
+[How To Package Your Python Code](https://python-packaging.readthedocs.io/en/latest/index.html)
+
+[Packaging Python Projects](https://packaging.python.org/tutorials/packaging-projects/)
+
+Go to `cpp_project_framework` root folder first, activate python virtual evironment (create it if not yet created), then follow below procedures:
+
+### Install C++ Project Framework Python Package Locally
+
+```bash
+# Upgrade pip to latest version
+python -m pip install --upgrade pip
+
+# Install the package locally
+python -m pip install .
+```
+
+### Generate C++ Project Framework Python Distribution Archives
+
+```bash
+# Upgrade PyPA's build to latest version
+python -m pip install --upgrade build
+
+# Generate distribution archives in dist directory
+python -m build
+
+# Check the generated archives
+ls dist
+cpp_project_framework-1.0.0-py3-none-any.whl
+cpp_project_framework-1.0.0.tar.gz
+```
+
+The `tar.gz` file is a source archive whereas the `.whl` file is a built distribution.
+
+### Upload Generated C++ Project Framework Python Distribution Archives to Test Python Package Index (TestPyPI)
+
+```bash
+# Upgrade PyPI's twine to latest version
+python -m pip install --upgrade twine
+
+# Upload all of the arhives under dist directory to TestPyPI
+python -m twine upload --repository testpypi dist/*
+```
+
+### Install C++ Project Framework Python Package from TestPyPI
+
+```bash
+# Upgrade pip to latest version
+python -m pip install --upgrade pip
+
+# Install the package from TestPyPI
+python -m pip install --index-url https://test.pypi.org/simple/ --no-deps cpp_project_framework
+```
+
+## Create New C++ Project by Python Script with Template
+
+After installed the C++ project framework python package (namely `cpp_project_framework`), input the required parameters as prompted in below python script and a new C++ project with `C++ Project Framework` project structure will be created:
+
+Method 1 (by calling C++ project framework python module):
+
+```bash
+python -m cpp_project_framework.create_new_project
+```
+
+Method 2 (by running C++ project framework python script):
+
+```bash
+create_new_cpp_project
+```
+
 ## Visual Studio Code CMake Tools Settings
 
 [Configuring CMake Tools](https://vector-of-bool.github.io/docs/vscode-cmake-tools/settings.html)
@@ -473,14 +544,6 @@ conan install . -b missing -s build_type={CMAKE_BUILD_TYPE} -if {CMAKE_BUILD_TYP
 ```cmd
 # Windows
 %USERPROFILE%\.conan\data
-```
-
-## Create New C++ Project by Python Script with Template
-
-Input the required parameters as prompted in below python script and a new C++ project with `C++ Project Framework` project structure will be created:
-
-```bash
-python create_new_project.py
 ```
 
 ## Generate CMake Project
