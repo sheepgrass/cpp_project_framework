@@ -128,6 +128,12 @@ CD ..
 conan create . demo/testing
 @EXIT /B 0
 
+:conan_remove
+@CALL :venv_activate
+@CALL :project_name
+conan remove %PROJECT_NAME%*
+@EXIT /B 0
+
 :conan_start_local
 @CALL :venv_activate
 conan_server

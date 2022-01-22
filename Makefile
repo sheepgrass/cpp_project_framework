@@ -32,7 +32,7 @@ endif
 	venv_create venv_delete venv_activate venv_deactivate \
 	pip_install_conan conan_list conan_install \
 	cmake_project build clean clean_and_build cmake_open package test delete \
-	project_name project_version recipe_create conan_package \
+	project_name project_version recipe_create conan_package conan_remove \
 	conan_start_local conan_add_local conan_upload_local echo
 
 all: conan_install cmake_project build
@@ -100,6 +100,10 @@ recipe_create:
 conan_package:
 	source .venv/bin/activate && \
 	conan create . demo/testing
+
+conan_remove:
+	source .venv/bin/activate && \
+	conan remove `make -s project_name`*
 
 conan_start_local:
 	source .venv/bin/activate && \
