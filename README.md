@@ -57,6 +57,14 @@ Visual Studio Code Extensions:
     Doxygen Documentation Generator >= 1.1.0
     C++ TestMate >= 3.6.23
     Five Server (Live Server) >= 0.0.34
+Continous Integration (CI): Jenkins >= 2.319.1
+Jenkins Running: Java 8 or 11 (OpenJDK JDK/JRE 8 or 11) >= 1.8.0
+Jenkins Plugins:
+    Locale >= 1.4
+    Pipeline >= 2.6
+    Git >= 4.10.1
+    Blue Ocean >= 1.25.2
+    xUnit >= 3.0.5
 ```
 
 ## Recommended C++ Development Environment
@@ -119,7 +127,7 @@ Embedded Local SQL Database:  SQLite (sqlite)
 Integrated Development Environment (IDE): Visual Studio Code >= 1.49
 Source Code Documentation Generator: Doxygen >= 1.8
 Graphical User Interface: Qt
-Continous Integration (CI): Jenkins
+Continous Integration (CI): Jenkins >= 2.319.1
 Debugger: gdb (Linux), WinDbg (Windows), Visual Studio Debugger (Windows)
 Performance Profiler: perf (Linux), gprof (Linux), orbit (Linux, Windows)
 Source Code Formatter: ClangFormat (clang-format)
