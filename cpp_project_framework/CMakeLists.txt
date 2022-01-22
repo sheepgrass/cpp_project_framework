@@ -11,7 +11,7 @@ set(CPF_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 include(${CPF_SOURCE_DIR}/cpp_project_framework_callables.cmake)
 
 # set the project type
-cpf_set_project_type()
+cpf_set_project_type("HEADER_ONLY")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 14)
