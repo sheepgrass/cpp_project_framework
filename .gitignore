@@ -1,0 +1,58 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Build folders
+build
+Debug
+Release
+MinSizeRel
+RelWithDebInfo
+
+# VS Code config folders
+.vscode
+
+# Python Virtual Environment Target Directory
+.venv
+
+# Python Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Doxygen folder
+doxygen
