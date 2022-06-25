@@ -213,7 +213,8 @@ CD ..
 
 :conan_package_test
 @CALL :venv_activate
-conan create . demo/testing
+@CALL :project_version
+conan create . %PROJECT_VERSION%@demo/testing
 @EXIT /B 0
 
 :conan_package

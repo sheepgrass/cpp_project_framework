@@ -165,7 +165,7 @@ recipe_create:
 
 conan_package_test:
 	source $(VIRTUAL_ENV)/bin/activate && \
-	conan create . demo/testing
+	conan create . `make -s project_version`@demo/testing
 
 conan_package:
 	source $(VIRTUAL_ENV)/bin/activate && \
