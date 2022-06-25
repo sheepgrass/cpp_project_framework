@@ -4,7 +4,7 @@
 cmake_multi
 
 [build_requires]
-cpp_project_framework/1.0
+cpp_project_framework/1.0.0
 gtest/1.10.0
 doxygen/1.8.20
 benchmark/1.5.1

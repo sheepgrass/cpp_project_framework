@@ -39,7 +39,7 @@ def create_new_project():
     while get_project_type():
         print(f'ERROR: "Project Type" ({parameters["project_type"]}) not in supported project types ({supported_project_types})', file=sys.stderr)
 
-    default_project_version = '1.0'
+    default_project_version = '1.0.0'
     parameters['project_version'] = input(f'Project Version (default to {default_project_version} if ignored): ')
     if not parameters['project_version']:
         parameters['project_version'] = default_project_version
