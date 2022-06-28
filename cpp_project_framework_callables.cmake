@@ -250,6 +250,13 @@ macro(cpf_add_gcov_compiler_flags)
     endif()
 endmacro()
 
+# enable msvc updated __cplusplus macro
+macro(cpf_enable_msvc_updated_cplusplus_macro)
+    if(MSVC)
+		add_compile_options(/Zc:__cplusplus)
+    endif()
+endmacro()
+
 # suppress specific msvc compiler warnings
 macro(cpf_suppress_msvc_compiler_warnings SUPPRESSED_MSVC_COMPILER_WARNINGS)
     if(MSVC)

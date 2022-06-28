@@ -65,6 +65,9 @@ endif()
 # add gcov compiler flags
 cpf_add_gcov_compiler_flags()
 
+# enable msvc updated __cplusplus macro
+cpf_enable_msvc_updated_cplusplus_macro()
+
 # suppress specific msvc compiler warnings
 cpf_suppress_msvc_compiler_warnings("")
 
