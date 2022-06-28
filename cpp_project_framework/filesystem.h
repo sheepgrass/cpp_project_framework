@@ -9,6 +9,9 @@
 #if __cplusplus >= 201703L  // C++17 or above
 #include <filesystem>
 #else
+#if defined(_WIN32) && defined(_MSC_VER)
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#endif
 #include <experimental/filesystem>
 #endif
 
