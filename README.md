@@ -326,6 +326,24 @@ Method 2 (by running C++ project framework python script):
 create_new_cpp_project
 ```
 
+## Visual Studio CMake Settings
+
+[CMake projects in Visual Studio](https://docs.microsoft.com/en-gb/cpp/build/cmake-projects-in-visual-studio)
+
+[CMakeSettings.json schema reference](https://docs.microsoft.com/en-gb/cpp/build/cmakesettings-reference)
+
+### Allow Building in Different Directories per Build Type
+
+Project > CMake Settings
+
+CMakeSettings.json
+
+```json
+{
+    "buildRoot": "${projectDir}\\${configurationType}"
+}
+```
+
 ## Visual Studio Code CMake Tools Settings
 
 [Configuring CMake Tools](https://vector-of-bool.github.io/docs/vscode-cmake-tools/settings.html)

@@ -98,6 +98,7 @@ def create_new_project():
     base_files = (
         '.clang-format',
         '.gitignore',
+        'CMakeSettings.json',
         'cpp_project_framework_callables.cmake',
         'cpp_project_framework.cmake',
         'Jenkinsfile',
