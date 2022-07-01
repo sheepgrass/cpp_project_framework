@@ -844,6 +844,30 @@ conan_server
 %USERPROFILE%\.conan_server\data
 ```
 
+## Add C++ Project Framework Package to Conan Center Index (conan-center-index)
+
+<https://github.com/sheepgrass/conan-center-index/blob/master/docs/how_to_add_packages.md>
+
+### Test C++ Project Framework Conan Recipe Locally using Conan Hooks
+
+<https://github.com/sheepgrass/conan-center-index/blob/master/docs/how_to_add_packages.md#test-the-recipe-locally>
+
+<https://github.com/conan-io/conan-center-index/blob/master/docs/error_knowledge_base.md>
+
+```bash
+cd conan-center-index
+python -m venv .venv
+.venv/Scripts/activate
+python -m pip isntall --upgrade pip
+python -m pip install conan
+
+conan config install https://github.com/conan-io/hooks.git -sf hooks -tf hooks
+conan config set hooks.conan-center
+
+cd recipes/cpp_project_framework/all
+conan create conanfile.py cpp_project_framework/1.0.0@
+```
+
 ## Set BUILD_TYPE Environment Variable
 
 ```bash
