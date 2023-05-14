@@ -1,6 +1,25 @@
 # @file     cpp_project_framework_callables.cmake
 # @author   Curtis Lo
 
+# detect build environment
+macro(cpf_detect_build_environment)
+    message("CMAKE_HOST_SYSTEM=${CMAKE_HOST_SYSTEM}")
+    message("CMAKE_HOST_SYSTEM_NAME=${CMAKE_HOST_SYSTEM_NAME}")
+    message("CMAKE_HOST_SYSTEM_VERSION=${CMAKE_HOST_SYSTEM_VERSION}")
+    message("CMAKE_SYSTEM=${CMAKE_SYSTEM}")
+    message("CMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}")
+    message("CMAKE_SYSTEM_VERSION=${CMAKE_SYSTEM_VERSION}")
+    message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
+    message("CMAKE_CXX_COMPILER_VERSION=${CMAKE_CXX_COMPILER_VERSION}")
+    message("WIN32=${WIN32}")
+    message("UNIX=${UNIX}")
+    message("ANDRIOD=${ANDROID}")
+    message("APPLE=${APPLE}")
+    message("IOS=${IOS}")
+    message("MSVC=${MSVC}")
+    message("MSVC_VERSION=${MSVC_VERSION}")
+endmacro()
+
 # detect build type and build folder
 macro(cpf_detect_build_type)
     message("CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")

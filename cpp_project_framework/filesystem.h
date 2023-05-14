@@ -6,11 +6,13 @@
 
 #pragma once
 
-#if __cplusplus >= 201703L  // C++17 or above
+#if __cplusplus >= 201703L // C++17 or above
 #include <filesystem>
 #else
 #if defined(_WIN32) && defined(_MSC_VER)
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
+#elif defined(__ANDROID_API__) && defined(__clang__)
+#define _LIBCPP_NO_EXPERIMENTAL_DEPRECATION_WARNING_FILESYSTEM
 #endif
 #include <experimental/filesystem>
 #endif
@@ -20,7 +22,7 @@
 namespace sheepgrass
 {
 
-#if __cplusplus >= 201703L  // C++17 or above
+#if __cplusplus >= 201703L // C++17 or above
 namespace filesystem = std::filesystem;
 #else
 namespace filesystem = std::experimental::filesystem;
