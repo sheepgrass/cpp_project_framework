@@ -30,7 +30,10 @@ class TaLibConan(ConanFile):
         else:
             with tools.chdir("ta-lib"):
                 autotools = AutoToolsBuildEnvironment(self)
-                autotools.configure()
+                if self.settings.arch == "armv8":
+                    autotools.configure(build="aarch64-unknown-linux-gnu")
+                else:
+                    autotools.configure()
                 autotools.make(args=["-j1"])
 
     def package(self):
