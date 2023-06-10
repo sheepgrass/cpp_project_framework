@@ -85,7 +85,7 @@ venv_deactivate:
 
 pip_install_conan:
 	source $(VIRTUAL_ENV)/bin/activate && \
-	pip install -U conan && \
+	pip install conan && \
 	conan
 
 conan_list:

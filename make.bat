@@ -87,7 +87,7 @@ CALL deactivate
 
 :pip_install_conan
 @CALL :venv_activate
-pip install -U conan
+pip install conan
 conan
 @EXIT /B 0
 

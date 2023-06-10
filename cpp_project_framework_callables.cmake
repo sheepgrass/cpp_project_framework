@@ -91,7 +91,7 @@ endmacro()
 
 # install conan dependencies
 macro(cpf_install_conan_dependencies)
-    cpf_run_venv_command("pip install -U conan && conan install conanfile.txt -b missing -s build_type=${DETECTED_BUILD_TYPE} -if ${DETECTED_BUILD_FOLDER}" ${CMAKE_CURRENT_SOURCE_DIR})
+    cpf_run_venv_command("pip install conan && conan install conanfile.txt -b missing -s build_type=${DETECTED_BUILD_TYPE} -if ${DETECTED_BUILD_FOLDER}" ${CMAKE_CURRENT_SOURCE_DIR})
 endmacro()
 
 # inject conan information
