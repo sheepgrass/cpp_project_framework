@@ -8,6 +8,7 @@
 
 #include "filesystem.h"
 #include "gtest.h"
+#include "shared_mutex.h"
 
 
 /// Unit test anonymous namespace
@@ -64,6 +65,14 @@ TEST(CppProjectFrameworkFileSystem, FileSystem)
 {
     namespace fs = sheepgrass::filesystem;
     EXPECT_TRUE(fs::is_directory(fs::current_path()));
+}
+
+/// Test for shared_mutex header
+TEST(CppProjectFrameworkSharedMutex, SharedMutex)
+{
+    sheepgrass::shared_mutex mutex;
+    std::shared_lock<sheepgrass::shared_mutex> lock(mutex, std::defer_lock);
+    EXPECT_TRUE(lock.try_lock());
 }
 
 }
